@@ -1,0 +1,64 @@
+{
+  "generatedAt": "2026-01-29T03:22:54.308Z",
+  "network": {
+    "name": "Base Sepolia",
+    "chainId": 84532
+  },
+  "rpcUrl": "https://sepolia.base.org",
+  "contracts": {
+    "identityRegistry": "0x9d6831ccb9d6f971cb648b538448d175650cfea4",
+    "admin": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
+    "equityTokenV2": "0x92bce3e624c4f40ee87dacdf3b4e27e178ec5b17",
+    "compositePolicyV111": "0xbb9bfa7f0a398262fdb46606ae086944a5407309"
+  },
+  "tokenState": {
+    "transferPolicy_readFromChain": "0xBb9bfA7F0A398262FdB46606aE086944a5407309",
+    "transferPolicy_readError": null,
+    "transferPolicy_expected": "0xbb9bfa7f0a398262fdb46606ae086944a5407309",
+    "transferPolicy_matches_expected": true
+  },
+  "policyStack": {
+    "policyStackId_expected": "BASESEP-84532-STACK-2026-01-28-v1.1",
+    "policyStackId_readFromChain": "BASESEP-84532-STACK-2026-01-28-v1.1",
+    "policyStackId_readError": null,
+    "childPolicies_expected": [
+      {
+        "name": "ComplianceGatedPolicyV1",
+        "address": "0x38c905c289b3ef1a244d95c8b1925a37c34839c8"
+      },
+      {
+        "name": "MinAmountPolicyV1 (min=3)",
+        "address": "0x97c9a7b6155ca7a794ee23f48c33427a4adb3cf8"
+      }
+    ],
+    "childPolicies_readFromChain": [
+      "0x38c905c289b3eF1a244d95c8b1925a37c34839C8",
+      "0x97C9A7B6155CA7a794ee23f48c33427a4adb3cF8"
+    ],
+    "childPolicies_readError": null
+  },
+  "verifiedBeneficiary": "0x8B24E58442c0ECc9Ac11A22beb89C8eE53ED4544",
+  "proofs": {
+    "resultsFrom_prove_policy_gating_v1": {
+      "canTransfer_admin_to_dead_amount_2": false,
+      "canTransfer_admin_to_beneficiary_amount_2": false,
+      "canTransfer_admin_to_beneficiary_amount_3": true
+    },
+    "txHashes": {
+      "proofTransfer_admin_to_beneficiary_amount_3": "0x8e1bbc62cd3bfb6d6fbdb7ff715d66d5ded8b219a5b35a1412072ce12832476c"
+    }
+  },
+  "explorers": {
+    "basescan": {
+      "token": "https://sepolia.basescan.org/address/0x92bce3e624c4f40ee87dacdf3b4e27e178ec5b17",
+      "compositePolicy": "https://sepolia.basescan.org/address/0xbb9bfa7f0a398262fdb46606ae086944a5407309",
+      "proofTx": "https://sepolia.basescan.org/tx/0x8e1bbc62cd3bfb6d6fbdb7ff715d66d5ded8b219a5b35a1412072ce12832476c"
+    },
+    "blockscout": {
+      "compositePolicyCode": "https://base-sepolia.blockscout.com/address/0xbb9bfa7f0a398262fdb46606ae086944a5407309#code"
+    },
+    "sourcify": {
+      "repoUI": "https://sourcify.dev/server/repo-ui/84532/0xbb9bfa7f0a398262fdb46606ae086944a5407309"
+    }
+  }
+}
