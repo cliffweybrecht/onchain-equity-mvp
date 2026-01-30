@@ -21,3 +21,7 @@ Thumbs.db
 
 # backups
 *.bak
+
+# deployments (keep base-sepolia.json tracked)
+deployments/*
+!deployments/base-sepolia.json
