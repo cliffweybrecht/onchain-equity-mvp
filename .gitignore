@@ -1,0 +1,23 @@
+# deps
+node_modules/
+
+# hardhat build output
+artifacts/
+cache/
+coverage/
+typechain/
+
+# env/secrets
+.env
+.env.*
+*.pem
+*.key
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# backups
+*.bak
