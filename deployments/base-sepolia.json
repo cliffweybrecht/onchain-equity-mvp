@@ -1,9 +1,55 @@
 {
   "network": "baseSepolia",
   "chainId": 84532,
+  "rpcUrl": "https://sepolia.base.org",
   "deployer": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
-  "IdentityRegistry": "0x9d6831ccb9d6f971cb648b538448d175650cfea4",
-  "EquityToken": "0x2791d08fc94c787e5772daba3507a68e74ba4b10",
-  "VestingContract": "0xef444c538769d7626511a4c538d03ffc7e53262b",
-  "deployedAt": "2026-01-03T23:13:16.871Z"
+  "admin": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
+
+  "contracts": {
+    "IdentityRegistry": "0x9d6831ccb9d6f971cb648b538448d175650cfea4",
+    "EquityTokenV1": "0x2791d08fc94c787e5772daba3507a68e74ba4b10",
+    "EquityTokenV2": "0x92bce3e624c4f40ee87dacdf3b4e27e178ec5b17",
+    "VestingContract": "0xef444c538769d7626511a4c538d03ffc7e53262b"
+  },
+
+  "active": {
+    "equityToken": "EquityTokenV2",
+    "policyStackId": "BASESEP-84532-STACK-2026-01-28-v1.3",
+    "compositeRoot": "0x028bA147828f331F4547b5dC211f95Aba6dBbb43"
+  },
+
+  "policyStacks": {
+    "BASESEP-84532-STACK-2026-01-28-v1.1": {
+      "compositeRoot": "0xbb9bfa7f0a398262fdb46606ae086944a5407309",
+      "childPolicies": [
+        { "name": "ComplianceGatedPolicyV1", "address": "0x38c905c289b3ef1a244d95c8b1925a37c34839c8" },
+        { "name": "MinAmountPolicyV1(min=3)", "address": "0x97c9a7b6155ca7a794ee23f48c33427a4adb3cf8" }
+      ],
+      "proof": {
+        "verifiedBeneficiary": "0x8B24E58442c0ECc9Ac11A22beb89C8eE53ED4544",
+        "txHash_admin_to_beneficiary_amount_3": "0x8e1bbc62cd3bfb6d6fbdb7ff715d66d5ded8b219a5b35a1412072ce12832476c"
+      }
+    },
+
+    "BASESEP-84532-STACK-2026-01-28-v1.3": {
+      "compositeRoot": "0x028bA147828f331F4547b5dC211f95Aba6dBbb43",
+      "childPolicies": [
+        { "name": "EmergencyFreezePolicyV2", "address": "0x72dAf10067387bb9022356246a1734E871931e58" },
+        { "name": "ComplianceGatedPolicyV1", "address": "0x38c905c289b3ef1a244d95c8b1925a37c34839c8" },
+        { "name": "MinAmountPolicyV1(min=3)", "address": "0x97c9a7b6155ca7a794ee23f48c33427a4adb3cf8" }
+      ],
+      "proof": {
+        "verifiedBeneficiary": "0x8B24E58442c0ECc9Ac11A22beb89C8eE53ED4544",
+        "txHash_set_token_policy_to_v1_3": "0xc0347e4676ded729785bb47245f4f2ba6d714ea777f4c5e83177f6957d2a1c44",
+        "txHash_transfer_pre_freeze_amount_3": "0x7223e8a749764b7e4b29c28f16fc067226336edd095a4e2e5e080c4cd83ed584",
+        "txHash_freeze": "0x101ad76cd5f0f25bd7d955e72527ceece7974840e1a9ce62651953f2852463a0",
+        "txHash_unfreeze": "0x60774e502456d750bdc0bea4381548c6758e357af3e06f0514ca1f3c4dfc316c",
+        "txHash_transfer_post_unfreeze_amount_3": "0xb97d108bc06721deb6202b5d7c1e4e103e8e79c6c8050a9e7ce994a403e28ad3",
+        "txHash_admin_mint_6_for_proof": "0xf26317132dd230bcbacf7e80db7ac95db7e54e610de13e276dcd2ac521dd5a59"
+      }
+    }
+  },
+
+  "deployedAt": "2026-01-03T23:13:16.871Z",
+  "lastUpdatedAt": "2026-01-29T00:00:00.000Z"
 }
