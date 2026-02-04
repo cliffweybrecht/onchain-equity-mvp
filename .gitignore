@@ -25,3 +25,4 @@ Thumbs.db
 # deployments (keep base-sepolia.json tracked)
 deployments/*
 !deployments/base-sepolia.json
+archived/
