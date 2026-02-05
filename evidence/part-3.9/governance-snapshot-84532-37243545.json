@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "part": "3.9",
+    "timestamp": "2026-02-05T01:36:21.017Z",
+    "rpc": "https://sepolia.base.org",
+    "chainId": 84532,
+    "blockNumber": "37243545",
+    "policyStackId": "BASESEP-84532-STACK-2026-01-28-v1.3-recover1",
+    "SAFE": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+    "deployerEOA": "0x6C775411e11cAb752Af03C5BBb440618788E13Be"
+  },
+  "contracts": {
+    "EquityTokenV2": {
+      "address": "0x92bce3e624c4f40ee87dacdf3b4e27e178ec5b17",
+      "codeSizeBytes": 2968,
+      "adminSurface": {
+        "admin": "0x6C775411e11cAb752Af03C5BBb440618788E13Be"
+      },
+      "frozenSurface": {}
+    },
+    "IdentityRegistry": {
+      "address": "0x9d6831ccb9d6f971cb648b538448d175650cfea4",
+      "codeSizeBytes": 2269,
+      "adminSurface": {
+        "admin": "0x1eDc758579C66967C42066e8dDCB690a1651517e"
+      },
+      "frozenSurface": {}
+    },
+    "VestingContract": {
+      "address": "0xef444c538769d7626511a4c538d03ffc7e53262b",
+      "codeSizeBytes": 4899,
+      "adminSurface": {
+        "admin": "0x1eDc758579C66967C42066e8dDCB690a1651517e"
+      },
+      "frozenSurface": {}
+    },
+    "EmergencyFreezePolicyV2": {
+      "address": "0x7df0bb151637c8cc18642fd9aa005b1d418fc7bb",
+      "codeSizeBytes": 2501,
+      "adminSurface": {},
+      "frozenSurface": {
+        "frozen": false
+      }
+    },
+    "ComplianceGatedPolicyV1": {
+      "address": "0x38c905c289b3ef1a244d95c8b1925a37c34839c8",
+      "codeSizeBytes": 2449,
+      "adminSurface": {
+        "admin": "0x6C775411e11cAb752Af03C5BBb440618788E13Be"
+      },
+      "frozenSurface": {}
+    },
+    "MinAmountPolicyV1": {
+      "address": "0x97c9a7b6155ca7a794ee23f48c33427a4adb3cf8",
+      "codeSizeBytes": 1487,
+      "adminSurface": {
+        "admin": "0x6C775411e11cAb752Af03C5BBb440618788E13Be"
+      },
+      "frozenSurface": {}
+    },
+    "CompositePolicyV111": {
+      "address": "0xa5dc56eb13a625584c128ad056c23d6e9035f814",
+      "codeSizeBytes": 7187,
+      "adminSurface": {
+        "admin": "0x1eDc758579C66967C42066e8dDCB690a1651517e"
+      },
+      "frozenSurface": {}
+    }
+  },
+  "invariants": {
+    "EquityTokenV2": {
+      "safeIsAdmin": false,
+      "deployerIsAdmin": true
+    },
+    "IdentityRegistry": {
+      "safeIsAdmin": true,
+      "deployerIsAdmin": false
+    },
+    "VestingContract": {
+      "safeIsAdmin": true,
+      "deployerIsAdmin": false
+    },
+    "EmergencyFreezePolicyV2": {
+      "safeIsAdmin": false,
+      "deployerIsAdmin": false
+    },
+    "ComplianceGatedPolicyV1": {
+      "safeIsAdmin": false,
+      "deployerIsAdmin": true
+    },
+    "MinAmountPolicyV1": {
+      "safeIsAdmin": false,
+      "deployerIsAdmin": true
+    },
+    "CompositePolicyV111": {
+      "safeIsAdmin": true,
+      "deployerIsAdmin": false
+    }
+  }
+}

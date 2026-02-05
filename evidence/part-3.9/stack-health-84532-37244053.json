@@ -1,0 +1,79 @@
+{
+  "meta": {
+    "part": "3.9",
+    "timestamp": "2026-02-05T01:53:15.497Z",
+    "rpc": "https://sepolia.base.org",
+    "chainId": 84532,
+    "blockNumber": "37244053",
+    "policyStackId": "BASESEP-84532-STACK-2026-01-28-v1.3-recover1",
+    "SAFE": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+    "deployerEOA": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
+    "strictTokenAdmin": false
+  },
+  "checks": [
+    {
+      "type": "admin",
+      "name": "IdentityRegistry",
+      "address": "0x9d6831ccb9d6f971cb648b538448d175650cfea4",
+      "value": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+      "expected": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+      "passed": true,
+      "severity": "FAIL"
+    },
+    {
+      "type": "admin",
+      "name": "VestingContract",
+      "address": "0xef444c538769d7626511a4c538d03ffc7e53262b",
+      "value": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+      "expected": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+      "passed": true,
+      "severity": "FAIL"
+    },
+    {
+      "type": "admin",
+      "name": "CompositePolicyV111",
+      "address": "0xa5dc56eb13a625584c128ad056c23d6e9035f814",
+      "value": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+      "expected": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+      "passed": true,
+      "severity": "FAIL"
+    },
+    {
+      "type": "admin",
+      "name": "ComplianceGatedPolicyV1",
+      "address": "0x38c905c289b3ef1a244d95c8b1925a37c34839c8",
+      "value": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+      "expected": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+      "passed": true,
+      "severity": "FAIL"
+    },
+    {
+      "type": "admin",
+      "name": "MinAmountPolicyV1",
+      "address": "0x97c9a7b6155ca7a794ee23f48c33427a4adb3cf8",
+      "value": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+      "expected": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+      "passed": true,
+      "severity": "FAIL"
+    },
+    {
+      "type": "admin",
+      "name": "EquityTokenV2",
+      "address": "0x92bce3e624c4f40ee87dacdf3b4e27e178ec5b17",
+      "value": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
+      "expected": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+      "passed": false,
+      "severity": "WARN"
+    },
+    {
+      "type": "frozen",
+      "name": "EmergencyFreezePolicyV2",
+      "address": "0x7df0bb151637c8cc18642fd9aa005b1d418fc7bb",
+      "value": false,
+      "expected": false,
+      "passed": true,
+      "severity": "FAIL"
+    }
+  ],
+  "status": "PASS"
+}
