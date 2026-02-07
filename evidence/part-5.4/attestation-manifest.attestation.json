@@ -1,0 +1,24 @@
+{
+  "schema": "attestation-v1",
+  "type": "manifest-attestation",
+  "issuedAt": "2026-02-07T17:00:00.000Z",
+  "id": "part-5.4C-1",
+  "subject": {
+    "type": "json-manifest",
+    "path": "manifests/attestation-manifest.json",
+    "digest": {
+      "alg": "sha256",
+      "value": "0x921b2464d977d2e9e297568afad077367f5afd3ffa26b2801790469596b18ed8"
+    }
+  },
+  "signature": {
+    "type": "eip191",
+    "signer": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
+    "preimage": "onchain-equity.attestation.v1\nmanifest.sha256:921b2464d977d2e9e297568afad077367f5afd3ffa26b2801790469596b18ed8",
+    "preimageDigest": {
+      "alg": "sha256",
+      "value": "0x824548bcf479ed885335b00455889e7c602c904e1e7256d3ceadea58a6dc5c74"
+    },
+    "value": "0x87e84730a4d8236d8fd55f74c4832660f1c4bd59d5b27571c52e4b4313c81f085347f9efc211b622fd4da236dec1974255059a110ca7260e408d4e6748a528ad1c"
+  }
+}
