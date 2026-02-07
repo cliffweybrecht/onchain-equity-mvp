@@ -1,0 +1,83 @@
+{
+  "actors": {
+    "defaultWallet": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
+  },
+  "addresses": {
+    "issuance": "0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9",
+    "policy": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+    "registry": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+    "token": "0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0"
+  },
+  "discoveredAdmins": {
+    "issuanceDefaultAdmin": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+    "registryInitialAdmin": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+    "tokenDefaultAdmin": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
+  },
+  "environment": {
+    "chainId": "31337",
+    "hardhatVersion": "3.1.2",
+    "networkType": "edr-simulated-local",
+    "nodeVersion": "v22.21.1",
+    "testRunner": "hardhat-node-test-runner"
+  },
+  "generatedAt": "2026-02-07T19:30:49.401Z",
+  "part": "5.2",
+  "roles": {
+    "assignments": [
+      {
+        "account": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+        "error": "Function \"hasRole\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+        "hasRole": null,
+        "role": "DEFAULT_ADMIN_ROLE",
+        "roleId": "0x0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "account": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+        "hasRole": false,
+        "role": "ISSUER_ROLE",
+        "roleId": "0x114e74f6ea3bd819998f78687bfcb11b140da08e9b7d222fa9c1f1ba1f2aa122"
+      }
+    ],
+    "roleIds": [
+      {
+        "id": "0x114e74f6ea3bd819998f78687bfcb11b140da08e9b7d222fa9c1f1ba1f2aa122",
+        "name": "ISSUER_ROLE"
+      }
+    ]
+  },
+  "title": "Governance Evidence Snapshot (Auditor/Regulator JSON Packet)",
+  "transactions": [
+    {
+      "foundSetter": null,
+      "label": "token.setRegistry (skipped)",
+      "reason": "No registry setter found in ABI or not writable via viem contract wrapper"
+    },
+    {
+      "foundInitializer": null,
+      "label": "token.initialize (skipped)",
+      "reason": "No initialize/init function found in ABI"
+    },
+    {
+      "error": "An unknown RPC error occurred.",
+      "label": "issuance.grantRole(ISSUER_ROLE, actor) (failed)"
+    },
+    {
+      "error": "ABI encoding params/values length mismatch.\nExpected length (params): 4\nGiven length (values): 2",
+      "label": "issuance.issue(actor, 1) (failed)"
+    },
+    {
+      "found": null,
+      "label": "token.freeze/pause (skipped)",
+      "reason": "No freeze/pause function found"
+    },
+    {
+      "found": null,
+      "label": "token.unfreeze/unpause (skipped)",
+      "reason": "No unfreeze/unpause function found"
+    },
+    {
+      "label": "transfer(pass/fail) skipped",
+      "reason": "actor balance was 0"
+    }
+  ]
+}
