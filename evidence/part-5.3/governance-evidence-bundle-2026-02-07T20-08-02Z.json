@@ -1,0 +1,133 @@
+{
+  "schema": "governance-evidence-bundle@1.0.0",
+  "part": "5.3",
+  "source": {
+    "path": "evidence/part-5.2/governance-selftest-2026-02-07T19-30-49Z.json",
+    "rawSha256": "7c8574f38864a9d784ec7be20c10c87c36bdec21ef3cb0826c270c80e79f1b2f",
+    "canonicalSha256": "6e54d0a81225b432f9b58f91711da9799d71cafa8df0a7d314f7e13bdfdef951"
+  },
+  "environment": {
+    "chainId": 84532,
+    "rpcUrl": "https://sepolia.base.org",
+    "blockNumber": "37363295",
+    "node": "v22.21.1",
+    "platform": "linux"
+  },
+  "contracts": {
+    "IdentityRegistry": {
+      "address": "0x9d6831ccb9d6f971cb648b538448d175650cfea4",
+      "runtimeBytecodeKeccak256": "0x99b60b5481c7b6a5dcabe51da61536d6dbf2d9fe9d821f7a0500960bb910e1ff",
+      "byteLength": 2269
+    },
+    "EquityTokenV1": {
+      "address": "0x2791d08fc94c787e5772daba3507a68e74ba4b10",
+      "runtimeBytecodeKeccak256": "0xe834c98259c0372976d1f41c2f9418771c89f926b4b0079e4e1bfebe6f765805",
+      "byteLength": 5129
+    },
+    "EquityTokenV2": {
+      "address": "0x92bce3e624c4f40ee87dacdf3b4e27e178ec5b17",
+      "runtimeBytecodeKeccak256": "0x1d3854fd3c70540a38918ad9c54303d1e0e31e20ccfb7dce130147985177eb23",
+      "byteLength": 2968
+    },
+    "VestingContract": {
+      "address": "0xef444c538769d7626511a4c538d03ffc7e53262b",
+      "runtimeBytecodeKeccak256": "0x3ade7ba24dda6305f691c64ae075f374b94383ad6f2bab7cffb64c22dfb17dca",
+      "byteLength": 4899
+    }
+  },
+  "invariants": {
+    "assertions": [
+      {
+        "id": "INV:contracts.solidityUnmodified",
+        "expected": true
+      },
+      {
+        "id": "INV:oneCommandVerificationAvailable",
+        "expected": true
+      }
+    ]
+  },
+  "evidence": {
+    "actors": {
+      "defaultWallet": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
+    },
+    "addresses": {
+      "issuance": "0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9",
+      "policy": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+      "registry": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+      "token": "0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0"
+    },
+    "discoveredAdmins": {
+      "issuanceDefaultAdmin": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+      "registryInitialAdmin": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+      "tokenDefaultAdmin": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
+    },
+    "environment": {
+      "chainId": "31337",
+      "hardhatVersion": "3.1.2",
+      "networkType": "edr-simulated-local",
+      "nodeVersion": "v22.21.1",
+      "testRunner": "hardhat-node-test-runner"
+    },
+    "generatedAt": "2026-02-07T19:30:49.401Z",
+    "part": "5.2",
+    "roles": {
+      "assignments": [
+        {
+          "account": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+          "error": "Function \"hasRole\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+          "hasRole": null,
+          "role": "DEFAULT_ADMIN_ROLE",
+          "roleId": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "account": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+          "hasRole": false,
+          "role": "ISSUER_ROLE",
+          "roleId": "0x114e74f6ea3bd819998f78687bfcb11b140da08e9b7d222fa9c1f1ba1f2aa122"
+        }
+      ],
+      "roleIds": [
+        {
+          "id": "0x114e74f6ea3bd819998f78687bfcb11b140da08e9b7d222fa9c1f1ba1f2aa122",
+          "name": "ISSUER_ROLE"
+        }
+      ]
+    },
+    "title": "Governance Evidence Snapshot (Auditor/Regulator JSON Packet)",
+    "transactions": [
+      {
+        "foundSetter": null,
+        "label": "token.setRegistry (skipped)",
+        "reason": "No registry setter found in ABI or not writable via viem contract wrapper"
+      },
+      {
+        "foundInitializer": null,
+        "label": "token.initialize (skipped)",
+        "reason": "No initialize/init function found in ABI"
+      },
+      {
+        "error": "An unknown RPC error occurred.",
+        "label": "issuance.grantRole(ISSUER_ROLE, actor) (failed)"
+      },
+      {
+        "error": "ABI encoding params/values length mismatch.\nExpected length (params): 4\nGiven length (values): 2",
+        "label": "issuance.issue(actor, 1) (failed)"
+      },
+      {
+        "found": null,
+        "label": "token.freeze/pause (skipped)",
+        "reason": "No freeze/pause function found"
+      },
+      {
+        "found": null,
+        "label": "token.unfreeze/unpause (skipped)",
+        "reason": "No unfreeze/unpause function found"
+      },
+      {
+        "label": "transfer(pass/fail) skipped",
+        "reason": "actor balance was 0"
+      }
+    ]
+  }
+}

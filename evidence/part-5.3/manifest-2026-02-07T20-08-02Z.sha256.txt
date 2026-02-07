@@ -1,0 +1,3 @@
+e7fcf27e4b36caa1bec4e0f70343ed5263e813d7704d8f86b45747f34d56c474  evidence/part-5.3/governance-evidence-bundle-2026-02-07T20-08-02Z.json
+7c8574f38864a9d784ec7be20c10c87c36bdec21ef3cb0826c270c80e79f1b2f  evidence/part-5.2/governance-selftest-2026-02-07T19-30-49Z.json
+6e54d0a81225b432f9b58f91711da9799d71cafa8df0a7d314f7e13bdfdef951  evidence/part-5.2/governance-selftest-2026-02-07T19-30-49Z.json::canonical
