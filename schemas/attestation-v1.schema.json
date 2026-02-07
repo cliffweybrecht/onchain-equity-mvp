@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Governance Evidence Attestation v1",
+  "type": "object",
+  "required": [
+    "attestationVersion",
+    "statement",
+    "createdAt",
+    "subject",
+    "signer",
+    "signature"
+  ],
+  "properties": {
+    "attestationVersion": { "type": "string", "enum": ["v1"] },
+    "statement": { "type": "string", "minLength": 1 },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "subject": {
+      "type": "object",
+      "required": ["type", "path", "hash"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["governance-evidence-manifest"]
+        },
+        "path": { "type": "string", "minLength": 1 },
+        "hash": {
+          "type": "object",
+          "required": ["alg", "value"],
+          "properties": {
+            "alg": {
+              "type": "string",
+              "enum": ["sha256-canonical-json"]
+            },
+            "value": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{64}$"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "signer": {
+      "type": "object",
+      "required": ["type", "address"],
+      "properties": {
+        "type": { "type": "string", "enum": ["eoa", "safe"] },
+        "address": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "signature": {
+      "type": "object",
+      "required": ["type", "message", "value"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["eip191-personal-sign"]
+        },
+        "message": { "type": "string", "minLength": 1 },
+        "value": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{130}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "notes": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}
