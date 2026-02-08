@@ -1,0 +1,27 @@
+{
+  "schema": "attestation-batch-verify-summary-v1",
+  "index": {
+    "path": "manifests/attestation-index.json",
+    "sha256": "0x30e14268c53ea1aeaff1064486b198a9699219bc2b93d7160d389e80854c92ca",
+    "count": 1
+  },
+  "verifier": {
+    "path": "scripts/ops/verify-attestation.js"
+  },
+  "startedAt": "2026-02-08T21:28:23.111Z",
+  "finishedAt": "2026-02-08T21:28:23.232Z",
+  "status": "PASS",
+  "results": [
+    {
+      "id": "part-5.4C-1",
+      "type": "manifest-attestation",
+      "attestationPath": "evidence/part-5.4/attestation-manifest.attestation.json",
+      "sha256": "0x292bc5b0be626b082de3eb07ccd3ef1ab2d58974dc67252dac50ac48e623a819",
+      "verifyArgs": [
+        "--attestation",
+        "evidence/part-5.4/attestation-manifest.attestation.json"
+      ],
+      "exitCode": 0
+    }
+  ]
+}

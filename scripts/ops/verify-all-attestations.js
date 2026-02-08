@@ -1,15 +1,4 @@
 #!/usr/bin/env node
-/**
- * Part 5.5 — verify-all-attestations
- *
- * Reads manifests/attestation-index.json and runs scripts/ops/verify-attestation.js
- * for each entry (fail-fast). Emits:
- *  - human-readable console output
- *  - machine-readable summary JSON in evidence/part-5.5/
- *
- * No Solidity changes. Append-only workflows.
- */
-
 import fs from "node:fs";
 import fsp from "node:fs/promises";
 import crypto from "node:crypto";
@@ -37,8 +26,7 @@ function sha256Hex(buf) {
 }
 
 function sha256File(filepath) {
-  const buf = fs.readFileSync(filepath);
-  return sha256Hex(buf);
+  return sha256Hex(fs.readFileSync(filepath));
 }
 
 function runVerifier(verifierPath, args) {
@@ -49,106 +37,88 @@ function runVerifier(verifierPath, args) {
   return { code: r.status ?? 1, stdout: r.stdout ?? "", stderr: r.stderr ?? "" };
 }
 
-function parseCli(argv) {
-  const indexPath = argv[2] || "manifests/attestation-index.json";
-  return { indexPath };
-}
-
 async function main() {
-  const { indexPath } = parseCli(process.argv);
+  const indexPath = process.argv[2] || "manifests/attestation-index.json";
   const verifierPath = "scripts/ops/verify-attestation.js";
 
-  if (!fs.existsSync(verifierPath)) die(`❌ Missing verifier: ${verifierPath}`);
-  if (!fs.existsSync(indexPath)) die(`❌ Missing index: ${indexPath}`);
+  if (!fs.existsSync(verifierPath)) die("Missing verifier: " + verifierPath);
+  if (!fs.existsSync(indexPath)) die("Missing index: " + indexPath);
 
   const indexRaw = await fsp.readFile(indexPath, "utf8");
   let index;
   try { index = JSON.parse(indexRaw); }
-  catch (e) { die(`❌ Invalid JSON in ${indexPath}: ${e?.message || e}`); }
+  catch (e) { die("Invalid JSON: " + (e?.message || e)); }
 
   if (index?.schema !== "attestation-index-v1") {
-    die(`❌ Unsupported index schema: ${String(index?.schema)}`);
+    die("Bad schema: " + String(index?.schema));
   }
 
   const atts = index.attestations;
-  if (!Array.isArray(atts) || atts.length === 0) die(`❌ Index contains no attestations`);
+  if (!Array.isArray(atts) || atts.length === 0) die("No attestations");
 
   const startedAt = isoNow();
   console.log("== Verify All Attestations ==");
-  console.log(`index: ${safeRel(indexPath)}`);
-  console.log(`count: ${atts.length}`);
-  console.log("");
+  console.log("index: " + safeRel(indexPath));
+  console.log("count: " + atts.length + "\n");
 
   const results = [];
 
   for (let i = 0; i < atts.length; i++) {
     const a = atts[i] || {};
-    const id = a.id || `(missing id ${i})`;
-    const type = a.type || "(unknown)";
+    const id = a.id || "(missing id " + i + ")";
     const attestationPath = a.attestationPath;
 
-    if (!attestationPath || typeof attestationPath !== "string") {
-      die(`❌ Missing attestationPath for id=${id}`);
-    }
-    if (!fs.existsSync(attestationPath)) {
-      die(`❌ Attestation file not found for id=${id}: ${safeRel(attestationPath)}`);
-    }
+    if (!attestationPath) die("Missing attestationPath for id=" + id);
+    if (!fs.existsSync(attestationPath)) die("Not found: " + safeRel(attestationPath));
 
-    const verifyArgs =
-      Array.isArray(a.verifyArgs) && a.verifyArgs.length > 0
-        ? a.verifyArgs
-        : ["--attestation", attestationPath];
+    const verifyArgs = Array.isArray(a.verifyArgs) && a.verifyArgs.length > 0
+      ? a.verifyArgs
+      : ["--attestation", attestationPath];
 
-    process.stdout.write(`• [${i + 1}/${atts.length}] ${id} (${type}) ... `);
+    process.stdout.write("• [" + (i + 1) + "/" + atts.length + "] " + id + " ... ");
     const run = runVerifier(verifierPath, verifyArgs);
 
     if (run.code !== 0) {
       console.log("FAIL");
-      console.error(`--- verifier stdout (id=${id}) ---\n${run.stdout.trim()}\n`);
-      console.error(`--- verifier stderr (id=${id}) ---\n${run.stderr.trim()}\n`);
-      die(`❌ Batch verification failed (fail-fast) at id=${id}`, 2);
+      console.error(run.stdout.trim());
+      console.error(run.stderr.trim());
+      die("Failed at id=" + id, 2);
     }
 
     console.log("OK");
-
     results.push({
       id,
-      type,
+      type: a.type || "unknown",
       attestationPath: safeRel(attestationPath),
       sha256: sha256File(attestationPath),
       verifyArgs,
-      exitCode: run.code,
+      exitCode: 0,
+      ok: true
     });
   }
 
-  const finishedAt = isoNow();
-  const evidenceDir = "evidence/part-5.5";
-  ensureDir(evidenceDir);
-
+  const completedAt = isoNow();
   const summary = {
-    schema: "attestation-batch-verify-summary-v1",
-    index: {
-      path: safeRel(indexPath),
-      sha256: sha256Hex(Buffer.from(indexRaw, "utf8")),
-      count: atts.length,
-    },
-    verifier: { path: safeRel(verifierPath) },
+    ok: true,
     startedAt,
-    finishedAt,
-    status: "PASS",
-    results,
+    completedAt,
+    indexPath: safeRel(indexPath),
+    indexSha256: sha256File(indexPath),
+    totalAttestations: atts.length,
+    verifiedCount: results.length,
+    results
   };
 
-  const stamp = finishedAt.replaceAll(":", "-");
-  const outPath = `${evidenceDir}/attestation-verify-all-${stamp}.json`;
-  await fsp.writeFile(outPath, JSON.stringify(summary, null, 2) + "\n", "utf8");
+  const outDir = "evidence/part-5.5";
+  ensureDir(outDir);
+  const outPath = outDir + "/verify-all-attestations.summary.json";
+  await fsp.writeFile(outPath, JSON.stringify(summary, null, 2) + "\n");
 
-  console.log("");
-  console.log(`✅ PASS — verified ${atts.length}/${atts.length} attestations`);
-  console.log(`summary: ${safeRel(outPath)}`);
+  console.log("\n✅ PASS — verified " + results.length + "/" + atts.length + " attestations");
+  console.log("Summary: " + safeRel(outPath));
 }
 
 main().catch((err) => {
-  console.error(err?.stack || err?.message || String(err));
+  console.error("FATAL:", err?.stack || err?.message || String(err));
   process.exit(1);
 });
