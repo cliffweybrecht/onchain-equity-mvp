@@ -1,0 +1,17 @@
+{
+  "schema": "attestation-index-v1",
+  "issuedAt": "2026-02-08T00:00:00.000Z",
+  "description": "Append-only index of governance/evidence attestations for auditor verification.",
+  "attestations": [
+    {
+      "id": "part-5.4C-1",
+      "type": "manifest-attestation",
+      "attestationPath": "evidence/part-5.4/attestation-manifest.attestation.json",
+      "verifyArgs": [
+        "--attestation",
+        "evidence/part-5.4/attestation-manifest.attestation.json"
+      ],
+      "notes": "Initial manifest attestation produced by scripts/ops/attest-manifest.js"
+    }
+  ]
+}
