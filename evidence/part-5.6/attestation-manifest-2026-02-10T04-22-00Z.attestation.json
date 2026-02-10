@@ -1,0 +1,14 @@
+{
+  "schema": "attestation-v1",
+  "type": "manifest-attestation",
+  "issuedAt": "2026-02-10T04:22:00.000Z",
+  "id": "part-5.6-manifest-attestation-1",
+  "subject": {
+    "type": "json-manifest",
+    "path": "manifests/attestation-manifest.json",
+    "digest": {
+      "alg": "sha256",
+      "value": "0xcb77c4742d2bf89529c4db605c797be8242b16cace7c9fe634fc9bec3f6ed846"
+    }
+  }
+}

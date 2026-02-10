@@ -1,0 +1,19 @@
+{
+  "schema": "attestation-v1",
+  "type": "index-attestation",
+  "issuedAt": "2026-02-10T04:32:27.533Z",
+  "id": "part-5.6-2026-02-10T04-32-27.533Z",
+  "subject": {
+    "type": "attestation-index",
+    "path": "manifests/attestation-index.json",
+    "canonical": {
+      "rule": "exclude-index-attestations",
+      "format": "json-pretty-2",
+      "newline": true
+    },
+    "digest": {
+      "alg": "sha256",
+      "value": "0x2237d846d3ee2baf268ff2a91c5971f5e594e1b1ad7b860f21d6b6dd376d3a88"
+    }
+  }
+}

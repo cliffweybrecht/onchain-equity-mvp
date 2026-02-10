@@ -1,0 +1,14 @@
+{
+  "schema": "attestation-v1",
+  "type": "file-attestation",
+  "issuedAt": "2026-02-10T04:38:00.000Z",
+  "id": "part-5.5-verify-all-attestation-backfill-1",
+  "subject": {
+    "type": "file",
+    "path": "scripts/ops/verify-all-attestations.js",
+    "digest": {
+      "alg": "sha256",
+      "value": "0x4ec61a8e74085135372bb235ec4f3eab9464de6330efef925065ebe8bbfdee46"
+    }
+  }
+}
