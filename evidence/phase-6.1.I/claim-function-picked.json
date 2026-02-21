@@ -1,0 +1,22 @@
+{
+  "at": "2026-02-21T17:57:15.144Z",
+  "beneficiary": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+  "candidatesTried": [
+    "release(address)"
+  ],
+  "picked": {
+    "data": "0x19165587000000000000000000000000f7e66def3745c6642e8bf24c88feb0501d313f72",
+    "key": "release(address)"
+  },
+  "rpc": "https://sepolia.base.org",
+  "safe": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+  "simulationResults": [
+    {
+      "data": "0x19165587000000000000000000000000f7e66def3745c6642e8bf24c88feb0501d313f72",
+      "key": "release(address)",
+      "ok": true,
+      "step": "eth_call"
+    }
+  ],
+  "vesting": "0xEf444C538769d7626511A4C538d03fFc7e53262B"
+}

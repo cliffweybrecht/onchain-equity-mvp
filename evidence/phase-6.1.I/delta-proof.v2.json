@@ -1,0 +1,69 @@
+{
+  "at": "2026-02-21T18:30:00.480Z",
+  "beneficiary": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+  "deltas": {
+    "grant": {
+      "post": {
+        "active": true,
+        "cliff": "1771644494",
+        "duration": "31536000",
+        "raw": [
+          "1000",
+          "1",
+          "1771644494",
+          "1771644494",
+          "31536000",
+          true
+        ],
+        "released": "1",
+        "start": "1771644494",
+        "total": "1000"
+      },
+      "postError": null,
+      "postOk": true,
+      "pre": {
+        "active": true,
+        "cliff": "1771644494",
+        "duration": "31536000",
+        "raw": [
+          "1000",
+          "0",
+          "1771644494",
+          "1771644494",
+          "31536000",
+          true
+        ],
+        "released": "0",
+        "start": "1771644494",
+        "total": "1000"
+      },
+      "preError": null,
+      "preOk": true,
+      "releasedDelta": "1",
+      "totalDelta": "0"
+    },
+    "vestedAmount": {
+      "delta": "0",
+      "post": "1",
+      "postError": null,
+      "postOk": true,
+      "pre": "1",
+      "preError": null,
+      "preOk": true
+    }
+  },
+  "missingReads": {
+    "claimableAmount": "Function \"claimableAmount\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+    "claimed": "Function \"claimed\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+    "claimedAmount": "Function \"claimedAmount\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+    "released": "Function \"released\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+    "releasedAmount": "Function \"releasedAmount\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+    "totalVested": "Function \"totalVested\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it."
+  },
+  "postBlock": "37964295",
+  "postSnapshot": "evidence/phase-6.1.I/pinned-snapshot.postclaim.block-37964295.json",
+  "preBlock": "37962534",
+  "preSnapshot": "evidence/phase-6.1.I/pinned-snapshot.block-37962534.json",
+  "schema": "phase-6.1.I.delta-proof.v2",
+  "vestingContract": "0xEf444C538769d7626511A4C538d03fFc7e53262B"
+}

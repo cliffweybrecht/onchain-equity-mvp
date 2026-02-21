@@ -1,0 +1,22 @@
+{
+  "abiArtifact": "artifacts/contracts/VestingContract.sol/VestingContract.json",
+  "beneficiary": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+  "grant": {
+    "duration": "31536000",
+    "firstVestTs": "1771676030",
+    "start": "1771644494",
+    "total": "1000"
+  },
+  "network": {
+    "chainId": 84532,
+    "name": "baseSepolia"
+  },
+  "observedAt": {
+    "blockNumber": "37962534",
+    "blockTimestamp": "1771693356",
+    "vestedAmount": "1"
+  },
+  "rpc": "https://sepolia.base.org",
+  "schema": "phase-6.1.I.precondition.v1",
+  "vestingContract": "0xEf444C538769d7626511A4C538d03fFc7e53262B"
+}\n

@@ -1,0 +1,147 @@
+{
+  "artifact": "artifacts/contracts/VestingContract.sol/VestingContract.json",
+  "at": "2026-02-21T17:57:14.978Z",
+  "beneficiary": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+  "functionCount": 8,
+  "functions": [
+    {
+      "argCompat": {
+        "args": [],
+        "ok": true
+      },
+      "claimLike": false,
+      "inputs": [],
+      "key": "admin()",
+      "name": "admin",
+      "stateMutability": "view"
+    },
+    {
+      "argCompat": {
+        "ok": false,
+        "reason": "unsupported inputs: address,uint256,uint64,uint64,uint64"
+      },
+      "claimLike": false,
+      "inputs": [
+        {
+          "name": "employee",
+          "type": "address"
+        },
+        {
+          "name": "total",
+          "type": "uint256"
+        },
+        {
+          "name": "start",
+          "type": "uint64"
+        },
+        {
+          "name": "cliff",
+          "type": "uint64"
+        },
+        {
+          "name": "duration",
+          "type": "uint64"
+        }
+      ],
+      "key": "createGrant(address,uint256,uint64,uint64,uint64)",
+      "name": "createGrant",
+      "stateMutability": "nonpayable"
+    },
+    {
+      "argCompat": {
+        "args": [
+          "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72"
+        ],
+        "ok": true
+      },
+      "claimLike": false,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "key": "grants(address)",
+      "name": "grants",
+      "stateMutability": "view"
+    },
+    {
+      "argCompat": {
+        "args": [],
+        "ok": true
+      },
+      "claimLike": false,
+      "inputs": [],
+      "key": "identityRegistry()",
+      "name": "identityRegistry",
+      "stateMutability": "view"
+    },
+    {
+      "argCompat": {
+        "args": [
+          "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72"
+        ],
+        "ok": true
+      },
+      "claimLike": true,
+      "inputs": [
+        {
+          "name": "employee",
+          "type": "address"
+        }
+      ],
+      "key": "release(address)",
+      "name": "release",
+      "stateMutability": "nonpayable"
+    },
+    {
+      "argCompat": {
+        "args": [
+          "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72"
+        ],
+        "ok": true
+      },
+      "claimLike": false,
+      "inputs": [
+        {
+          "name": "newAdmin",
+          "type": "address"
+        }
+      ],
+      "key": "setAdmin(address)",
+      "name": "setAdmin",
+      "stateMutability": "nonpayable"
+    },
+    {
+      "argCompat": {
+        "args": [],
+        "ok": true
+      },
+      "claimLike": false,
+      "inputs": [],
+      "key": "token()",
+      "name": "token",
+      "stateMutability": "view"
+    },
+    {
+      "argCompat": {
+        "args": [
+          "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72"
+        ],
+        "ok": true
+      },
+      "claimLike": true,
+      "inputs": [
+        {
+          "name": "employee",
+          "type": "address"
+        }
+      ],
+      "key": "vestedAmount(address)",
+      "name": "vestedAmount",
+      "stateMutability": "view"
+    }
+  ],
+  "safe": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+  "vesting": "0xEf444C538769d7626511A4C538d03fFc7e53262B"
+}

@@ -1,0 +1,98 @@
+{
+  "at": "2026-02-21T18:26:43.803Z",
+  "beneficiary": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+  "compare": {
+    "claimableAmount": {
+      "delta": null,
+      "post": null,
+      "postError": "Function \"claimableAmount\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+      "postOk": false,
+      "pre": null,
+      "preError": "Function \"claimableAmount\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+      "preOk": false
+    },
+    "claimed": {
+      "delta": null,
+      "post": null,
+      "postError": "Function \"claimed\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+      "postOk": false,
+      "pre": null,
+      "preError": "Function \"claimed\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+      "preOk": false
+    },
+    "claimedAmount": {
+      "delta": null,
+      "post": null,
+      "postError": "Function \"claimedAmount\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+      "postOk": false,
+      "pre": null,
+      "preError": "Function \"claimedAmount\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+      "preOk": false
+    },
+    "grants": {
+      "delta": null,
+      "post": [
+        "1000",
+        "1",
+        "1771644494",
+        "1771644494",
+        "31536000",
+        true
+      ],
+      "postError": null,
+      "postOk": true,
+      "pre": [
+        "1000",
+        "0",
+        "1771644494",
+        "1771644494",
+        "31536000",
+        true
+      ],
+      "preError": null,
+      "preOk": true
+    },
+    "released": {
+      "delta": null,
+      "post": null,
+      "postError": "Function \"released\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+      "postOk": false,
+      "pre": null,
+      "preError": "Function \"released\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+      "preOk": false
+    },
+    "releasedAmount": {
+      "delta": null,
+      "post": null,
+      "postError": "Function \"releasedAmount\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+      "postOk": false,
+      "pre": null,
+      "preError": "Function \"releasedAmount\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+      "preOk": false
+    },
+    "totalVested": {
+      "delta": null,
+      "post": null,
+      "postError": "Function \"totalVested\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+      "postOk": false,
+      "pre": null,
+      "preError": "Function \"totalVested\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+      "preOk": false
+    },
+    "vestedAmount": {
+      "delta": "0",
+      "post": "1",
+      "postError": null,
+      "postOk": true,
+      "pre": "1",
+      "preError": null,
+      "preOk": true
+    }
+  },
+  "postBlock": "37964295",
+  "postSnapshot": "evidence/phase-6.1.I/pinned-snapshot.postclaim.block-37964295.json",
+  "preBlock": "37962534",
+  "preSnapshot": "evidence/phase-6.1.I/pinned-snapshot.block-37962534.json",
+  "schema": "phase-6.1.I.delta-proof.v1",
+  "vestingContract": "0xEf444C538769d7626511A4C538d03fFc7e53262B"
+}

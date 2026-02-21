@@ -1,0 +1,14 @@
+{
+  "chainId": "84532",
+  "createdAt": "2026-02-21T17:50:28.616Z",
+  "data": "0x278e07ce000000000000000000000000f7e66def3745c6642e8bf24c88feb0501d313f720000000000000000000000000000000000000000000000000000000000000001",
+  "meta": {
+    "description": "IdentityRegistry.setStatus(beneficiary, 1) so Vesting release(employee) no longer reverts NotVerified().",
+    "name": "Phase 6.1.I — Verify beneficiary"
+  },
+  "operation": 0,
+  "safe": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+  "to": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+  "value": "0",
+  "version": "1.0"
+}

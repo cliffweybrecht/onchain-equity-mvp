@@ -1,0 +1,53 @@
+{
+  "abiArtifact": "artifacts/contracts/VestingContract.sol/VestingContract.json",
+  "beneficiary": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+  "block": "37964295",
+  "network": {
+    "chainId": 84532,
+    "name": "baseSepolia"
+  },
+  "reads": {
+    "claimableAmount": {
+      "error": "Function \"claimableAmount\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+      "ok": false
+    },
+    "claimed": {
+      "error": "Function \"claimed\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+      "ok": false
+    },
+    "claimedAmount": {
+      "error": "Function \"claimedAmount\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+      "ok": false
+    },
+    "grants": {
+      "ok": true,
+      "value": [
+        "1000",
+        "1",
+        "1771644494",
+        "1771644494",
+        "31536000",
+        true
+      ]
+    },
+    "released": {
+      "error": "Function \"released\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+      "ok": false
+    },
+    "releasedAmount": {
+      "error": "Function \"releasedAmount\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+      "ok": false
+    },
+    "totalVested": {
+      "error": "Function \"totalVested\" not found on ABI.\nMake sure you are using the correct ABI and that the function exists on it.",
+      "ok": false
+    },
+    "vestedAmount": {
+      "ok": true,
+      "value": "1"
+    }
+  },
+  "rpc": "https://sepolia.base.org",
+  "schema": "phase-6.1.I.pinned-snapshot.v1",
+  "vestingContract": "0xEf444C538769d7626511A4C538d03fFc7e53262B"
+}

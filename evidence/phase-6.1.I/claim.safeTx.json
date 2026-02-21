@@ -1,0 +1,14 @@
+{
+  "chainId": "84532",
+  "createdAt": "2026-02-21T17:57:15.144Z",
+  "data": "0x19165587000000000000000000000000f7e66def3745c6642e8bf24c88feb0501d313f72",
+  "meta": {
+    "description": "Deterministic calldata via ABI introspection + eth_call simulation",
+    "name": "Phase 6.1.I — Vesting claim"
+  },
+  "operation": 0,
+  "safe": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+  "to": "0xEf444C538769d7626511A4C538d03fFc7e53262B",
+  "value": "0",
+  "version": "1.0"
+}
