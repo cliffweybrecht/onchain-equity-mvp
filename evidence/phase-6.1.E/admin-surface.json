@@ -1,0 +1,29 @@
+{
+  "checks": {
+    "adminMatchesExpectedSafe": true,
+    "identityRegistryMatchesExpected": true,
+    "vestingHasCode": true
+  },
+  "contracts": {
+    "expectedIdentityRegistry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+    "expectedSafeAdmin": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+    "vesting": "0xEf444C538769d7626511A4C538d03fFc7e53262B"
+  },
+  "network": {
+    "chainId": 84532,
+    "name": "baseSepolia",
+    "rpcUrl": "https://sepolia.base.org"
+  },
+  "pinnedBlock": {
+    "hash": "0x7a7079aa03ab963e75ac5a84c8bd7fad40441688809e91d100bc2ec095c176be",
+    "number": "37936900",
+    "timestamp": "1771642088"
+  },
+  "reads": {
+    "admin": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+    "identityRegistry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+    "token": "0x2791D08fC94C787e5772Daba3507A68e74BA4B10",
+    "vestingCodeSizeBytes": 4899
+  },
+  "schema": "phase-6.1.E-vesting-admin-surface-v1"
+}

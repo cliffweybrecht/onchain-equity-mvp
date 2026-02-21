@@ -1,0 +1,8 @@
+{
+  "schema": "phase-6.1.E-index-v1",
+  "folder": "evidence/phase-6.1.E",
+  "files": [
+    "admin-surface-abi.json",
+    "admin-surface.json"
+  ]
+}

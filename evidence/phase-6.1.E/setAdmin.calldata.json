@@ -1,0 +1,14 @@
+{
+  "calldata": "0x704b6c020000000000000000000000001edc758579c66967c42066e8ddcb690a1651517e",
+  "contract": {
+    "vesting": "0xEf444C538769d7626511A4C538d03fFc7e53262B"
+  },
+  "function": {
+    "args": {
+      "newAdmin": "0x1eDc758579C66967C42066e8dDCB690a1651517e"
+    },
+    "name": "setAdmin",
+    "signature": "setAdmin(address)"
+  },
+  "schema": "phase-6.1.E-setAdmin-calldata-v1"
+}
