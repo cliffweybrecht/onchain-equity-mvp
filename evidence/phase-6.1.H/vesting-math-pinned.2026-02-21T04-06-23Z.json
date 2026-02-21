@@ -1,0 +1,115 @@
+{
+  "phase": "6.1.H",
+  "description": "Vesting math verification — pinned block, read-only, no state changes",
+  "network": {
+    "name": "Base Sepolia",
+    "chainId": 84532,
+    "rpc": "https://sepolia.base.org"
+  },
+  "addresses": {
+    "vestingContract": "0xEf444C538769d7626511A4C538d03fFc7e53262B",
+    "beneficiary": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72"
+  },
+  "pinned": {
+    "blockNumber": "37938308",
+    "blockHash": "0x8a5bb0b6449a5eb45ac1e275a8343ddefd4992c3b0301690008cd308913be8fe",
+    "timestamp": 1771644904
+  },
+  "reads": {
+    "grant": {
+      "total": "1000",
+      "claimed": "0",
+      "start": 1771644494,
+      "cliff": 1771644494,
+      "duration": 31536000,
+      "exists": true
+    },
+    "vestingMathProbes": [
+      {
+        "ok": true,
+        "functionName": "vestedAmount",
+        "args": [
+          "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72"
+        ],
+        "value": "0"
+      },
+      {
+        "ok": false,
+        "functionName": "vestedAmount",
+        "args": [
+          "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+          "1771644904"
+        ],
+        "error": "The contract function \"vestedAmount\" reverted."
+      },
+      {
+        "ok": false,
+        "functionName": "claimable",
+        "args": [
+          "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72"
+        ],
+        "error": "The contract function \"claimable\" reverted."
+      },
+      {
+        "ok": false,
+        "functionName": "claimable",
+        "args": [
+          "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+          "1771644904"
+        ],
+        "error": "The contract function \"claimable\" reverted."
+      },
+      {
+        "ok": false,
+        "functionName": "available",
+        "args": [
+          "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72"
+        ],
+        "error": "The contract function \"available\" reverted."
+      },
+      {
+        "ok": false,
+        "functionName": "available",
+        "args": [
+          "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+          "1771644904"
+        ],
+        "error": "The contract function \"available\" reverted."
+      },
+      {
+        "ok": false,
+        "functionName": "releasableAmount",
+        "args": [
+          "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72"
+        ],
+        "error": "The contract function \"releasableAmount\" reverted."
+      },
+      {
+        "ok": false,
+        "functionName": "releasableAmount",
+        "args": [
+          "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+          "1771644904"
+        ],
+        "error": "The contract function \"releasableAmount\" reverted."
+      }
+    ]
+  },
+  "expected": {
+    "pinnedTimestamp": 1771644904,
+    "start": 1771644494,
+    "cliff": 1771644494,
+    "duration": 31536000,
+    "total": "1000",
+    "claimed": "0",
+    "status": "in-vesting-window",
+    "expectedVested": "0",
+    "expectedClaimable": "0",
+    "assumption": "Linear vesting from start over duration; zero before start/cliff."
+  },
+  "guarantees": [
+    "All reads pinned to single blockNumber",
+    "No state-changing operations executed",
+    "Direct RPC only (no hre)"
+  ]
+}
