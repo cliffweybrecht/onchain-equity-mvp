@@ -1,0 +1,61 @@
+{
+  "computed": {
+    "releasableOnchain": null,
+    "releasableScript": "0",
+    "vested": "1"
+  },
+  "grant": {
+    "cliff": "1771644494",
+    "end": "1803180494",
+    "released": "1",
+    "start": "1771644494",
+    "total": "1000"
+  },
+  "inputs": {
+    "beneficiary": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+    "chain": "baseSepolia",
+    "vesting": "0xEf444C538769d7626511A4C538d03fFc7e53262B"
+  },
+  "invariants": [
+    {
+      "detail": {
+        "total": "1000"
+      },
+      "name": "grant.total > 0",
+      "pass": true
+    },
+    {
+      "detail": null,
+      "name": "start <= cliff",
+      "pass": true
+    },
+    {
+      "detail": null,
+      "name": "cliff <= end",
+      "pass": true
+    },
+    {
+      "detail": null,
+      "name": "released <= total",
+      "pass": true
+    },
+    {
+      "detail": {
+        "vested": "1"
+      },
+      "name": "vested in [0,total]",
+      "pass": true
+    },
+    {
+      "detail": null,
+      "name": "releasableScript = max(0, vested - released)",
+      "pass": true
+    }
+  ],
+  "phase": "6.2",
+  "pinned": {
+    "blockNumber": "37968380",
+    "blockTimestamp": "1771705048"
+  },
+  "schema": "vesting-proof-v1"
+}

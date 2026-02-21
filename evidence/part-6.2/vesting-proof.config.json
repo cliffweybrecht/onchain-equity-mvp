@@ -1,0 +1,24 @@
+{
+  "chain": "baseSepolia",
+  "rpcUrlEnv": "BASE_SEPOLIA_RPC_URL",
+  "pinned": {
+    "blockNumber": "PINNED_BLOCK"
+  },
+  "contracts": {
+    "vesting": "0xEf444C538769d7626511A4C538d03fFc7e53262B",
+    "token": null,
+    "identityRegistry": "0x9d6831ccb9d6f971cb648b538448d175650cfea4"
+  },
+  "actors": {
+    "beneficiary": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+    "safe": "0x1eDc758579C66967C42066e8dDCB690a1651517e"
+  },
+  "golden": {
+    "enabled": true,
+    "expectedPath": "evidence/part-6.2/golden/expected.vesting-proof.json"
+  },
+  "notes": {
+    "phase": "6.2",
+    "purpose": "Vesting lifecycle invariants + deterministic replay verification"
+  }
+}
