@@ -11,9 +11,9 @@
     "beneficiary": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72"
   },
   "pinned": {
-    "blockNumber": "37938308",
-    "blockHash": "0x8a5bb0b6449a5eb45ac1e275a8343ddefd4992c3b0301690008cd308913be8fe",
-    "timestamp": 1771644904
+    "blockNumber": "37939100",
+    "blockHash": "0x6f9899101a74e8b3eaee0dfe88d6eeb444f26b12959dd3805c87e543bdc65598",
+    "timestamp": 1771646488
   },
   "reads": {
     "grant": {
@@ -38,7 +38,7 @@
         "functionName": "vestedAmount",
         "args": [
           "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
-          "1771644904"
+          "1771646488"
         ],
         "error": "The contract function \"vestedAmount\" reverted."
       },
@@ -55,7 +55,7 @@
         "functionName": "claimable",
         "args": [
           "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
-          "1771644904"
+          "1771646488"
         ],
         "error": "The contract function \"claimable\" reverted."
       },
@@ -72,7 +72,7 @@
         "functionName": "available",
         "args": [
           "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
-          "1771644904"
+          "1771646488"
         ],
         "error": "The contract function \"available\" reverted."
       },
@@ -89,14 +89,14 @@
         "functionName": "releasableAmount",
         "args": [
           "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
-          "1771644904"
+          "1771646488"
         ],
         "error": "The contract function \"releasableAmount\" reverted."
       }
     ]
   },
   "expected": {
-    "pinnedTimestamp": 1771644904,
+    "pinnedTimestamp": 1771646488,
     "start": 1771644494,
     "cliff": 1771644494,
     "duration": 31536000,
