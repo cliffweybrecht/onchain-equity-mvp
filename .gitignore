@@ -26,3 +26,6 @@ Thumbs.db
 deployments/*
 !deployments/base-sepolia.json
 archived/
+
+# golden diff artifacts (never commit)
+evidence/**/GOT.*
