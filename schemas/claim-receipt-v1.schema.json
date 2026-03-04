@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "claim-receipt-v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "type",
+    "chain",
+    "tx",
+    "receipt",
+    "block",
+    "contracts",
+    "claim",
+    "state",
+    "events",
+    "verification"
+  ],
+  "properties": {
+    "schema": { "const": "claim-receipt-v1" },
+    "type": { "const": "claim-receipt" },
+    "chain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["chainId", "name"],
+      "properties": {
+        "chainId": { "type": "integer" },
+        "name": { "type": "string" }
+      }
+    },
+    "tx": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "to", "data", "hash", "nonce"],
+      "properties": {
+        "from": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
+        "to": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
+        "data": { "type": "string", "pattern": "^0x[a-fA-F0-9]*$" },
+        "hash": { "type": "string", "pattern": "^0x[a-fA-F0-9]{64}$" },
+        "nonce": { "type": "integer" }
+      }
+    },
+    "receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "blockNumber",
+        "blockHash",
+        "transactionIndex",
+        "gasUsed",
+        "effectiveGasPrice",
+        "cumulativeGasUsed",
+        "logsBloom"
+      ],
+      "properties": {
+        "status": { "type": "integer" },
+        "blockNumber": { "type": "integer" },
+        "blockHash": { "type": "string", "pattern": "^0x[a-fA-F0-9]{64}$" },
+        "transactionIndex": { "type": "integer" },
+        "gasUsed": { "type": "string", "pattern": "^[0-9]+$" },
+        "effectiveGasPrice": { "type": "string", "pattern": "^[0-9]+$" },
+        "cumulativeGasUsed": { "type": "string", "pattern": "^[0-9]+$" },
+        "logsBloom": { "type": "string", "pattern": "^0x[a-fA-F0-9]*$" }
+      }
+    },
+    "block": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["timestamp", "timestampISO"],
+      "properties": {
+        "timestamp": { "type": "integer" },
+        "timestampISO": { "type": "string" }
+      }
+    },
+    "contracts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["vesting", "equityToken", "identityRegistry", "policy"],
+      "properties": {
+        "vesting": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
+        "equityToken": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
+        "identityRegistry": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
+        "policy": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" }
+      }
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["beneficiary", "operator", "requestedAmount", "calldataDigest"],
+      "properties": {
+        "beneficiary": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
+        "operator": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
+        "requestedAmount": { "type": "string", "pattern": "^[0-9]+$" },
+        "calldataDigest": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["alg", "value"],
+          "properties": {
+            "alg": { "const": "keccak256" },
+            "value": { "type": "string", "pattern": "^0x[a-fA-F0-9]{64}$" }
+          }
+        }
+      }
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["before", "after", "delta"],
+      "properties": {
+        "before": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["claimed", "releasable", "vested"],
+          "properties": {
+            "claimed": { "type": "string", "pattern": "^[0-9]+$" },
+            "releasable": { "type": "string", "pattern": "^[0-9]+$" },
+            "vested": { "type": "string", "pattern": "^[0-9]+$" }
+          }
+        },
+        "after": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["claimed", "releasable", "vested"],
+          "properties": {
+            "claimed": { "type": "string", "pattern": "^[0-9]+$" },
+            "releasable": { "type": "string", "pattern": "^[0-9]+$" },
+            "vested": { "type": "string", "pattern": "^[0-9]+$" }
+          }
+        },
+        "delta": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["claimedIncrease", "tokensTransferred"],
+          "properties": {
+            "claimedIncrease": { "type": "string", "pattern": "^[0-9]+$" },
+            "tokensTransferred": { "type": "string", "pattern": "^[0-9]+$" }
+          }
+        }
+      }
+    },
+    "events": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decoded", "transferSummary"],
+      "properties": {
+        "decoded": { "type": "array" },
+        "transferSummary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["token", "from", "to", "amount"],
+          "properties": {
+            "token": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
+            "from": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
+            "to": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
+            "amount": { "type": "string", "pattern": "^[0-9]+$" }
+          }
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rules", "checks"],
+      "properties": {
+        "rules": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["deterministicBlockTags"],
+          "properties": {
+            "deterministicBlockTags": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["before", "after"],
+              "properties": {
+                "before": { "const": "blockNumber-1" },
+                "after": { "const": "blockNumber" }
+              }
+            }
+          }
+        },
+        "checks": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["receiptStatus", "claimedIncreased", "transferMatchesDelta"],
+          "properties": {
+            "receiptStatus": { "type": "boolean" },
+            "claimedIncreased": { "type": "boolean" },
+            "transferMatchesDelta": { "type": "boolean" }
+          }
+        }
+      }
+    }
+  }
+}
