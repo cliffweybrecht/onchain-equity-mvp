@@ -1,0 +1,89 @@
+{
+  "block": {
+    "timestamp": 1772594770,
+    "timestampISO": "2026-03-04T03:26:10.000Z"
+  },
+  "chain": {
+    "chainId": 84532,
+    "name": "base-sepolia"
+  },
+  "claim": {
+    "beneficiary": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+    "calldataDigest": {
+      "alg": "keccak256",
+      "value": "0x98242dcaed993e73c679043c727f4f9c69c19b7d7fd36926afff2c6f6496e8a4"
+    },
+    "operator": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
+    "requestedAmount": "0"
+  },
+  "contracts": {
+    "equityToken": "0x2791D08fC94C787e5772Daba3507A68e74BA4B10",
+    "identityRegistry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+    "policy": "0x0000000000000000000000000000000000000000",
+    "vesting": "0xEf444C538769d7626511A4C538d03fFc7e53262B"
+  },
+  "events": {
+    "decoded": [
+      {
+        "amount": "29",
+        "from": "0x0000000000000000000000000000000000000000",
+        "to": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+        "token": "0x2791D08fC94C787e5772Daba3507A68e74BA4B10"
+      }
+    ],
+    "transferSummary": {
+      "amount": "29",
+      "from": "0x0000000000000000000000000000000000000000",
+      "to": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+      "token": "0x2791D08fC94C787e5772Daba3507A68e74BA4B10"
+    }
+  },
+  "receipt": {
+    "blockHash": "0xe648c1d2858492982b38bd861576984490c0a07dbda1ecadd7dc1fbccf9e5307",
+    "blockNumber": 38413241,
+    "cumulativeGasUsed": "867715",
+    "effectiveGasPrice": "6000000",
+    "gasUsed": "69350",
+    "logsBloom": "0x00000000000002008000000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000020000000000000000000000000020000000000008000000000000200200000000000000000000000000000400020000000000000000000800000000000000400000000010000000000000000000000000000000000000008000000000000000020000000000000000000080000000000000200002000000000000000000000000000000000000000000000002000000000000000800000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000000",
+    "status": 1,
+    "transactionIndex": 13
+  },
+  "schema": "claim-receipt-v1",
+  "state": {
+    "after": {
+      "claimed": "30",
+      "releasable": "0",
+      "vested": "30"
+    },
+    "before": {
+      "claimed": "1",
+      "releasable": "0",
+      "vested": "30"
+    },
+    "delta": {
+      "claimedIncrease": "29",
+      "tokensTransferred": "29"
+    }
+  },
+  "tx": {
+    "data": "0x19165587000000000000000000000000f7e66def3745c6642e8bf24c88feb0501d313f72",
+    "from": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
+    "hash": "0x43d6e9d7e309698804485e63459934152ec0ea024a9b8320a664eadd18d843c2",
+    "nonce": 137,
+    "to": "0xEf444C538769d7626511A4C538d03fFc7e53262B"
+  },
+  "type": "claim-receipt",
+  "verification": {
+    "checks": {
+      "claimedIncreasePositive": true,
+      "receiptStatus": true,
+      "transferMatchesClaimedDelta": true
+    },
+    "rules": {
+      "deterministicBlockTags": {
+        "after": "blockNumber",
+        "before": "blockNumber-1"
+      }
+    }
+  }
+}

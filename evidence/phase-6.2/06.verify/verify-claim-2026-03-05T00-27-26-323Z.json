@@ -1,0 +1,24 @@
+{
+  "checks": {
+    "claimedIncreased": true,
+    "receiptStatus": true,
+    "transferMatchesDelta": true
+  },
+  "derived": {
+    "claimedIncrease": "29",
+    "tokensTransferredToBeneficiary": "29",
+    "transferCount": 1
+  },
+  "network": {
+    "chainId": 84532,
+    "name": "Base Sepolia"
+  },
+  "notes": [
+    "Transfer logs derived from on-chain receipt",
+    "Receipt status normalized across viem formats"
+  ],
+  "phase": "phase-6.2",
+  "rpc": "https://sepolia.base.org",
+  "schema": "claim-receipt-verify-v1",
+  "txHash": "0x43d6e9d7e309698804485e63459934152ec0ea024a9b8320a664eadd18d843c2"
+}
