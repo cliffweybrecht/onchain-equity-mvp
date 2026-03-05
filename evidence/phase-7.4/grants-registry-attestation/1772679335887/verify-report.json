@@ -1,0 +1,15 @@
+{
+  "ok": true,
+  "checkedAt": 1772679363,
+  "network": "base-sepolia",
+  "attestationPath": "manifests/grants/registry-attestation.json",
+  "registryPath": "manifests/grants/registry.json",
+  "merkleRootPath": "manifests/grants/merkle-root.json",
+  "computed": {
+    "registryHash": "0x933b30265bfaf3d949cae43f450cd38d9018df8ccb9c6eeeb80fe1705b8752bd",
+    "merkleRoot": "0x2fbcda8966bb426d2aafbf8523f84b4268273a23c83ed810988c74b5a7c86e65",
+    "blockTimestamp": 1772678276,
+    "recoveredAttestor": "0x4C4c66FfDD3Ed28D8CD8447CE441E93D36cC7895"
+  },
+  "problems": []
+}

@@ -1,0 +1,32 @@
+{
+  "generatedAt": "2026-03-05T01:49:30Z",
+  "grants": [
+    {
+      "beneficiary": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+      "cliff": "0",
+      "duration": "31536000",
+      "grantId": "0xfe7e692a333e5b9e81a2a664d4b946b1128bb55d2a73d2e3055d91906415467a",
+      "ledgerHashRef": {
+        "path": "manifests/grants/index.json",
+        "sha256": "f34e8067787ba0a330471c61fcd508d3a3d9acf6a2b0dd684f6e284275f108e0"
+      },
+      "manifestRefs": [
+        {
+          "path": "manifests/grants/0xfe7e692a333e5b9e81a2a664d4b946b1128bb55d2a73d2e3055d91906415467a.json",
+          "sha256": "84bf3305f796798e9276ce9e3d63a0bac800664f2b3ca2a6cdd622a86783f32c"
+        }
+      ],
+      "start": "0",
+      "status": "active",
+      "totalAmount": "1000",
+      "vestingContract": "0xef444c538769d7626511a4c538d03ffc7e53262b"
+    }
+  ],
+  "ledgerRef": {
+    "path": "manifests/grants/index.json",
+    "sha256": "f34e8067787ba0a330471c61fcd508d3a3d9acf6a2b0dd684f6e284275f108e0"
+  },
+  "network": "Base Sepolia",
+  "schema": "grant-registry-v1",
+  "version": 1
+}

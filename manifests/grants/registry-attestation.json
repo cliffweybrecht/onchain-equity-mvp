@@ -1,0 +1,11 @@
+{
+  "$schema": "../../schemas/grant-registry-attestation-v1.schema.json",
+  "schemaVersion": "grant-registry-attestation-v1",
+  "registryHash": "0x933b30265bfaf3d949cae43f450cd38d9018df8ccb9c6eeeb80fe1705b8752bd",
+  "merkleRoot": "0x2fbcda8966bb426d2aafbf8523f84b4268273a23c83ed810988c74b5a7c86e65",
+  "network": "base-sepolia",
+  "blockNumber": 38454994,
+  "timestamp": 1772678276,
+  "attestor": "0x4C4c66FfDD3Ed28D8CD8447CE441E93D36cC7895",
+  "signature": "0x00e0dd2109925e32f39f84aa9926b2220f3b5db2bf27d27a30b8ba993fc5676d0b7d4e0f29887dcd3610ac73491b337f5b92aadabd4d23274d525863c1daf4151b"
+}
