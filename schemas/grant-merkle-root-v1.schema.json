@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/grant-merkle-root-v1.schema.json",
+  "title": "Grant Merkle Root Manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "network",
+    "generatedAt",
+    "registry",
+    "leafEncoding",
+    "leafFields",
+    "leafOrder",
+    "leafHashes",
+    "merkleRoot"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "grant-merkle-root-v1"
+    },
+    "network": {
+      "type": "string"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "registry": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{64}$"
+        }
+      }
+    },
+    "leafEncoding": {
+      "type": "object",
+      "required": ["type", "delimiter", "normalization"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "utf8-pipe-delimited"
+        },
+        "delimiter": {
+          "type": "string",
+          "const": "|"
+        },
+        "normalization": {
+          "type": "object",
+          "required": ["addresses", "numbers"],
+          "additionalProperties": false,
+          "properties": {
+            "addresses": {
+              "type": "string",
+              "const": "lowercase"
+            },
+            "numbers": {
+              "type": "string",
+              "const": "base10-integers"
+            }
+          }
+        }
+      }
+    },
+    "leafFields": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": {
+        "type": "string"
+      },
+      "const": [
+        "grantId",
+        "beneficiary",
+        "vestingContract",
+        "totalAmount",
+        "start",
+        "cliff",
+        "duration",
+        "status"
+      ]
+    },
+    "leafOrder": {
+      "type": "object",
+      "required": ["sortBy", "direction"],
+      "additionalProperties": false,
+      "properties": {
+        "sortBy": {
+          "type": "string",
+          "const": "grantId"
+        },
+        "direction": {
+          "type": "string",
+          "const": "asc"
+        }
+      }
+    },
+    "leafHashes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["grantId", "leafHash"],
+        "additionalProperties": false,
+        "properties": {
+          "grantId": {
+            "type": "string"
+          },
+          "leafHash": {
+            "type": "string",
+            "pattern": "^0x[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "merkleRoot": {
+      "type": "string",
+      "pattern": "^0x[0-9a-f]{64}$"
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

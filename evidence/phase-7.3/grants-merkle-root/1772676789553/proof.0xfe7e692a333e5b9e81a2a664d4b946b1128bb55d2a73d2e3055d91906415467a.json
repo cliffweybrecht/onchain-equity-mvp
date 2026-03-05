@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "grant-merkle-proof-v1",
+  "network": "Base Sepolia",
+  "generatedAt": "2026-03-05T02:13:09.553Z",
+  "registry": {
+    "path": "manifests/grants/registry.json",
+    "sha256": "0x7499f3b9412b8f42e291671a5c0b2f89d5d22c0595b02a298fd2d99fa0ff5fef"
+  },
+  "merkleRoot": "0x2fbcda8966bb426d2aafbf8523f84b4268273a23c83ed810988c74b5a7c86e65",
+  "grantId": "0xfe7e692a333e5b9e81a2a664d4b946b1128bb55d2a73d2e3055d91906415467a",
+  "leafFields": [
+    "grantId",
+    "beneficiary",
+    "vestingContract",
+    "totalAmount",
+    "start",
+    "cliff",
+    "duration",
+    "status"
+  ],
+  "leafEncoding": {
+    "type": "utf8-pipe-delimited",
+    "delimiter": "|",
+    "normalization": {
+      "addresses": "lowercase",
+      "numbers": "base10-integers"
+    }
+  },
+  "leafString": "0xfe7e692a333e5b9e81a2a664d4b946b1128bb55d2a73d2e3055d91906415467a|0xf7e66def3745c6642e8bf24c88feb0501d313f72|0xef444c538769d7626511a4c538d03ffc7e53262b|1000|0|0|31536000|active",
+  "leafHash": "0x2fbcda8966bb426d2aafbf8523f84b4268273a23c83ed810988c74b5a7c86e65",
+  "index": 0,
+  "proof": []
+}
