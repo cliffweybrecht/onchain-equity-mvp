@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "grant-manifest-v1.schema.json",
+  "title": "Grant Manifest V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "id", "payload"],
+  "properties": {
+    "schema": { "type": "string", "const": "grant-manifest-v1" },
+    "id": {
+      "type": "string",
+      "pattern": "^0x[0-9a-fA-F]{64}$",
+      "description": "Deterministic id = sha256Hex(canonStringify(payload))"
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "op",
+        "chainName",
+        "chainId",
+        "rpcHint",
+        "vestingContract",
+        "identityRegistry",
+        "issuer",
+        "employee",
+        "createdAt",
+        "details"
+      ],
+      "properties": {
+        "op": { "type": "string", "enum": ["create", "revoke"] },
+        "chainName": { "type": "string", "enum": ["baseSepolia"] },
+        "chainId": { "type": "integer", "const": 84532 },
+        "rpcHint": { "type": "string" },
+
+        "vestingContract": { "type": "string", "pattern": "^0x[0-9a-fA-F]{40}$" },
+        "identityRegistry": { "type": "string", "pattern": "^0x[0-9a-fA-F]{40}$" },
+
+        "issuer": { "type": "string", "pattern": "^0x[0-9a-fA-F]{40}$" },
+        "employee": { "type": "string", "pattern": "^0x[0-9a-fA-F]{40}$" },
+
+        "createdAt": { "type": "string", "format": "date-time" },
+
+        "grantId": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{64}$",
+          "description": "For revoke ops: the id of the create-manifest being revoked"
+        },
+
+        "details": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["total", "start", "cliff", "duration", "notes"],
+          "properties": {
+            "total": { "type": "string", "pattern": "^[0-9]+$" },
+            "start": { "type": "integer", "minimum": 0 },
+            "cliff": { "type": "integer", "minimum": 0 },
+            "duration": { "type": "integer", "minimum": 1 },
+            "notes": { "type": "string" },
+
+            "revocation": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["status", "reason"],
+              "properties": {
+                "status": { "type": "integer", "enum": [2] },
+                "reason": { "type": "string" }
+              }
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "op": { "const": "create" } } },
+          "then": {
+            "properties": {
+              "details": {
+                "required": ["total", "start", "cliff", "duration", "notes"]
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "op": { "const": "revoke" } } },
+          "then": {
+            "required": ["grantId"],
+            "properties": {
+              "details": {
+                "required": ["revocation"]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

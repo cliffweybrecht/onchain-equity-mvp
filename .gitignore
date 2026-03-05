@@ -29,3 +29,8 @@ archived/
 
 # golden diff artifacts (never commit)
 evidence/**/GOT.*
+
+# legacy local evidence (not committed)
+evidence/phase-6.1.F/
+evidence/phase-6.1.G/
+evidence/phase-6.2/*.json
