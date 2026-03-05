@@ -1,0 +1,16 @@
+{
+  "chainId": 84532,
+  "chainName": "baseSepolia",
+  "contracts": {
+    "identityRegistry": "0x9d6831ccb9d6f971cb648b538448d175650cfea4",
+    "vesting": "0xef444c538769d7626511a4c538d03ffc7e53262b"
+  },
+  "employee": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+  "head": {
+    "blockNumber": 38452666,
+    "blockTimeIso": "2026-03-05T01:20:20.000Z",
+    "blockTimestamp": 1772673620
+  },
+  "issuer": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
+  "rpcUrl": "https://sepolia.base.org"
+}

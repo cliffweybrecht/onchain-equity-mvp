@@ -1,0 +1,6 @@
+{
+  "ledgerPath": "manifests/grants/index.json",
+  "manifestsDir": "manifests/grants",
+  "network": "Base Sepolia",
+  "outPath": "manifests/grants/registry.json"
+}

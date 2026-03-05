@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onchain-equity-mvp/schemas/grant-registry-v1.schema.json",
+  "title": "Grant Registry V1 (Deterministic Snapshot)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "version",
+    "generatedAt",
+    "network",
+    "ledgerRef",
+    "grants"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "grant-registry-v1"
+    },
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "generatedAt": {
+      "type": "string",
+      "description": "ISO8601 timestamp (informational; determinism relies on canonical ordering + hashes)",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "network": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ledgerRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "grants": {
+      "type": "array",
+      "minItems": 0,
+      "items": { "$ref": "#/$defs/grantRegistryEntry" }
+    }
+  },
+  "$defs": {
+    "hexAddress": {
+      "type": "string",
+      "pattern": "^0x[a-fA-F0-9]{40}$"
+    },
+    "hexHash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "uintString": {
+      "type": "string",
+      "pattern": "^[0-9]+$"
+    },
+    "grantRegistryEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "grantId",
+        "beneficiary",
+        "vestingContract",
+        "totalAmount",
+        "start",
+        "cliff",
+        "duration",
+        "status",
+        "manifestRefs",
+        "ledgerHashRef"
+      ],
+      "properties": {
+        "grantId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "beneficiary": { "$ref": "#/$defs/hexAddress" },
+        "vestingContract": { "$ref": "#/$defs/hexAddress" },
+        "totalAmount": { "$ref": "#/$defs/uintString" },
+        "start": { "$ref": "#/$defs/uintString" },
+        "cliff": { "$ref": "#/$defs/uintString" },
+        "duration": { "$ref": "#/$defs/uintString" },
+        "status": {
+          "type": "string",
+          "enum": ["active", "revoked", "unknown"]
+        },
+        "manifestRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "sha256"],
+            "properties": {
+              "path": { "type": "string", "minLength": 1 },
+              "sha256": { "$ref": "#/$defs/hexHash" }
+            }
+          }
+        },
+        "ledgerHashRef": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256"],
+          "properties": {
+            "path": { "type": "string", "minLength": 1 },
+            "sha256": { "$ref": "#/$defs/hexHash" }
+          }
+        }
+      }
+    }
+  }
+}

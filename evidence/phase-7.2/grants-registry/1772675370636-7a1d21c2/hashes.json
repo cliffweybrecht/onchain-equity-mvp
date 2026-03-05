@@ -1,0 +1,12 @@
+{
+  "ledger": {
+    "path": "manifests/grants/index.json",
+    "sha256_canonical_json": "f34e8067787ba0a330471c61fcd508d3a3d9acf6a2b0dd684f6e284275f108e0",
+    "sha256_file_bytes": "b3869b90dcc317cf8018e67bb6b5a915a9989a0a9e918687bd5c5a68cd949668"
+  },
+  "registry": {
+    "path": "manifests/grants/registry.json",
+    "sha256_canonical_json": "933b30265bfaf3d949cae43f450cd38d9018df8ccb9c6eeeb80fe1705b8752bd",
+    "sha256_file_bytes": "7499f3b9412b8f42e291671a5c0b2f89d5d22c0595b02a298fd2d99fa0ff5fef"
+  }
+}
