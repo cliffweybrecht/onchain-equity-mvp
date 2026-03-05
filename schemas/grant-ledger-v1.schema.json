@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://onchain-equity-mvp/schemas/grant-ledger-v1.schema.json",
+  "title": "Grant Ledger V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["ledgerVersion", "schemaVersion", "grants"],
+  "properties": {
+    "ledgerVersion": {
+      "type": "string",
+      "const": "grant-ledger-v1"
+    },
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "grants": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/grantEntry" }
+    }
+  },
+  "$defs": {
+    "manifestRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["manifestId", "kind", "path", "sha256"],
+      "properties": {
+        "manifestId": { "type": "string", "minLength": 1 },
+        "kind": { "type": "string", "enum": ["CREATE", "REVOKE"] },
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "grantEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["grantId", "status", "create", "revoke", "manifests"],
+      "properties": {
+        "grantId": { "type": "string", "minLength": 1 },
+        "status": { "type": "string", "enum": ["ACTIVE", "REVOKED"] },
+        "create": { "$ref": "#/$defs/manifestRef" },
+        "revoke": {
+          "anyOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/manifestRef" }
+          ]
+        },
+        "manifests": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/manifestRef" },
+          "minItems": 1
+        }
+      }
+    }
+  }
+}

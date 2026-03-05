@@ -1,0 +1,2 @@
+[validate-ledger] OK sha256=b3869b90dcc317cf8018e67bb6b5a915a9989a0a9e918687bd5c5a68cd949668
+[validate-ledger] grants=1 manifests_scanned=1
