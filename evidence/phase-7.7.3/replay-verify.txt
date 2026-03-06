@@ -1,0 +1,6 @@
+Loaded packet
+Packet schema: grant-audit-packet-v1
+Manifest path: packet/sha256-manifest.json
+Manifest hash verified: 6106dec0a6cb931c9f6dba949c3290e05e34437fc96c3efb899d3a70e0212849
+Verified 4 manifest entries
+Replay verification successful

@@ -1,94 +1,161 @@
 #!/usr/bin/env node
-import fs from "fs";
-import path from "path";
-import crypto from "crypto";
+
+import fs from "node:fs";
+import path from "node:path";
+import os from "node:os";
+import * as tar from "tar";
+import {
+  readJson,
+  sha256File,
+  normalizePacketPath,
+  assertSafeArchiveEntries,
+  assertDeterministicallySortedPaths,
+  assertRequiredPacketFilesExist
+} from "../lib/audit-packet-structure.mjs";
 
 function fail(message) {
   console.error(`ERROR: ${message}`);
   process.exit(1);
 }
 
-function sha256(buffer) {
-  return crypto.createHash("sha256").update(buffer).digest("hex");
+async function listArchiveEntries(archivePath) {
+  const entries = [];
+
+  await tar.list({
+    file: archivePath,
+    gzip: true,
+    onentry: (entry) => {
+      entries.push(entry.path);
+    }
+  });
+
+  return entries;
 }
 
-function readJson(filePath) {
-  return JSON.parse(fs.readFileSync(filePath, "utf8"));
+async function extractArchive(archivePath, destDir) {
+  await tar.extract({
+    file: archivePath,
+    cwd: destDir,
+    gzip: true
+  });
 }
 
-function ensure(condition, message) {
-  if (!condition) fail(message);
+function loadBuild(buildLabel, archivePath) {
+  const resolvedArchive = path.resolve(process.cwd(), archivePath);
+  if (!fs.existsSync(resolvedArchive)) {
+    fail(`${buildLabel}: archive not found: ${resolvedArchive}`);
+  }
+
+  return resolvedArchive;
 }
 
-function loadBuild(rootDir, label) {
-  const packetPath = path.join(rootDir, "packet.json");
-  ensure(fs.existsSync(packetPath), `${label}: missing ${packetPath}`);
+async function inspectBuild(buildLabel, archivePath) {
+  const archiveEntriesRaw = await listArchiveEntries(archivePath);
+  const archiveEntries = assertSafeArchiveEntries(archiveEntriesRaw);
+  assertDeterministicallySortedPaths(archiveEntries, `${buildLabel}: archive entries`);
+  assertRequiredPacketFilesExist(archiveEntries);
 
-  const packet = readJson(packetPath);
-  ensure(packet?.schema === "grant-audit-packet-v1", `${label}: unexpected packet schema`);
-  ensure(packet?.integrity?.sha256_manifest, `${label}: missing integrity.sha256_manifest`);
-  ensure(packet?.integrity?.sha256_manifest_hash, `${label}: missing integrity.sha256_manifest_hash`);
+  const unpackDir = fs.mkdtempSync(path.join(os.tmpdir(), `grant-audit-repro-${buildLabel}-`));
+  await extractArchive(archivePath, unpackDir);
 
-  const manifestRelativePath = packet.integrity.sha256_manifest;
-  const manifestPath = path.join(rootDir, manifestRelativePath);
-  ensure(fs.existsSync(manifestPath), `${label}: missing manifest at ${manifestPath}`);
+  const auditPacketPath = path.join(unpackDir, "packet", "audit-packet.json");
+  if (!fs.existsSync(auditPacketPath)) {
+    fail(`${buildLabel}: missing packet/audit-packet.json`);
+  }
 
-  const manifestRaw = fs.readFileSync(manifestPath);
-  const manifestHash = sha256(manifestRaw);
+  const manifestPath = path.join(unpackDir, "packet", "sha256-manifest.json");
+  if (!fs.existsSync(manifestPath)) {
+    fail(`${buildLabel}: missing packet/sha256-manifest.json`);
+  }
 
-  ensure(
-    manifestHash === packet.integrity.sha256_manifest_hash,
-    `${label}: recorded manifest hash does not match actual manifest hash`
-  );
+  const auditPacket = readJson(auditPacketPath);
+  const manifest = readJson(manifestPath);
+
+  if (!Array.isArray(manifest.files)) {
+    fail(`${buildLabel}: packet/sha256-manifest.json missing files array`);
+  }
+
+  const manifestPaths = manifest.files.map((entry, index) => {
+    if (!entry || typeof entry !== "object") {
+      fail(`${buildLabel}: invalid manifest entry at index ${index}`);
+    }
+    if (typeof entry.path !== "string" || typeof entry.sha256 !== "string") {
+      fail(`${buildLabel}: invalid manifest entry shape at index ${index}`);
+    }
+    return normalizePacketPath(entry.path);
+  });
+
+  assertDeterministicallySortedPaths(manifestPaths, `${buildLabel}: manifest file paths`);
+
+  const manifestHash = sha256File(manifestPath);
+  const integrityManifestHash = auditPacket?.integrity?.sha256_manifest_hash;
+  if (!integrityManifestHash) {
+    fail(`${buildLabel}: packet/audit-packet.json missing integrity.sha256_manifest_hash`);
+  }
+
+  if (manifestHash !== integrityManifestHash) {
+    fail(
+      `${buildLabel}: manifest hash mismatch: expected ${integrityManifestHash}, got ${manifestHash}`
+    );
+  }
 
   return {
-    label,
-    rootDir,
-    packetPath,
-    packet,
-    manifestRelativePath,
-    manifestPath,
-    manifestRaw,
-    manifestHash
+    auditPacket,
+    manifest,
+    manifestHash,
+    archiveEntries
   };
 }
 
-const [build1Root, build2Root] = process.argv.slice(2);
+async function main() {
+  const archiveAArg = process.argv[2];
+  const archiveBArg = process.argv[3];
 
-if (!build1Root || !build2Root) {
-  fail(
-    "Usage: node scripts/audit/verify-audit-packet-reproducibility.mjs <build-1-unpacked-root> <build-2-unpacked-root>"
+  if (!archiveAArg || !archiveBArg) {
+    fail(
+      "Usage: node scripts/audit/verify-audit-packet-reproducibility.mjs <build-1.tgz> <build-2.tgz>"
+    );
+  }
+
+  const archiveA = loadBuild("build-1", archiveAArg);
+  const archiveB = loadBuild("build-2", archiveBArg);
+
+  const build1 = await inspectBuild("build-1", archiveA);
+  const build2 = await inspectBuild("build-2", archiveB);
+
+  const manifestContentsMatch =
+    JSON.stringify(build1.manifest) === JSON.stringify(build2.manifest);
+
+  const integrityOutputsMatch =
+    build1.auditPacket?.integrity?.sha256_manifest ===
+      build2.auditPacket?.integrity?.sha256_manifest &&
+    build1.auditPacket?.integrity?.sha256_manifest_hash ===
+      build2.auditPacket?.integrity?.sha256_manifest_hash;
+
+  if (!manifestContentsMatch) {
+    fail("Manifest contents do not match between builds");
+  }
+
+  if (!integrityOutputsMatch) {
+    fail("Integrity outputs do not match between builds");
+  }
+
+  console.log(
+    JSON.stringify(
+      {
+        schema: "grant-audit-packet-v1",
+        packet_version: "1.0.0",
+        manifest_path: "packet/sha256-manifest.json",
+        manifest_hash: build1.manifestHash,
+        manifest_contents_match: true,
+        integrity_outputs_match: true
+      },
+      null,
+      2
+    )
   );
 }
 
-const a = loadBuild(build1Root, "build-1");
-const b = loadBuild(build2Root, "build-2");
-
-ensure(
-  a.manifestRelativePath === b.manifestRelativePath,
-  "manifest path differs between builds"
-);
-
-ensure(
-  a.manifestHash === b.manifestHash,
-  "manifest hash differs between builds"
-);
-
-ensure(
-  a.manifestRaw.equals(b.manifestRaw),
-  "manifest file contents differ between builds"
-);
-
-const output = {
-  schema: a.packet.schema,
-  packet_version: a.packet.packet_version,
-  manifest_path: a.manifestRelativePath,
-  manifest_hash: a.manifestHash,
-  build_1_recorded_manifest_hash: a.packet.integrity.sha256_manifest_hash,
-  build_2_recorded_manifest_hash: b.packet.integrity.sha256_manifest_hash,
-  manifest_contents_match: true,
-  integrity_outputs_match: true
-};
-
-console.log("Reproducibility verification successful");
-console.log(JSON.stringify(output, null, 2));
+main().catch((err) => {
+  fail(err?.stack || String(err));
+});

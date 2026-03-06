@@ -1,0 +1,6 @@
+{
+  "ok": true,
+  "schema": "grant-audit-packet-sha256-manifest-v1",
+  "hash_algorithm": "sha256",
+  "file_count": 4
+}

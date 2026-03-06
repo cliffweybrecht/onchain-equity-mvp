@@ -3,8 +3,21 @@
 import fs from "node:fs";
 import path from "node:path";
 import os from "node:os";
-import crypto from "node:crypto";
 import * as tar from "tar";
+import {
+  ensureDir,
+  readJson,
+  writeCanonicalJson,
+  sha256Buffer,
+  sha256File,
+  normalizePacketPath,
+  assertSafeArchiveEntries,
+  assertDeterministicallySortedPaths,
+  assertRequiredPacketFilesExist,
+  assertRequiredSourceFilesExist,
+  collectPacketFiles,
+  buildSha256Manifest
+} from "../../lib/audit-packet-structure.mjs";
 
 function parseArgs(argv) {
   const args = {};
@@ -30,73 +43,26 @@ function requireArg(args, key) {
   return args[key];
 }
 
-function ensureDir(dirPath) {
-  fs.mkdirSync(dirPath, { recursive: true });
-}
-
-function normalizeRel(filePath) {
-  return filePath.split(path.sep).join("/");
-}
-
-function readJson(filePath) {
-  return JSON.parse(fs.readFileSync(filePath, "utf8"));
-}
-
-function writeJson(filePath, value) {
-  ensureDir(path.dirname(filePath));
-  fs.writeFileSync(filePath, JSON.stringify(value, null, 2) + "\n");
-}
-
-function sha256Buffer(buf) {
-  return crypto.createHash("sha256").update(buf).digest("hex");
-}
-
-function sha256File(filePath) {
-  return sha256Buffer(fs.readFileSync(filePath));
-}
-
-function listFilesRecursive(dirPath) {
-  const out = [];
-  for (const entry of fs.readdirSync(dirPath, { withFileTypes: true })) {
-    const fullPath = path.join(dirPath, entry.name);
-    if (entry.isDirectory()) {
-      out.push(...listFilesRecursive(fullPath));
-    } else if (entry.isFile()) {
-      out.push(fullPath);
-    }
-  }
-  return out;
-}
-
 function copyJsonToPacket(srcPath, destPath) {
   const value = readJson(srcPath);
-  writeJson(destPath, value);
+  writeCanonicalJson(destPath, value);
 }
 
-function shouldIncludeInSha256Manifest(relPath) {
-  return relPath !== "packet.json" && relPath !== "packet/sha256-manifest.json";
-}
+function buildManifestFromStagingRoot(stagingRoot) {
+  const packetFiles = collectPacketFiles(stagingRoot);
 
-function buildSha256Manifest(packetRoot) {
-  const allFiles = listFilesRecursive(packetRoot);
-  const files = [];
-
-  for (const fullPath of allFiles) {
-    const relPath = normalizeRel(path.relative(packetRoot, fullPath));
-    if (!shouldIncludeInSha256Manifest(relPath)) continue;
-
-    files.push({
+  const manifestEntries = packetFiles
+    .filter(
+      (relPath) =>
+        relPath !== "packet/sha256-manifest.json" &&
+        relPath !== "packet/audit-packet.json"
+    )
+    .map((relPath) => ({
       path: relPath,
-      sha256: sha256File(fullPath)
-    });
-  }
+      sha256: sha256File(path.join(stagingRoot, relPath))
+    }));
 
-  files.sort((a, b) => a.path.localeCompare(b.path));
-
-  return {
-    schema: "sha256-manifest-v1",
-    files
-  };
+  return buildSha256Manifest(manifestEntries);
 }
 
 async function main() {
@@ -121,9 +87,15 @@ async function main() {
   const merkleRootSrc = requireArg(args, "merkle-root");
   const stateSnapshotSrc = requireArg(args, "state-snapshot");
 
-  const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "grant-audit-packet-"));
-  const packetRoot = tmpRoot;
-  const packetDir = path.join(packetRoot, "packet");
+  assertRequiredSourceFilesExist([
+    grantsLedgerIndexSrc,
+    grantsRegistrySnapshotSrc,
+    merkleRootSrc,
+    stateSnapshotSrc
+  ]);
+
+  const stagingRoot = fs.mkdtempSync(path.join(os.tmpdir(), "grant-audit-packet-"));
+  const packetDir = path.join(stagingRoot, "packet");
   const inputsDir = path.join(packetDir, "inputs");
   const artifactsDir = path.join(packetDir, "artifacts");
 
@@ -147,13 +119,12 @@ async function main() {
     path.join(inputsDir, "grants-state-snapshot.json")
   );
 
-  const packetJsonPath = path.join(packetRoot, "packet.json");
+  const auditPacketPath = path.join(packetDir, "audit-packet.json");
   const sha256ManifestPath = path.join(packetDir, "sha256-manifest.json");
 
-  const packetMetadata = {
+  const auditPacket = {
     schema: "grant-audit-packet-v1",
     packet_version: "1.0.0",
-    created_at: new Date().toISOString(),
     git: {
       repo,
       branch,
@@ -184,29 +155,40 @@ async function main() {
     }
   };
 
-  writeJson(packetJsonPath, packetMetadata);
+  writeCanonicalJson(auditPacketPath, auditPacket);
 
-  const sha256Manifest = buildSha256Manifest(packetRoot);
-  writeJson(sha256ManifestPath, sha256Manifest);
+  const manifest = buildManifestFromStagingRoot(stagingRoot);
+  writeCanonicalJson(sha256ManifestPath, manifest);
 
-  const finalManifestHash = sha256File(sha256ManifestPath);
+  const manifestBytes = fs.readFileSync(sha256ManifestPath);
+  const finalManifestHash = sha256Buffer(manifestBytes);
 
-  packetMetadata.integrity.sha256_manifest_hash = finalManifestHash;
-  writeJson(packetJsonPath, packetMetadata);
+  auditPacket.integrity.sha256_manifest_hash = finalManifestHash;
+  writeCanonicalJson(auditPacketPath, auditPacket);
+
+  const archiveEntries = collectPacketFiles(stagingRoot).map((entry) =>
+    normalizePacketPath(entry)
+  );
+
+  assertSafeArchiveEntries(archiveEntries);
+  assertDeterministicallySortedPaths(archiveEntries, "archive entries");
+  assertRequiredPacketFilesExist(archiveEntries);
 
   const outputPath = path.resolve(process.cwd(), outFile);
 
   await tar.create(
     {
       gzip: true,
-      cwd: packetRoot,
-      file: outputPath
+      cwd: stagingRoot,
+      file: outputPath,
+      portable: true,
+      noMtime: true
     },
-    ["packet.json", "packet"]
+    archiveEntries
   );
 
   console.log(`Built audit packet: ${outputPath}`);
-  console.log(`Manifest: packet/sha256-manifest.json`);
+  console.log("Manifest: packet/sha256-manifest.json");
   console.log(`Manifest hash: ${finalManifestHash}`);
 }
 
