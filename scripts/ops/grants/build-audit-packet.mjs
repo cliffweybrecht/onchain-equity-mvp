@@ -1,237 +1,217 @@
 #!/usr/bin/env node
+
 import fs from "node:fs";
 import path from "node:path";
+import os from "node:os";
 import crypto from "node:crypto";
-
-function die(msg) {
-  console.error("\n[build-audit-packet] ERROR: " + msg + "\n");
-  process.exit(1);
-}
+import * as tar from "tar";
 
 function parseArgs(argv) {
-  const out = {};
-  for (let i = 2; i < argv.length; i++) {
-    const a = argv[i];
-    if (!a.startsWith("--")) continue;
-    const k = a.slice(2);
-    const v = argv[i + 1];
-    if (!v || v.startsWith("--")) {
-      out[k] = true;
+  const args = {};
+  for (let i = 2; i < argv.length; i += 1) {
+    const token = argv[i];
+    if (!token.startsWith("--")) continue;
+    const key = token.slice(2);
+    const next = argv[i + 1];
+    if (!next || next.startsWith("--")) {
+      args[key] = true;
     } else {
-      out[k] = v;
-      i++;
+      args[key] = next;
+      i += 1;
+    }
+  }
+  return args;
+}
+
+function requireArg(args, key) {
+  if (!args[key]) {
+    throw new Error(`Missing required --${key}`);
+  }
+  return args[key];
+}
+
+function ensureDir(dirPath) {
+  fs.mkdirSync(dirPath, { recursive: true });
+}
+
+function normalizeRel(filePath) {
+  return filePath.split(path.sep).join("/");
+}
+
+function readJson(filePath) {
+  return JSON.parse(fs.readFileSync(filePath, "utf8"));
+}
+
+function writeJson(filePath, value) {
+  ensureDir(path.dirname(filePath));
+  fs.writeFileSync(filePath, JSON.stringify(value, null, 2) + "\n");
+}
+
+function sha256Buffer(buf) {
+  return crypto.createHash("sha256").update(buf).digest("hex");
+}
+
+function sha256File(filePath) {
+  return sha256Buffer(fs.readFileSync(filePath));
+}
+
+function listFilesRecursive(dirPath) {
+  const out = [];
+  for (const entry of fs.readdirSync(dirPath, { withFileTypes: true })) {
+    const fullPath = path.join(dirPath, entry.name);
+    if (entry.isDirectory()) {
+      out.push(...listFilesRecursive(fullPath));
+    } else if (entry.isFile()) {
+      out.push(fullPath);
     }
   }
   return out;
 }
 
-function stableStringify(x) {
-  if (x === null || typeof x !== "object") return JSON.stringify(x);
+function copyJsonToPacket(srcPath, destPath) {
+  const value = readJson(srcPath);
+  writeJson(destPath, value);
+}
 
-  if (Array.isArray(x)) {
-    return "[" + x.map(stableStringify).join(",") + "]";
+function shouldIncludeInSha256Manifest(relPath) {
+  return relPath !== "packet.json" && relPath !== "packet/sha256-manifest.json";
+}
+
+function buildSha256Manifest(packetRoot) {
+  const allFiles = listFilesRecursive(packetRoot);
+  const files = [];
+
+  for (const fullPath of allFiles) {
+    const relPath = normalizeRel(path.relative(packetRoot, fullPath));
+    if (!shouldIncludeInSha256Manifest(relPath)) continue;
+
+    files.push({
+      path: relPath,
+      sha256: sha256File(fullPath)
+    });
   }
 
-  const keys = Object.keys(x).sort();
-  const parts = [];
-
-  for (const k of keys) {
-    parts.push(JSON.stringify(k) + ":" + stableStringify(x[k]));
-  }
-
-  return "{" + parts.join(",") + "}";
-}
-
-function sha256(buf) {
-  return crypto.createHash("sha256").update(buf).digest("hex");
-}
-
-function sha256File(abs) {
-  return sha256(fs.readFileSync(abs));
-}
-
-function ensureExists(abs, label) {
-  if (!fs.existsSync(abs)) {
-    die("Missing " + label + ": " + abs);
-  }
-}
-
-function walkFiles(absDir) {
-  const out = [];
-  const stack = [absDir];
-
-  while (stack.length) {
-    const d = stack.pop();
-
-    for (const ent of fs.readdirSync(d, { withFileTypes: true })) {
-      const abs = path.join(d, ent.name);
-
-      if (ent.isDirectory()) stack.push(abs);
-      else if (ent.isFile()) out.push(abs);
-    }
-  }
-
-  return out.sort();
-}
-
-function toPosix(p) {
-  return p.split(path.sep).join("/");
-}
-
-function writeJson(absPath, obj) {
-  fs.writeFileSync(absPath, stableStringify(obj) + "\n");
-}
-
-function copyFile(srcAbs, dstAbs) {
-  fs.mkdirSync(path.dirname(dstAbs), { recursive: true });
-  fs.copyFileSync(srcAbs, dstAbs);
-}
-
-const args = parseArgs(process.argv);
-
-const required = [
-  "out",
-  "ledger",
-  "registry",
-  "merkle",
-  "state",
-  "chainId",
-  "network",
-  "repo",
-  "branch",
-  "commit"
-];
-
-for (const k of required) {
-  if (!args[k]) die("Missing --" + k);
-}
-
-const chainId = Number(args.chainId);
-
-if (!Number.isFinite(chainId) || chainId <= 0) {
-  die("Invalid --chainId: " + args.chainId);
-}
-
-const rootAbs = process.cwd();
-
-const outBaseAbs = path.resolve(rootAbs, args.out);
-
-const ts = String(Date.now());
-
-const packetRootAbs = path.join(outBaseAbs, ts);
-const packetDirAbs = path.join(packetRootAbs, "packet");
-const inputsAbs = path.join(packetDirAbs, "inputs");
-
-fs.mkdirSync(inputsAbs, { recursive: true });
-
-const inLedgerAbs = path.resolve(rootAbs, args.ledger);
-const inRegistryAbs = path.resolve(rootAbs, args.registry);
-const inMerkleAbs = path.resolve(rootAbs, args.merkle);
-const inStateAbs = path.resolve(rootAbs, args.state);
-
-ensureExists(inLedgerAbs, "ledger index");
-ensureExists(inRegistryAbs, "registry snapshot");
-ensureExists(inMerkleAbs, "merkle root");
-ensureExists(inStateAbs, "state snapshot");
-
-copyFile(inLedgerAbs, path.join(inputsAbs, "grants-index.json"));
-copyFile(inRegistryAbs, path.join(inputsAbs, "grants-registry-snapshot.json"));
-copyFile(inMerkleAbs, path.join(inputsAbs, "grants-merkle-root.json"));
-copyFile(inStateAbs, path.join(inputsAbs, "grants-state-snapshot.json"));
-
-fs.writeFileSync(
-  path.join(packetDirAbs, "README.md"),
-  [
-    "# Grant Audit Packet (Phase 7.6)",
-    "",
-    "Self-contained audit packet.",
-    "",
-    "Files:",
-    "- packet.json",
-    "- sha256-manifest.json",
-    "- inputs/",
-    ""
-  ].join("\n")
-);
-
-const packetJsonAbs = path.join(packetDirAbs, "packet.json");
-
-const packet = {
-  schema: "grant-audit-packet-v1",
-  packet_version: "1.0.0",
-  created_at: new Date().toISOString(),
-  git: {
-    repo: args.repo,
-    branch: args.branch,
-    commit: args.commit
-  },
-  network: {
-    name: args.network,
-    chain_id: chainId,
-    rpc_hint: args.rpcHint || ""
-  },
-  contracts: {},
-  inputs: {
-    grants_ledger_index: "packet/inputs/grants-index.json",
-    grants_registry_snapshot: "packet/inputs/grants-registry-snapshot.json",
-    merkle_root: "packet/inputs/grants-merkle-root.json",
-    state_snapshot: "packet/inputs/grants-state-snapshot.json"
-  },
-  artifacts: {
-    verifications: [],
-    notes: [
-      "Self-contained audit packet",
-      "Integrity verified by sha256 manifest"
-    ]
-  },
-  integrity: {
-    sha256_manifest: "packet/sha256-manifest.json",
-    sha256_manifest_hash: ""
-  }
-};
-
-writeJson(packetJsonAbs, packet);
-
-const manifestAbs = path.join(packetDirAbs, "sha256-manifest.json");
-
-function computeManifest() {
-  const files = walkFiles(packetDirAbs).filter(
-    (abs) => !abs.endsWith("sha256-manifest.json")
-  );
+  files.sort((a, b) => a.path.localeCompare(b.path));
 
   return {
     schema: "sha256-manifest-v1",
-    created_at: new Date().toISOString(),
-    root: "packet/",
-    files: files.map((abs) => ({
-      path: "packet/" + toPosix(path.relative(packetDirAbs, abs)),
-      sha256: sha256File(abs)
-    }))
+    generated_at: new Date().toISOString(),
+    files
   };
 }
 
-const manifest1 = computeManifest();
-writeJson(manifestAbs, manifest1);
+async function main() {
+  const args = parseArgs(process.argv);
 
-const manifestHash = sha256File(manifestAbs);
+  const repo = requireArg(args, "repo");
+  const branch = requireArg(args, "branch");
+  const commit = requireArg(args, "commit");
+  const network = requireArg(args, "network");
 
-const packet2 = JSON.parse(fs.readFileSync(packetJsonAbs, "utf8"));
-packet2.integrity.sha256_manifest_hash = manifestHash;
+  const outFile = args.out || "grant-audit-packet.tgz";
+  const chainId =
+    args["chain-id"] != null
+      ? Number(args["chain-id"])
+      : args.chainId != null
+        ? Number(args.chainId)
+        : 84532;
+  const rpcHint = args["rpc-hint"] || args.rpcHint || "";
 
-writeJson(packetJsonAbs, packet2);
+  const grantsLedgerIndexSrc = requireArg(args, "grants-ledger-index");
+  const grantsRegistrySnapshotSrc = requireArg(args, "grants-registry-snapshot");
+  const merkleRootSrc = requireArg(args, "merkle-root");
+  const stateSnapshotSrc = requireArg(args, "state-snapshot");
 
-const manifest2 = computeManifest();
-manifest2.created_at = manifest1.created_at;
+  const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "grant-audit-packet-"));
+  const packetRoot = tmpRoot;
+  const packetDir = path.join(packetRoot, "packet");
+  const inputsDir = path.join(packetDir, "inputs");
+  const artifactsDir = path.join(packetDir, "artifacts");
 
-writeJson(manifestAbs, manifest2);
+  ensureDir(inputsDir);
+  ensureDir(artifactsDir);
 
-const relPacketRoot = path.relative(rootAbs, packetRootAbs);
-const relPacketJson = path.relative(rootAbs, packetJsonAbs);
-const relManifest = path.relative(rootAbs, manifestAbs);
+  copyJsonToPacket(
+    grantsLedgerIndexSrc,
+    path.join(inputsDir, "grants-index.json")
+  );
+  copyJsonToPacket(
+    grantsRegistrySnapshotSrc,
+    path.join(inputsDir, "grants-registry-snapshot.json")
+  );
+  copyJsonToPacket(
+    merkleRootSrc,
+    path.join(inputsDir, "grants-merkle-root.json")
+  );
+  copyJsonToPacket(
+    stateSnapshotSrc,
+    path.join(inputsDir, "grants-state-snapshot.json")
+  );
 
-console.log("");
-console.log("[build-audit-packet] OK");
-console.log("[build-audit-packet] Wrote: " + relPacketRoot);
-console.log("[build-audit-packet] Packet: " + relPacketJson);
-console.log("[build-audit-packet] Manifest: " + relManifest);
-console.log("");
+  const packetJsonPath = path.join(packetRoot, "packet.json");
+  const sha256ManifestPath = path.join(packetDir, "sha256-manifest.json");
+
+  const packetMetadata = {
+    schema: "grant-audit-packet-v1",
+    packet_version: "1.0.0",
+    created_at: new Date().toISOString(),
+    git: {
+      repo,
+      branch,
+      commit
+    },
+    network: {
+      name: network,
+      chain_id: chainId,
+      rpc_hint: rpcHint
+    },
+    contracts: {},
+    inputs: {
+      grants_ledger_index: "packet/inputs/grants-index.json",
+      grants_registry_snapshot: "packet/inputs/grants-registry-snapshot.json",
+      merkle_root: "packet/inputs/grants-merkle-root.json",
+      state_snapshot: "packet/inputs/grants-state-snapshot.json"
+    },
+    artifacts: {
+      verifications: [],
+      notes: [
+        "Self-contained audit packet",
+        "Integrity verified by sha256 manifest"
+      ]
+    },
+    integrity: {
+      sha256_manifest: "packet/sha256-manifest.json",
+      sha256_manifest_hash: ""
+    }
+  };
+
+  writeJson(packetJsonPath, packetMetadata);
+
+  const sha256Manifest = buildSha256Manifest(packetRoot);
+  writeJson(sha256ManifestPath, sha256Manifest);
+
+  const finalManifestHash = sha256File(sha256ManifestPath);
+
+  packetMetadata.integrity.sha256_manifest_hash = finalManifestHash;
+  writeJson(packetJsonPath, packetMetadata);
+
+  const outputPath = path.resolve(process.cwd(), outFile);
+
+  await tar.create(
+    {
+      gzip: true,
+      cwd: packetRoot,
+      file: outputPath
+    },
+    ["packet.json", "packet"]
+  );
+
+  console.log(`Built audit packet: ${outputPath}`);
+  console.log(`Manifest: packet/sha256-manifest.json`);
+  console.log(`Manifest hash: ${finalManifestHash}`);
+}
+
+main().catch((err) => {
+  console.error(err?.stack || String(err));
+  process.exit(1);
+});
