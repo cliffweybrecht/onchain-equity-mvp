@@ -1,0 +1,16 @@
+
+> contracts@1.0.0 verify:audit-packet-signature
+> node scripts/audit/verify-audit-packet-signature.mjs grant-audit-packet.tgz evidence/phase-7.8/signature.json --expected-key-id audit-signer-dev --expected-public-key keys/audit-signer-ed25519-public.pem
+
+Signature verification successful
+{
+  "ok": true,
+  "schema": "grant-audit-packet-signature-v1",
+  "signature_algorithm": "ed25519",
+  "signer_key_id": "audit-signer-dev",
+  "packet_manifest_hash": "aa6b4994839c8a90c81e982c3174f6f52f9f3e1036524508af1e401e6b2a8209",
+  "signed_at": "2026-03-06T04:22:03.528Z",
+  "signature_verified": true,
+  "packet_integrity_verified": true,
+  "signer_provenance_verified": true
+}

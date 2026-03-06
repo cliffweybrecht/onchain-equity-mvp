@@ -2,6 +2,10 @@
   "name": "contracts",
   "version": "1.0.0",
   "type": "module",
+  "scripts": {
+    "sign:audit-packet": "node scripts/ops/grants/sign-audit-packet.mjs",
+    "verify:audit-packet-signature": "node scripts/audit/verify-audit-packet-signature.mjs"
+  },
   "devDependencies": {
     "@nomicfoundation/hardhat-ethers": "^4.0.3",
     "@nomicfoundation/hardhat-verify": "^3.0.8",
