@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Grant State Snapshot v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "createdAt", "network", "chainId", "blockNumber", "registry", "grants"],
+  "properties": {
+    "version": { "type": "string", "enum": ["grant-state-snapshot-v1"] },
+    "createdAt": { "type": "string", "minLength": 10 },
+    "network": { "type": "string", "minLength": 1 },
+    "chainId": { "type": "integer" },
+    "blockNumber": { "type": "integer", "minimum": 0 },
+    "registry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["address"],
+      "properties": {
+        "address": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
+        "attestation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["present"],
+          "properties": {
+            "present": { "type": "boolean" },
+            "sha256": { "type": "string" }
+          }
+        }
+      }
+    },
+    "inputs": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "grants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["grantId", "beneficiary", "state"],
+        "properties": {
+          "grantId": { "type": "string", "minLength": 1 },
+          "beneficiary": { "type": "string", "pattern": "^0x[a-fA-F0-9]{40}$" },
+          "state": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+    },
+    "sha256": { "type": "string" }
+  }
+}
