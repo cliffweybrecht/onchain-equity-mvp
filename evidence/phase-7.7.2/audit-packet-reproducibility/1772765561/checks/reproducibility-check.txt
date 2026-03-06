@@ -1,0 +1,11 @@
+Reproducibility verification successful
+{
+  "schema": "grant-audit-packet-v1",
+  "packet_version": "1.0.0",
+  "manifest_path": "packet/sha256-manifest.json",
+  "manifest_hash": "2c372870b4bbf88c3ab05400bf0d257acf330f375e4f18d1df5fec9ec7247136",
+  "build_1_recorded_manifest_hash": "2c372870b4bbf88c3ab05400bf0d257acf330f375e4f18d1df5fec9ec7247136",
+  "build_2_recorded_manifest_hash": "2c372870b4bbf88c3ab05400bf0d257acf330f375e4f18d1df5fec9ec7247136",
+  "manifest_contents_match": true,
+  "integrity_outputs_match": true
+}

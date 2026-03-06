@@ -1,0 +1,21 @@
+{
+  "schema": "sha256-manifest-v1",
+  "files": [
+    {
+      "path": "packet/inputs/grants-index.json",
+      "sha256": "b71b265931b06c93ad0441a68d3cfd1081c4ab932da3d4393ffb9ef787bf62ce"
+    },
+    {
+      "path": "packet/inputs/grants-merkle-root.json",
+      "sha256": "2f86db55de594cd18195d13ef27cf8c4efaf08cb5fbd9ee6a0ff01b45840b85c"
+    },
+    {
+      "path": "packet/inputs/grants-registry-snapshot.json",
+      "sha256": "7499f3b9412b8f42e291671a5c0b2f89d5d22c0595b02a298fd2d99fa0ff5fef"
+    },
+    {
+      "path": "packet/inputs/grants-state-snapshot.json",
+      "sha256": "f04ae12f59ec928e220e2677f302d35e1610288319b688d8e11f07166c938d7b"
+    }
+  ]
+}

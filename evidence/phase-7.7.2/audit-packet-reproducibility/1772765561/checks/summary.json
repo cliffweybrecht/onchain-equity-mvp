@@ -1,0 +1,13 @@
+{
+  "phase": "7.7.2",
+  "title": "Deterministic Audit Packet Reproducibility",
+  "commit": "c4775a4",
+  "schema": "grant-audit-packet-v1",
+  "packet_version": "1.0.0",
+  "manifest_path": "packet/sha256-manifest.json",
+  "build_1_manifest_hash": "2c372870b4bbf88c3ab05400bf0d257acf330f375e4f18d1df5fec9ec7247136",
+  "build_2_manifest_hash": "2c372870b4bbf88c3ab05400bf0d257acf330f375e4f18d1df5fec9ec7247136",
+  "manifest_contents_match": true,
+  "replay_build_1": "pass",
+  "replay_build_2": "pass"
+}

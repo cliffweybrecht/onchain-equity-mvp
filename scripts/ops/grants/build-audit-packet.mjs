@@ -95,7 +95,6 @@ function buildSha256Manifest(packetRoot) {
 
   return {
     schema: "sha256-manifest-v1",
-    generated_at: new Date().toISOString(),
     files
   };
 }
@@ -108,7 +107,7 @@ async function main() {
   const commit = requireArg(args, "commit");
   const network = requireArg(args, "network");
 
-  const outFile = args.out || "grant-audit-packet.tgz";
+  const outFile = args.output || args.out || "grant-audit-packet.tgz";
   const chainId =
     args["chain-id"] != null
       ? Number(args["chain-id"])

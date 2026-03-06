@@ -1,0 +1,2 @@
+PASS: integrity.sha256_manifest_hash matches exactly
+2c372870b4bbf88c3ab05400bf0d257acf330f375e4f18d1df5fec9ec7247136

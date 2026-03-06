@@ -1,0 +1,33 @@
+{
+  "schema": "grant-audit-packet-v1",
+  "packet_version": "1.0.0",
+  "created_at": "2026-03-06T03:12:10.469Z",
+  "git": {
+    "repo": "cliffweybrecht/onchain-equity-mvp",
+    "branch": "main",
+    "commit": "c4775a4"
+  },
+  "network": {
+    "name": "base-sepolia",
+    "chain_id": 84532,
+    "rpc_hint": ""
+  },
+  "contracts": {},
+  "inputs": {
+    "grants_ledger_index": "packet/inputs/grants-index.json",
+    "grants_registry_snapshot": "packet/inputs/grants-registry-snapshot.json",
+    "merkle_root": "packet/inputs/grants-merkle-root.json",
+    "state_snapshot": "packet/inputs/grants-state-snapshot.json"
+  },
+  "artifacts": {
+    "verifications": [],
+    "notes": [
+      "Self-contained audit packet",
+      "Integrity verified by sha256 manifest"
+    ]
+  },
+  "integrity": {
+    "sha256_manifest": "packet/sha256-manifest.json",
+    "sha256_manifest_hash": "2c372870b4bbf88c3ab05400bf0d257acf330f375e4f18d1df5fec9ec7247136"
+  }
+}

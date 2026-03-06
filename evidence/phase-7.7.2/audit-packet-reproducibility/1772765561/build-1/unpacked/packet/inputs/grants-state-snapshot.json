@@ -1,0 +1,26 @@
+{
+  "blockNumber": 38454994,
+  "chainId": 84532,
+  "createdAt": "2026-03-06T00:37:18.028Z",
+  "grants": [
+    {
+      "beneficiary": "0xf7e66def3745c6642e8bf24c88feb0501d313f72",
+      "grantId": "0xfe7e692a333e5b9e81a2a664d4b946b1128bb55d2a73d2e3055d91906415467a",
+      "sourceFile": "/home/cliff/onchain-equity-mvp/contracts/manifests/grants/registry.json",
+      "state": {
+        "beneficiary": "0xf7e66def3745c6642e8bf24c88feb0501d313f72",
+        "verified": true
+      }
+    }
+  ],
+  "inputs": {
+    "blockNumber": "38454994",
+    "manifestsGrantsIndex": "manifests/grants/index.json"
+  },
+  "network": "base-sepolia",
+  "registry": {
+    "address": "0x9d6831ccb9d6f971cb648b538448d175650cfea4"
+  },
+  "version": "grant-state-snapshot-v1",
+  "sha256": "94be926c96e0af5d3df7c7bc116a5ca9982a0c663fee7d849cfd3b45372c1e9e"
+}
