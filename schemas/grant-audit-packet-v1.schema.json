@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "grant-audit-packet-v1.schema.json",
+  "title": "Grant Audit Packet V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "packet_version",
+    "created_at",
+    "git",
+    "network",
+    "contracts",
+    "inputs",
+    "artifacts",
+    "integrity"
+  ],
+  "properties": {
+    "schema": { "type": "string", "const": "grant-audit-packet-v1" },
+    "packet_version": { "type": "string", "pattern": "^1\\.0\\.0$" },
+    "created_at": { "type": "string" },
+
+    "git": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repo", "branch", "commit"],
+      "properties": {
+        "repo": { "type": "string" },
+        "branch": { "type": "string" },
+        "commit": { "type": "string" }
+      }
+    },
+
+    "network": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "chain_id"],
+      "properties": {
+        "name": { "type": "string" },
+        "chain_id": { "type": "integer" },
+        "rpc_hint": { "type": "string" }
+      }
+    },
+
+    "contracts": {
+      "type": "object",
+      "additionalProperties": true
+    },
+
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "grants_ledger_index",
+        "grants_registry_snapshot",
+        "merkle_root",
+        "state_snapshot"
+      ],
+      "properties": {
+        "grants_ledger_index": { "type": "string" },
+        "grants_registry_snapshot": { "type": "string" },
+        "merkle_root": { "type": "string" },
+        "state_snapshot": { "type": "string" }
+      }
+    },
+
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["verifications", "notes"],
+      "properties": {
+        "verifications": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "notes": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sha256_manifest", "sha256_manifest_hash"],
+      "properties": {
+        "sha256_manifest": { "type": "string" },
+        "sha256_manifest_hash": { "type": "string" }
+      }
+    }
+  }
+}
