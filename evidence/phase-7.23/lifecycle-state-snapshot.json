@@ -1,0 +1,42 @@
+{
+  "artifact_type": "grant-audit-lifecycle-state-snapshot",
+  "canonicalization": {
+    "algorithm": "recursive-key-sorted-canonical-json",
+    "hash_algorithm": "sha256"
+  },
+  "derivation_rules": {
+    "forward_compatibility": "Unknown future event types do not break verification so long as normalized deltas and required lineage/trust bindings remain present; unrecognized event types fall back to totals-driven state resolution.",
+    "state_resolution_model": "Resolve current_state from latest event type and normalized totals: cancellation => cancelled; forfeiture => forfeited; exercise with zero balance => exercised_out; vesting or positive balance => active; otherwise unknown.",
+    "totals_model": "Replay ordered transition chain entries; accumulate vested/exercised/cancelled/forfeited integer deltas; compute current_balance = total_vested - total_exercised - total_cancelled - total_forfeited."
+  },
+  "grant_id": "GRANT-2026-0001",
+  "latest_event": {
+    "event_id": "GRANT-2026-0001-vesting-0001",
+    "event_type": "vesting"
+  },
+  "schema_version": "v1",
+  "snapshot_bindings": {
+    "chain_root": "c347155fd55f240bc44b51e740f4e8a62298c6c647104debf76c82f172d4fa06",
+    "head_chain_entry_hash": "e02eff6d1a0a23269f1285e80f786c99062bba0a00b66169866d7a3b04f859eb",
+    "lifecycle_lineage_hash": "3f6af96cf6977059b12f1181317b794569ae0cc93555814af7630700224d9e86",
+    "trust_chain_hash": "c63c62bae033514b457c8c6b11f9438f85fa9b4cca3e0d748290407147dd252f"
+  },
+  "snapshot_hash": "47da9b5162c4ad7f034d4ded2a76122f3f19207400da4a580892115312c1ecbf",
+  "source_transition_chain": {
+    "chain_root": "c347155fd55f240bc44b51e740f4e8a62298c6c647104debf76c82f172d4fa06",
+    "entry_count": 1,
+    "head_chain_entry_hash": "e02eff6d1a0a23269f1285e80f786c99062bba0a00b66169866d7a3b04f859eb",
+    "manifest_path": "manifests/grants/lifecycle-transition-chain.json"
+  },
+  "state": {
+    "current_balance": "0",
+    "current_state": "active",
+    "grant_id": "GRANT-2026-0001",
+    "latest_event_id": "GRANT-2026-0001-vesting-0001",
+    "latest_event_type": "vesting",
+    "total_cancelled": "0",
+    "total_exercised": "0",
+    "total_forfeited": "0",
+    "total_vested": "0"
+  }
+}

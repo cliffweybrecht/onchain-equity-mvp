@@ -1,0 +1,18 @@
+{
+  "verified": true,
+  "grant_id": "GRANT-2026-0001",
+  "entry_count": 1,
+  "latest_event_id": "GRANT-2026-0001-vesting-0001",
+  "latest_event_type": "vesting",
+  "current_state": "active",
+  "total_vested": "0",
+  "total_exercised": "0",
+  "total_cancelled": "0",
+  "total_forfeited": "0",
+  "current_balance": "0",
+  "head_chain_entry_hash": "e02eff6d1a0a23269f1285e80f786c99062bba0a00b66169866d7a3b04f859eb",
+  "chain_root": "c347155fd55f240bc44b51e740f4e8a62298c6c647104debf76c82f172d4fa06",
+  "lifecycle_lineage_hash": "3f6af96cf6977059b12f1181317b794569ae0cc93555814af7630700224d9e86",
+  "trust_chain_hash": "c63c62bae033514b457c8c6b11f9438f85fa9b4cca3e0d748290407147dd252f",
+  "snapshot_hash": "47da9b5162c4ad7f034d4ded2a76122f3f19207400da4a580892115312c1ecbf"
+}

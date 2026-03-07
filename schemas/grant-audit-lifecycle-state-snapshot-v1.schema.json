@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/grant-audit-lifecycle-state-snapshot-v1.schema.json",
+  "title": "Grant Audit Lifecycle State Snapshot v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "schema_version",
+    "grant_id",
+    "source_transition_chain",
+    "snapshot_bindings",
+    "latest_event",
+    "state",
+    "canonicalization",
+    "snapshot_hash"
+  ],
+  "properties": {
+    "artifact_type": {
+      "const": "grant-audit-lifecycle-state-snapshot"
+    },
+    "schema_version": {
+      "const": "v1"
+    },
+    "grant_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_transition_chain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "manifest_path",
+        "entry_count",
+        "chain_root",
+        "head_chain_entry_hash"
+      ],
+      "properties": {
+        "manifest_path": {
+          "type": "string"
+        },
+        "entry_count": {
+          "type": "integer"
+        },
+        "chain_root": {
+          "type": "string"
+        },
+        "head_chain_entry_hash": {
+          "type": "string"
+        }
+      }
+    },
+    "snapshot_bindings": {
+      "type": "object",
+      "required": [
+        "chain_root",
+        "head_chain_entry_hash",
+        "lifecycle_lineage_hash",
+        "trust_chain_hash"
+      ],
+      "properties": {
+        "chain_root": {
+          "type": "string"
+        },
+        "head_chain_entry_hash": {
+          "type": "string"
+        },
+        "lifecycle_lineage_hash": {
+          "type": "string"
+        },
+        "trust_chain_hash": {
+          "type": "string"
+        }
+      }
+    },
+    "latest_event": {
+      "type": "object",
+      "required": [
+        "event_id",
+        "event_type"
+      ],
+      "properties": {
+        "event_id": {
+          "type": "string"
+        },
+        "event_type": {
+          "type": "string"
+        }
+      }
+    },
+    "state": {
+      "type": "object",
+      "required": [
+        "grant_id",
+        "current_state",
+        "latest_event_id",
+        "latest_event_type",
+        "total_vested",
+        "total_exercised",
+        "total_cancelled",
+        "total_forfeited",
+        "current_balance"
+      ],
+      "properties": {
+        "grant_id": { "type": "string" },
+        "current_state": { "type": "string" },
+        "latest_event_id": { "type": "string" },
+        "latest_event_type": { "type": "string" },
+        "total_vested": { "type": "string" },
+        "total_exercised": { "type": "string" },
+        "total_cancelled": { "type": "string" },
+        "total_forfeited": { "type": "string" },
+        "current_balance": { "type": "string" }
+      }
+    },
+    "canonicalization": {
+      "type": "object",
+      "required": [
+        "algorithm",
+        "hash_algorithm"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "recursive-key-sorted-canonical-json"
+        },
+        "hash_algorithm": {
+          "const": "sha256"
+        }
+      }
+    },
+    "snapshot_hash": {
+      "type": "string"
+    }
+  }
+}
