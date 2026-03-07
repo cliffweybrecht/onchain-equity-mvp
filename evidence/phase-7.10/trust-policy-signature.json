@@ -1,0 +1,10 @@
+{
+  "schema": "grant-audit-trust-policy-signature-v1",
+  "algorithm": "Ed25519",
+  "signer_key_id": "audit-signer-dev",
+  "signed_at": "2026-03-07T01:17:03.337Z",
+  "packet_manifest_hash": "aa6b4994839c8a90c81e982c3174f6f52f9f3e1036524508af1e401e6b2a8209",
+  "trust_policy_sha256": "e7cf24f761e92af0800d1940ae20461e6e0200a489800243774883c47e0704a8",
+  "trust_policy_path": "evidence/phase-7.9/trust-policy.json",
+  "signature_base64": "2X8HmzyV/Pqb7t2VL7pt0008WbKH+6jJUcu/EHo+wb0WpYMeCQnwS/ivCeBZ9Qf5tzCShb9UUJtyAoh/PE/gDA=="
+}

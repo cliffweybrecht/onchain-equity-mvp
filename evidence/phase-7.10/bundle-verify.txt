@@ -1,0 +1,32 @@
+{
+  "ok": true,
+  "schema": "grant-audit-attestation-bundle-integrity-verification-v1",
+  "packet_manifest_hash": "aa6b4994839c8a90c81e982c3174f6f52f9f3e1036524508af1e401e6b2a8209",
+  "signed_trust_policy_verified": true,
+  "trust_policy_signer_key_id": "audit-signer-dev",
+  "trust_policy_signed_at": "2026-03-07T01:17:03.337Z",
+  "trust_policy_sha256": "e7cf24f761e92af0800d1940ae20461e6e0200a489800243774883c47e0704a8",
+  "file_checks": [
+    {
+      "label": "attestations",
+      "path": "evidence/phase-7.9/attestations.json",
+      "expected_sha256": "fe436a54b2a41116325658da1e8313467bedcf5e54868699040fa9c95ff1d5c0",
+      "actual_sha256": "fe436a54b2a41116325658da1e8313467bedcf5e54868699040fa9c95ff1d5c0",
+      "ok": true
+    },
+    {
+      "label": "trust_policy",
+      "path": "evidence/phase-7.9/trust-policy.json",
+      "expected_sha256": "bfdc61426a8f6c3a48fc393fe637f34f0265933802b137f09f471ea07d8bf14c",
+      "actual_sha256": "bfdc61426a8f6c3a48fc393fe637f34f0265933802b137f09f471ea07d8bf14c",
+      "ok": true
+    },
+    {
+      "label": "trust_policy_signature",
+      "path": "evidence/phase-7.10/trust-policy-signature.json",
+      "expected_sha256": "c1f2e3e46047f48b25cccbed140d6595e4931f3319db4ef1453c0a274ea0beb0",
+      "actual_sha256": "c1f2e3e46047f48b25cccbed140d6595e4931f3319db4ef1453c0a274ea0beb0",
+      "ok": true
+    }
+  ]
+}

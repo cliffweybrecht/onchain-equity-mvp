@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Grant Audit Trust Policy Signature V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "algorithm",
+    "signer_key_id",
+    "signed_at",
+    "packet_manifest_hash",
+    "trust_policy_sha256",
+    "trust_policy_path",
+    "signature_base64"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-trust-policy-signature-v1"
+    },
+    "algorithm": {
+      "const": "Ed25519"
+    },
+    "signer_key_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "signed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "packet_manifest_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "trust_policy_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "trust_policy_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "signature_base64": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

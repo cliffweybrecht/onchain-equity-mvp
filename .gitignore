@@ -40,3 +40,6 @@ evidence/phase-6.2/*.json
 grant-audit-packet*.tgz
 
 .secrets/
+
+keys/*.pem
+!keys/*-public.pem

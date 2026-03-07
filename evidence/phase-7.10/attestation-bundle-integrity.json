@@ -1,0 +1,22 @@
+{
+  "schema": "grant-audit-attestation-bundle-integrity-v1",
+  "created_at": "2026-03-07T01:17:07.738Z",
+  "packet_manifest_hash": "aa6b4994839c8a90c81e982c3174f6f52f9f3e1036524508af1e401e6b2a8209",
+  "files": [
+    {
+      "label": "attestations",
+      "path": "evidence/phase-7.9/attestations.json",
+      "sha256": "fe436a54b2a41116325658da1e8313467bedcf5e54868699040fa9c95ff1d5c0"
+    },
+    {
+      "label": "trust_policy",
+      "path": "evidence/phase-7.9/trust-policy.json",
+      "sha256": "bfdc61426a8f6c3a48fc393fe637f34f0265933802b137f09f471ea07d8bf14c"
+    },
+    {
+      "label": "trust_policy_signature",
+      "path": "evidence/phase-7.10/trust-policy-signature.json",
+      "sha256": "c1f2e3e46047f48b25cccbed140d6595e4931f3319db4ef1453c0a274ea0beb0"
+    }
+  ]
+}
