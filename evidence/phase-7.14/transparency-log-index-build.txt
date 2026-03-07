@@ -1,0 +1,8 @@
+{
+  "ok": true,
+  "schema": "grant-audit-transparency-log-index-v1",
+  "out": "manifests/transparency/transparency-log-index.json",
+  "leaf_count": 1,
+  "merkle_root": "0xacd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+  "checkpoint_log_root": "0x17425158cd0adf067564abfe44726ea5a0b03f07472cb9c438cd24c8768662ef"
+}

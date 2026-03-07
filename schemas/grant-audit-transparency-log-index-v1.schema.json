@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "grant-audit-transparency-log-index-v1.schema.json",
+  "title": "Grant Audit Transparency Log Index v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "version",
+    "created_at",
+    "source_log",
+    "checkpoint",
+    "merkle",
+    "leaves"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-transparency-log-index-v1"
+    },
+    "version": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "source_log": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{64}$"
+        }
+      }
+    },
+    "checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entry_count",
+        "head_entry_hash",
+        "log_root"
+      ],
+      "properties": {
+        "entry_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "head_entry_hash": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{64}$"
+        },
+        "log_root": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{64}$"
+        }
+      }
+    },
+    "merkle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "algorithm",
+        "leaf_hash_type",
+        "leaf_count",
+        "root"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "sha256-pair-duplicate-last"
+        },
+        "leaf_hash_type": {
+          "const": "transparency-log-entry-hash"
+        },
+        "leaf_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "root": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{64}$"
+        }
+      }
+    },
+    "leaves": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "index",
+          "entry_hash"
+        ],
+        "properties": {
+          "index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "entry_hash": {
+            "type": "string",
+            "pattern": "^0x[a-fA-F0-9]{64}$"
+          },
+          "packet_sha256": {
+            "type": "string",
+            "pattern": "^0x[a-fA-F0-9]{64}$"
+          },
+          "packet_path": {
+            "type": "string"
+          },
+          "entry_id": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

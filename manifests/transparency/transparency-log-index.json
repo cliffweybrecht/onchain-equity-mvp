@@ -1,0 +1,29 @@
+{
+  "schema": "grant-audit-transparency-log-index-v1",
+  "version": "1.0.0",
+  "created_at": "2026-03-07T03:33:29.801Z",
+  "source_log": {
+    "path": "manifests/transparency/transparency-log.json",
+    "sha256": "0x520d4c6662a3b5a4e529c8c182ccb11bbfffd3b581a2eac2d2ca0f3a58b8df36"
+  },
+  "checkpoint": {
+    "entry_count": 1,
+    "head_entry_hash": "0xacd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+    "log_root": "0x17425158cd0adf067564abfe44726ea5a0b03f07472cb9c438cd24c8768662ef"
+  },
+  "merkle": {
+    "algorithm": "sha256-pair-duplicate-last",
+    "leaf_hash_type": "transparency-log-entry-hash",
+    "leaf_count": 1,
+    "root": "0xacd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e"
+  },
+  "leaves": [
+    {
+      "index": 0,
+      "entry_hash": "0xacd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+      "packet_sha256": "0xaa6b4994839c8a90c81e982c3174f6f52f9f3e1036524508af1e401e6b2a8209",
+      "packet_path": "evidence/phase-7.11/transparency-manifest.json",
+      "entry_id": "entry-0"
+    }
+  ]
+}

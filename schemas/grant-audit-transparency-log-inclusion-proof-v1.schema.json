@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "grant-audit-transparency-log-inclusion-proof-v1.schema.json",
+  "title": "Grant Audit Transparency Log Inclusion Proof v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "version",
+    "created_at",
+    "packet",
+    "entry",
+    "entry_hash",
+    "checkpoint",
+    "index",
+    "inclusion_proof",
+    "anchor"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-transparency-log-inclusion-proof-v1"
+    },
+    "version": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "packet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{64}$"
+        }
+      }
+    },
+    "entry": {
+      "type": "object"
+    },
+    "entry_hash": {
+      "type": "string",
+      "pattern": "^0x[a-fA-F0-9]{64}$"
+    },
+    "checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entry_count",
+        "head_entry_hash",
+        "log_root"
+      ],
+      "properties": {
+        "entry_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "head_entry_hash": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{64}$"
+        },
+        "log_root": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{64}$"
+        }
+      }
+    },
+    "index": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "merkle_root",
+        "leaf_count",
+        "leaf_index"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "merkle_root": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{64}$"
+        },
+        "leaf_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "leaf_index": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "inclusion_proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "algorithm",
+        "leaf_hash",
+        "siblings"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "sha256-pair-duplicate-last"
+        },
+        "leaf_hash": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{64}$"
+        },
+        "siblings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "position",
+              "hash"
+            ],
+            "properties": {
+              "position": {
+                "type": "string",
+                "enum": ["left", "right"]
+              },
+              "hash": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{64}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "anchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract",
+        "tx_hash",
+        "anchored_log_root"
+      ],
+      "properties": {
+        "contract": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "tx_hash": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{64}$"
+        },
+        "anchored_log_root": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{64}$"
+        }
+      }
+    }
+  }
+}

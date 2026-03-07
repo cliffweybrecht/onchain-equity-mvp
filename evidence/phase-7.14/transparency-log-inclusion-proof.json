@@ -1,0 +1,47 @@
+{
+  "schema": "grant-audit-transparency-log-inclusion-proof-v1",
+  "version": "1.0.0",
+  "created_at": "2026-03-07T03:35:53.333Z",
+  "packet": {
+    "path": "",
+    "sha256": "0xaa6b4994839c8a90c81e982c3174f6f52f9f3e1036524508af1e401e6b2a8209"
+  },
+  "entry": {
+    "schema": "grant-audit-transparency-log-entry-v1",
+    "entry_version": "1.0.0",
+    "index": 0,
+    "appended_at": "2026-03-07T02:08:10.363Z",
+    "packet_manifest_hash": "aa6b4994839c8a90c81e982c3174f6f52f9f3e1036524508af1e401e6b2a8209",
+    "transparency_manifest_hash": "9320f521c042ec7fcb89780bc051e2db1c4eea232088bc382489b3baa0ff5d6c",
+    "lifecycle_status": "active",
+    "bound_block_number": 38539945,
+    "prev_entry_hash": null,
+    "entry_hash": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+    "packet_path": "evidence/phase-7.11/transparency-manifest.json",
+    "notes": [
+      "Initial transparency log entry from Phase 7.11"
+    ]
+  },
+  "entry_hash": "0xacd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+  "checkpoint": {
+    "entry_count": 1,
+    "head_entry_hash": "0xacd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+    "log_root": "0x17425158cd0adf067564abfe44726ea5a0b03f07472cb9c438cd24c8768662ef"
+  },
+  "index": {
+    "path": "manifests/transparency/transparency-log-index.json",
+    "merkle_root": "0xacd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+    "leaf_count": 1,
+    "leaf_index": 0
+  },
+  "inclusion_proof": {
+    "algorithm": "sha256-pair-duplicate-last",
+    "leaf_hash": "0xacd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+    "siblings": []
+  },
+  "anchor": {
+    "contract": "0x84BEc654B6883536BE86171a60EE6cCd402E4F58",
+    "tx_hash": "0x279296e27eca99a8c80f2414cffa7d59f7ee8b6bb41c848afc436bbc7639b6a9",
+    "anchored_log_root": "0x17425158cd0adf067564abfe44726ea5a0b03f07472cb9c438cd24c8768662ef"
+  }
+}
