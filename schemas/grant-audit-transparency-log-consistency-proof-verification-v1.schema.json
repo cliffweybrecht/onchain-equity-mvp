@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Grant Audit Transparency Log Consistency Proof Verification v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "ok",
+    "schema",
+    "old_checkpoint_log_root",
+    "new_checkpoint_log_root",
+    "recomputed_expected_new_checkpoint_log_root",
+    "old_entry_count",
+    "new_entry_count",
+    "appended_entry_count",
+    "errors"
+  ],
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "schema": {
+      "const": "grant-audit-transparency-log-consistency-proof-verification-v1"
+    },
+    "old_checkpoint_log_root": {
+      "type": "string"
+    },
+    "new_checkpoint_log_root": {
+      "type": "string"
+    },
+    "recomputed_expected_new_checkpoint_log_root": {
+      "type": "string"
+    },
+    "old_entry_count": {
+      "type": "integer"
+    },
+    "new_entry_count": {
+      "type": "integer"
+    },
+    "appended_entry_count": {
+      "type": "integer"
+    },
+    "anchor_comparison": {
+      "type": "object"
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
