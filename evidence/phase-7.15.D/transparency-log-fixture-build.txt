@@ -1,0 +1,5 @@
+Wrote /home/cliff/onchain-equity-mvp/contracts/manifests/transparency/transparency-log-fixture.json
+fixture_id=deterministic-3-entry-multi-size-fixture
+entry_count=3
+log_root=32ca104df81d6a35e4817695dd7a2e65b16afc807f30fff94a648572026b314e
+transitions=1->2,1->3,2->3

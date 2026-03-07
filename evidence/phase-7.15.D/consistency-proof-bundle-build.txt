@@ -1,0 +1,4 @@
+Read /home/cliff/onchain-equity-mvp/contracts/manifests/transparency/transparency-log-fixture.json
+Wrote /home/cliff/onchain-equity-mvp/contracts/manifests/transparency/transparency-log-consistency-proof-bundle.json
+proof_count=3
+transitions=1->2,1->3,2->3

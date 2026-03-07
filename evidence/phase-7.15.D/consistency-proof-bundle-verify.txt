@@ -1,0 +1,7 @@
+verified transition 1->2
+verified transition 1->3
+verified transition 2->3
+Verified 3 bundled consistency proofs
+Fixture: deterministic-3-entry-multi-size-fixture
+Entry count: 3
+Log root: 32ca104df81d6a35e4817695dd7a2e65b16afc807f30fff94a648572026b314e
