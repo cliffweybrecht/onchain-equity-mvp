@@ -1,0 +1,7 @@
+{
+  "ok": true,
+  "schema": "grant-audit-transparency-manifest-build-v1",
+  "output": "evidence/phase-7.11/transparency-manifest.json",
+  "packet_manifest_hash": "aa6b4994839c8a90c81e982c3174f6f52f9f3e1036524508af1e401e6b2a8209",
+  "lifecycle_status": "active"
+}

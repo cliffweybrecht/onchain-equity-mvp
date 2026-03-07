@@ -1,0 +1,196 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "grant-audit-transparency-manifest-v1.schema.json",
+  "title": "Grant Audit Transparency Manifest V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "version",
+    "created_at",
+    "packet_manifest_hash",
+    "git",
+    "network",
+    "state_binding",
+    "artifacts",
+    "fingerprints",
+    "freshness_policy",
+    "anchoring",
+    "lifecycle"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-transparency-manifest-v1"
+    },
+    "version": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "packet_manifest_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "git": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repo", "branch", "commit"],
+      "properties": {
+        "repo": { "type": "string" },
+        "branch": { "type": "string" },
+        "commit": { "type": "string" }
+      }
+    },
+    "network": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "chain_id"],
+      "properties": {
+        "name": { "type": "string" },
+        "chain_id": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "state_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bound_block_number", "bound_block_hash"],
+      "properties": {
+        "bound_block_number": { "type": "integer", "minimum": 0 },
+        "bound_block_hash": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{64}$"
+        }
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trust_policy_signature",
+        "attestation_bundle_integrity"
+      ],
+      "properties": {
+        "trust_policy_signature": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256"],
+          "properties": {
+            "path": { "type": "string" },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "attestation_bundle_integrity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256"],
+          "properties": {
+            "path": { "type": "string" },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        }
+      }
+    },
+    "fingerprints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contracts_hash",
+        "policy_set_hash",
+        "issuer_admin_set_hash",
+        "grants_state_hash"
+      ],
+      "properties": {
+        "contracts_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "policy_set_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "issuer_admin_set_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "grants_state_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "freshness_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_age_seconds",
+        "max_block_drift",
+        "invalidate_on_newer_packet",
+        "invalidate_on_contracts_hash_change",
+        "invalidate_on_policy_hash_change",
+        "invalidate_on_admin_set_hash_change",
+        "invalidate_on_grants_state_hash_change"
+      ],
+      "properties": {
+        "max_age_seconds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_block_drift": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "invalidate_on_newer_packet": {
+          "type": "boolean"
+        },
+        "invalidate_on_contracts_hash_change": {
+          "type": "boolean"
+        },
+        "invalidate_on_policy_hash_change": {
+          "type": "boolean"
+        },
+        "invalidate_on_admin_set_hash_change": {
+          "type": "boolean"
+        },
+        "invalidate_on_grants_state_hash_change": {
+          "type": "boolean"
+        }
+      }
+    },
+    "anchoring": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "anchor_status",
+        "anchor_chain",
+        "anchor_tx_hash",
+        "anchor_reference"
+      ],
+      "properties": {
+        "anchor_status": {
+          "type": "string",
+          "enum": ["not_anchored", "anchored"]
+        },
+        "anchor_chain": {
+          "type": "string"
+        },
+        "anchor_tx_hash": {
+          "type": "string"
+        },
+        "anchor_reference": {
+          "type": "string"
+        }
+      }
+    },
+    "lifecycle": {
+      "$ref": "grant-audit-packet-lifecycle-v1.schema.json"
+    }
+  }
+}

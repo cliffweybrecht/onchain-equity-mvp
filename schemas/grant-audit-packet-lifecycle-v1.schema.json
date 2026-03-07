@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "grant-audit-packet-lifecycle-v1.schema.json",
+  "title": "Grant Audit Packet Lifecycle V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "status",
+    "declared_at",
+    "reason",
+    "supersedes_packet_manifest_hash",
+    "superseded_by_packet_manifest_hash",
+    "revoked_by_packet_manifest_hash"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-packet-lifecycle-v1"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "superseded", "revoked"]
+    },
+    "declared_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "supersedes_packet_manifest_hash": {
+      "type": "string"
+    },
+    "superseded_by_packet_manifest_hash": {
+      "type": "string"
+    },
+    "revoked_by_packet_manifest_hash": {
+      "type": "string"
+    }
+  }
+}
