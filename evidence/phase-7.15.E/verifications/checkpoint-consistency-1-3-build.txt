@@ -1,0 +1,49 @@
+{
+  "schema": "grant-audit-transparency-checkpoint-consistency-v1",
+  "bridge_version": "1.0.0",
+  "created_at": "2026-03-07T15:28:07.362Z",
+  "old_checkpoint": {
+    "path": "evidence/phase-7.15.E/checkpoints/checkpoint-1.json",
+    "sha256": "7aafbbfdd1d2e742086df368e56f1d29053f6e64245721a0f426bccbfe5e55e1",
+    "entry_count": 1,
+    "log_root": "9e51a0e7a6152ecad4967ac3533f3c78b15377a80e9fca3d0c5fec18a1a8cec6",
+    "head_entry_hash": "2a402c25cd185ffa313de1134e3c64bce17c9798a1a16db3d503a484d2819564",
+    "head_entry_cumulative_root": "9e51a0e7a6152ecad4967ac3533f3c78b15377a80e9fca3d0c5fec18a1a8cec6",
+    "checkpoint_created_at": "2026-03-07T15:11:52.547Z"
+  },
+  "new_checkpoint": {
+    "path": "evidence/phase-7.15.E/checkpoints/checkpoint-3.json",
+    "sha256": "f692b519c241ad95b2db8f32a0342a4f68dadd29df113484cb3e4156f63bdedf",
+    "entry_count": 3,
+    "log_root": "32ca104df81d6a35e4817695dd7a2e65b16afc807f30fff94a648572026b314e",
+    "head_entry_hash": "c744a6230683cd53a53d97b72de5ab9d2055659c67cbba56d8ea072424f9233b",
+    "head_entry_cumulative_root": "32ca104df81d6a35e4817695dd7a2e65b16afc807f30fff94a648572026b314e",
+    "checkpoint_created_at": "2026-03-07T15:11:52.580Z"
+  },
+  "consistency_proof": {
+    "path": "manifests/transparency/transparency-log-consistency-proof-bundle.json",
+    "sha256": "7f4e47f1909a97233c72e9d408df16557e1d70f24a360672f46f9b9899a4da76",
+    "proof_schema": "grant-audit-transparency-log-consistency-proof-v1",
+    "proof_version": "1.0.0",
+    "old_size": 1,
+    "new_size": 3,
+    "old_root": "9e51a0e7a6152ecad4967ac3533f3c78b15377a80e9fca3d0c5fec18a1a8cec6",
+    "new_root": "32ca104df81d6a35e4817695dd7a2e65b16afc807f30fff94a648572026b314e",
+    "old_tail_cumulative_root": "9e51a0e7a6152ecad4967ac3533f3c78b15377a80e9fca3d0c5fec18a1a8cec6",
+    "proof": [
+      "ebfba7596d47854b3cec9d294db03b9e7ba0b1681af1ad345109c1ea734c7cb9",
+      "c744a6230683cd53a53d97b72de5ab9d2055659c67cbba56d8ea072424f9233b"
+    ]
+  },
+  "verification": {
+    "append_only": true,
+    "checks": {
+      "old_checkpoint_entry_count_matches_proof_old_size": true,
+      "new_checkpoint_entry_count_matches_proof_new_size": true,
+      "old_checkpoint_log_root_matches_proof_old_root": true,
+      "new_checkpoint_log_root_matches_proof_new_root": true,
+      "old_checkpoint_head_cumulative_root_matches_proof_old_tail_cumulative_root": true,
+      "new_checkpoint_is_strict_extension": true
+    }
+  }
+}

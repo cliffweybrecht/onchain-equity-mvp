@@ -1,0 +1,35 @@
+{
+  "created_at": "2026-03-07T03:15:00.000Z",
+  "entries": [
+    {
+      "appended_at": "2026-03-07T03:15:00.000Z",
+      "cumulative_root": "9e51a0e7a6152ecad4967ac3533f3c78b15377a80e9fca3d0c5fec18a1a8cec6",
+      "entry_hash": "2a402c25cd185ffa313de1134e3c64bce17c9798a1a16db3d503a484d2819564",
+      "entry_version": "1.0.0",
+      "index": 0,
+      "packet_hash": "ba93f918b7257bb9a73996ddbee67b1a013aefcc933322a71b3a352e11da369d",
+      "packet_ref": "fixture/audit-packets/packet-001.json",
+      "previous_cumulative_root": "0000000000000000000000000000000000000000000000000000000000000000",
+      "previous_entry_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "schema": "grant-audit-transparency-log-entry-v1"
+    },
+    {
+      "appended_at": "2026-03-07T03:16:00.000Z",
+      "cumulative_root": "29451d240b9863f7104e5a1b6d7cbf5dce5db287b888bbdf7b8e6c82b3ea157c",
+      "entry_hash": "ebfba7596d47854b3cec9d294db03b9e7ba0b1681af1ad345109c1ea734c7cb9",
+      "entry_version": "1.0.0",
+      "index": 1,
+      "packet_hash": "1a3c94d424f32254a9bd132f215fdf6cf30a4f2c6f24ebbfb636d367f2f5dc1a",
+      "packet_ref": "fixture/audit-packets/packet-002.json",
+      "previous_cumulative_root": "9e51a0e7a6152ecad4967ac3533f3c78b15377a80e9fca3d0c5fec18a1a8cec6",
+      "previous_entry_hash": "2a402c25cd185ffa313de1134e3c64bce17c9798a1a16db3d503a484d2819564",
+      "schema": "grant-audit-transparency-log-entry-v1"
+    }
+  ],
+  "entry_count": 2,
+  "head_entry_hash": "ebfba7596d47854b3cec9d294db03b9e7ba0b1681af1ad345109c1ea734c7cb9",
+  "log_root": "29451d240b9863f7104e5a1b6d7cbf5dce5db287b888bbdf7b8e6c82b3ea157c",
+  "log_version": "1.0.0",
+  "schema": "grant-audit-transparency-log-v1",
+  "updated_at": "2026-03-07T03:16:00.000Z"
+}

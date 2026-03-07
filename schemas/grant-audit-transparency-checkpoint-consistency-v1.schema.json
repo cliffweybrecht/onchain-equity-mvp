@@ -1,0 +1,233 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "grant-audit-transparency-checkpoint-consistency-v1.schema.json",
+  "title": "Grant Audit Transparency Checkpoint Consistency",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "bridge_version",
+    "created_at",
+    "old_checkpoint",
+    "new_checkpoint",
+    "consistency_proof",
+    "verification"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-transparency-checkpoint-consistency-v1"
+    },
+    "bridge_version": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "old_checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "entry_count",
+        "log_root",
+        "head_entry_hash",
+        "head_entry_cumulative_root",
+        "checkpoint_created_at"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "entry_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "log_root": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "head_entry_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "head_entry_cumulative_root": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "checkpoint_created_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "new_checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "entry_count",
+        "log_root",
+        "head_entry_hash",
+        "head_entry_cumulative_root",
+        "checkpoint_created_at"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "entry_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "log_root": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "head_entry_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "head_entry_cumulative_root": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "checkpoint_created_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "consistency_proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "old_size",
+        "new_size",
+        "old_root",
+        "new_root",
+        "old_tail_cumulative_root",
+        "proof"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "proof_schema": {
+          "type": "string"
+        },
+        "proof_version": {
+          "type": "string"
+        },
+        "old_size": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "new_size": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "old_root": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "new_root": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "old_tail_cumulative_root": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "proof": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "consistency_proof_verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "is_valid": {
+          "type": "boolean"
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "append_only",
+        "checks"
+      ],
+      "properties": {
+        "append_only": {
+          "type": "boolean"
+        },
+        "checks": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "old_checkpoint_entry_count_matches_proof_old_size",
+            "new_checkpoint_entry_count_matches_proof_new_size",
+            "old_checkpoint_log_root_matches_proof_old_root",
+            "new_checkpoint_log_root_matches_proof_new_root",
+            "old_checkpoint_head_cumulative_root_matches_proof_old_tail_cumulative_root",
+            "new_checkpoint_is_strict_extension"
+          ],
+          "properties": {
+            "old_checkpoint_entry_count_matches_proof_old_size": {
+              "type": "boolean"
+            },
+            "new_checkpoint_entry_count_matches_proof_new_size": {
+              "type": "boolean"
+            },
+            "old_checkpoint_log_root_matches_proof_old_root": {
+              "type": "boolean"
+            },
+            "new_checkpoint_log_root_matches_proof_new_root": {
+              "type": "boolean"
+            },
+            "old_checkpoint_head_cumulative_root_matches_proof_old_tail_cumulative_root": {
+              "type": "boolean"
+            },
+            "new_checkpoint_is_strict_extension": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "grant-audit-transparency-log-checkpoint-v1",
+  "checkpoint_version": "1.0.0",
+  "created_at": "2026-03-07T15:11:52.547Z",
+  "log_path": "evidence/phase-7.15.E/checkpoints/fixture-log-1.json",
+  "log_version": "1.0.0",
+  "entry_count": 1,
+  "head_entry_hash": "2a402c25cd185ffa313de1134e3c64bce17c9798a1a16db3d503a484d2819564",
+  "head_entry_cumulative_root": "9e51a0e7a6152ecad4967ac3533f3c78b15377a80e9fca3d0c5fec18a1a8cec6",
+  "log_root": "9e51a0e7a6152ecad4967ac3533f3c78b15377a80e9fca3d0c5fec18a1a8cec6"
+}

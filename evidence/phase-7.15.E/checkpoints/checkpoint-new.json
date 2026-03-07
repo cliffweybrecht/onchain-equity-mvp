@@ -1,0 +1,11 @@
+{
+  "schema": "grant-audit-transparency-log-checkpoint-v1",
+  "checkpoint_version": "1.0.0",
+  "created_at": "2026-03-07T15:02:50.018Z",
+  "log_path": "manifests/transparency/transparency-log.json",
+  "log_version": "1.0.0",
+  "entry_count": 1,
+  "head_entry_hash": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+  "head_entry_cumulative_root": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+  "log_root": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e"
+}

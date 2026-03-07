@@ -1,0 +1,20 @@
+{
+  "schema": "grant-audit-transparency-checkpoint-consistency-proof-verification-v1",
+  "verified_at": "2026-03-07T15:28:13.472Z",
+  "bridge_path": "evidence/phase-7.15.E/bridges/checkpoint-consistency-2-3.json",
+  "bridge_sha256": "6da641670f9163c1457fa08cdcc8c640e59e055b9392fac41548cb9ad54c973d",
+  "is_valid": true,
+  "checks": {
+    "old_checkpoint_sha256_matches_source": true,
+    "new_checkpoint_sha256_matches_source": true,
+    "consistency_proof_sha256_matches_source": true,
+    "consistency_proof_verification_sha256_matches_source": true,
+    "old_checkpoint_entry_count_matches_proof_old_size": true,
+    "new_checkpoint_entry_count_matches_proof_new_size": true,
+    "old_checkpoint_log_root_matches_proof_old_root": true,
+    "new_checkpoint_log_root_matches_proof_new_root": true,
+    "old_checkpoint_head_cumulative_root_matches_proof_old_tail_cumulative_root": true,
+    "new_checkpoint_is_strict_extension": true,
+    "consistency_proof_verification_artifact_is_valid": true
+  }
+}
