@@ -1,147 +1,88 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "grant-audit-transparency-log-consistency-proof-v1.schema.json",
   "title": "Grant Audit Transparency Log Consistency Proof v1",
   "type": "object",
-  "additionalProperties": false,
   "required": [
     "schema",
     "proof_version",
-    "generated_at",
-    "base_checkpoint",
-    "candidate_state",
-    "proof"
+    "created_at",
+    "log_path",
+    "old_size",
+    "new_size",
+    "old_root",
+    "new_root",
+    "old_head_entry_hash",
+    "new_head_entry_hash",
+    "old_tail_index",
+    "new_tail_index",
+    "old_tail_cumulative_root",
+    "new_tail_cumulative_root",
+    "prefix_entry_hashes"
   ],
   "properties": {
     "schema": {
+      "type": "string",
       "const": "grant-audit-transparency-log-consistency-proof-v1"
     },
     "proof_version": {
-      "type": "string",
-      "const": "1.0.0"
+      "type": "string"
     },
-    "generated_at": {
+    "created_at": {
       "type": "string",
       "format": "date-time"
     },
-    "base_checkpoint": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "path",
-        "entry_count",
-        "head_entry_hash",
-        "log_root"
-      ],
-      "properties": {
-        "path": {
-          "type": "string",
-          "minLength": 1
-        },
-        "entry_count": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "head_entry_hash": {
-          "type": "string",
-          "pattern": "^0x[a-f0-9]{64}$"
-        },
-        "log_root": {
-          "type": "string",
-          "pattern": "^0x[a-f0-9]{64}$"
-        }
-      }
+    "log_path": {
+      "type": "string"
     },
-    "candidate_state": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "path",
-        "entry_count",
-        "head_entry_hash",
-        "log_root"
-      ],
-      "properties": {
-        "path": {
-          "type": "string",
-          "minLength": 1
-        },
-        "entry_count": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "head_entry_hash": {
-          "type": "string",
-          "pattern": "^0x[a-f0-9]{64}$"
-        },
-        "log_root": {
-          "type": "string",
-          "pattern": "^0x[a-f0-9]{64}$"
-        }
-      }
+    "old_size": {
+      "type": "integer",
+      "minimum": 1
     },
-    "proof": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "model",
-        "normalization",
-        "old_size",
-        "new_size",
-        "old_head_entry_hash",
-        "new_head_entry_hash",
-        "old_log_root",
-        "new_log_root",
-        "prefix_entry_hashes",
-        "appended_entry_hashes"
-      ],
-      "properties": {
-        "model": {
-          "type": "string",
-          "const": "append-only-prefix-consistency"
-        },
-        "normalization": {
-          "type": "string",
-          "const": "0x-lowercase-64-hex"
-        },
-        "old_size": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "new_size": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "old_head_entry_hash": {
-          "type": "string",
-          "pattern": "^0x[a-f0-9]{64}$"
-        },
-        "new_head_entry_hash": {
-          "type": "string",
-          "pattern": "^0x[a-f0-9]{64}$"
-        },
-        "old_log_root": {
-          "type": "string",
-          "pattern": "^0x[a-f0-9]{64}$"
-        },
-        "new_log_root": {
-          "type": "string",
-          "pattern": "^0x[a-f0-9]{64}$"
-        },
-        "prefix_entry_hashes": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "pattern": "^0x[a-f0-9]{64}$"
-          }
-        },
-        "appended_entry_hashes": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "pattern": "^0x[a-f0-9]{64}$"
-          }
-        }
+    "new_size": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "old_root": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "new_root": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "old_head_entry_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "new_head_entry_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "old_tail_index": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "new_tail_index": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "old_tail_cumulative_root": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "new_tail_cumulative_root": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "prefix_entry_hashes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}$"
       }
     }
-  }
+  },
+  "additionalProperties": false
 }

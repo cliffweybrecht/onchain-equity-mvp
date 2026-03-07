@@ -1,0 +1,7 @@
+{
+  "ok": true,
+  "log_path": "manifests/transparency/transparency-log.json",
+  "entry_count": 1,
+  "head_entry_hash": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+  "log_root": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e"
+}

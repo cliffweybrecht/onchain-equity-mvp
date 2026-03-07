@@ -1,9 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "grant-audit-transparency-log-v1.schema.json",
-  "title": "Grant Audit Transparency Log V1",
+  "title": "Grant Audit Transparency Log v1",
   "type": "object",
-  "additionalProperties": false,
   "required": [
     "schema",
     "log_version",
@@ -16,6 +15,7 @@
   ],
   "properties": {
     "schema": {
+      "type": "string",
       "const": "grant-audit-transparency-log-v1"
     },
     "log_version": {
@@ -35,19 +35,32 @@
     },
     "head_entry_hash": {
       "anyOf": [
-        { "type": "null" },
-        { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+        {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
       ]
     },
     "log_root": {
-      "type": "string",
-      "pattern": "^[a-f0-9]{64}$"
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
     },
     "entries": {
       "type": "array",
       "items": {
-        "$ref": "grant-audit-transparency-log-entry-v1.schema.json"
+        "$ref": "./grant-audit-transparency-log-entry-v1.schema.json"
       }
     }
-  }
+  },
+  "additionalProperties": false
 }

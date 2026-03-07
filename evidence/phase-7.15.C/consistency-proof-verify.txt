@@ -1,0 +1,9 @@
+{
+  "ok": true,
+  "proof_path": "manifests/transparency/transparency-log-consistency-proof.json",
+  "log_path": "manifests/transparency/transparency-log.json",
+  "old_size": 1,
+  "new_size": 1,
+  "old_root": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+  "new_root": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e"
+}

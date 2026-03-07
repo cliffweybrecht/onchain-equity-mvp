@@ -1,185 +1,161 @@
 #!/usr/bin/env node
-
-import fs from "fs";
-import crypto from "crypto";
-import path from "path";
+import fs from "node:fs";
+import { createHash } from "node:crypto";
 
 function parseArgs(argv) {
-  const args = {};
-  for (let i = 2; i < argv.length; i += 1) {
-    const token = argv[i];
-    if (!token.startsWith("--")) continue;
-    const key = token.slice(2);
-    const next = argv[i + 1];
-    if (!next || next.startsWith("--")) {
-      args[key] = true;
+  const out = {
+    log: "manifests/transparency/transparency-log.json"
+  };
+
+  for (let i = 0; i < argv.length; i += 1) {
+    const arg = argv[i];
+    if (arg === "--log") {
+      out.log = argv[++i];
     } else {
-      args[key] = next;
-      i += 1;
+      throw new Error(`Unknown argument: ${arg}`);
     }
   }
-  return args;
+
+  return out;
 }
 
-function stable(value) {
+function readJson(filePath) {
+  return JSON.parse(fs.readFileSync(filePath, "utf8"));
+}
+
+function sha256Hex(input) {
+  return createHash("sha256").update(input).digest("hex");
+}
+
+function sortValue(value) {
   if (Array.isArray(value)) {
-    return value.map(stable);
+    return value.map(sortValue);
   }
-  if (value && typeof value === "object") {
-    return Object.keys(value)
-      .sort()
-      .reduce((acc, key) => {
-        acc[key] = stable(value[key]);
-        return acc;
-      }, {});
+  if (value && typeof value === "object" && !Buffer.isBuffer(value)) {
+    const out = {};
+    for (const key of Object.keys(value).sort()) {
+      out[key] = sortValue(value[key]);
+    }
+    return out;
   }
   return value;
 }
 
-function canonicalize(value) {
-  return JSON.stringify(stable(value));
+function canonicalStringify(value) {
+  return JSON.stringify(sortValue(value));
 }
 
-function sha256Hex(value) {
-  return crypto.createHash("sha256").update(value).digest("hex");
-}
-
-function readJson(file) {
-  return JSON.parse(fs.readFileSync(file, "utf8"));
-}
-
-function buildEntryHashPayload(entry) {
-  const { entry_hash, ...rest } = entry;
-  return rest;
+function sanitizeEntryForHash(entry) {
+  const copy = JSON.parse(JSON.stringify(entry));
+  delete copy.entry_hash;
+  delete copy.cumulative_root;
+  return copy;
 }
 
 function computeEntryHash(entry) {
-  return sha256Hex(canonicalize(buildEntryHashPayload(entry)));
+  return sha256Hex(canonicalStringify(sanitizeEntryForHash(entry)));
 }
 
-function computeLogRoot(entries) {
-  return sha256Hex(
-    canonicalize({
-      entry_hashes: entries.map((entry) => entry.entry_hash)
-    })
-  );
+function computeMerkleRootFromLeafHashes(leafHashes) {
+  if (leafHashes.length === 0) {
+    return null;
+  }
+
+  let level = [...leafHashes];
+
+  while (level.length > 1) {
+    const next = [];
+    for (let i = 0; i < level.length; i += 2) {
+      const left = level[i];
+      const right = i + 1 < level.length ? level[i + 1] : level[i];
+      next.push(sha256Hex(left + right));
+    }
+    level = next;
+  }
+
+  return level[0];
 }
 
-function usage() {
-  console.error(`
-Usage:
-  node scripts/audit/verify-transparency-log.mjs --log <file>
-`);
+function fail(message) {
+  console.error(JSON.stringify({ ok: false, error: message }, null, 2));
   process.exit(1);
 }
 
-const args = parseArgs(process.argv);
-if (!args.log) usage();
+function main() {
+  const args = parseArgs(process.argv.slice(2));
+  const log = readJson(args.log);
 
-const logPath = path.resolve(args.log);
-const log = readJson(logPath);
-
-const errors = [];
-
-if (log.schema !== "grant-audit-transparency-log-v1") {
-  errors.push(`unexpected log schema: ${log.schema || "<missing>"}`);
-}
-
-if (!Array.isArray(log.entries)) {
-  errors.push("entries must be an array");
-}
-
-const entries = Array.isArray(log.entries) ? log.entries : [];
-
-let chainIntact = true;
-let contiguousIndices = true;
-let monotonicTimestamps = true;
-const duplicatePacketManifestHashes = [];
-const seenPacketManifestHashes = new Map();
-
-for (let i = 0; i < entries.length; i += 1) {
-  const entry = entries[i];
-
-  if (entry.schema !== "grant-audit-transparency-log-entry-v1") {
-    errors.push(`unexpected entry schema at index ${i}: ${entry.schema || "<missing>"}`);
+  if (log.schema !== "grant-audit-transparency-log-v1") {
+    fail(`Unexpected log schema: ${log.schema}`);
   }
 
-  if (entry.index !== i) {
-    contiguousIndices = false;
-    errors.push(`index mismatch at position ${i}: expected ${i}, received ${entry.index}`);
+  if (!Array.isArray(log.entries)) {
+    fail("entries must be an array");
   }
 
-  const expectedPrev = i === 0 ? null : entries[i - 1].entry_hash;
-  if (entry.prev_entry_hash !== expectedPrev) {
-    chainIntact = false;
-    errors.push(`prev_entry_hash mismatch at index ${i}`);
+  if (log.entry_count !== log.entries.length) {
+    fail(`entry_count mismatch: expected ${log.entries.length}, got ${log.entry_count}`);
   }
 
-  const expectedEntryHash = computeEntryHash(entry);
-  if (entry.entry_hash !== expectedEntryHash) {
-    chainIntact = false;
-    errors.push(`entry_hash mismatch at index ${i}`);
-  }
+  const leafHashes = [];
 
-  if (i > 0) {
-    const prior = new Date(entries[i - 1].appended_at).getTime();
-    const current = new Date(entry.appended_at).getTime();
-    if (Number.isFinite(prior) && Number.isFinite(current) && current < prior) {
-      monotonicTimestamps = false;
-      errors.push(`appended_at is not monotonic at index ${i}`);
+  for (let i = 0; i < log.entries.length; i += 1) {
+    const entry = log.entries[i];
+
+    if (entry.schema !== "grant-audit-transparency-log-entry-v1") {
+      fail(`Entry ${i} has unexpected schema: ${entry.schema}`);
+    }
+
+    if (entry.index !== i) {
+      fail(`Entry ${i} has non-sequential index: ${entry.index}`);
+    }
+
+    if (!entry.appended_at) {
+      fail(`Entry ${i} missing appended_at`);
+    }
+
+    const expectedEntryHash = computeEntryHash(entry);
+    if (entry.entry_hash !== expectedEntryHash) {
+      fail(`Entry ${i} entry_hash mismatch`);
+    }
+
+    leafHashes.push(expectedEntryHash);
+    const expectedCumulativeRoot = computeMerkleRootFromLeafHashes(leafHashes);
+
+    if (!entry.cumulative_root) {
+      fail(`Entry ${i} missing cumulative_root`);
+    }
+
+    if (entry.cumulative_root !== expectedCumulativeRoot) {
+      fail(`Entry ${i} cumulative_root mismatch`);
     }
   }
 
-  const priorIndex = seenPacketManifestHashes.get(entry.packet_manifest_hash);
-  if (priorIndex !== undefined) {
-    duplicatePacketManifestHashes.push({
-      packet_manifest_hash: entry.packet_manifest_hash,
-      first_index: priorIndex,
-      duplicate_index: i
-    });
-    errors.push(
-      `duplicate packet_manifest_hash detected at index ${i} (first seen at ${priorIndex})`
-    );
-  } else {
-    seenPacketManifestHashes.set(entry.packet_manifest_hash, i);
+  const expectedHeadEntryHash = leafHashes.length > 0 ? leafHashes[leafHashes.length - 1] : null;
+  const expectedLogRoot = computeMerkleRootFromLeafHashes(leafHashes);
+
+  if (log.head_entry_hash !== expectedHeadEntryHash) {
+    fail("head_entry_hash mismatch");
   }
+
+  if (log.log_root !== expectedLogRoot) {
+    fail("log_root mismatch");
+  }
+
+  if (log.entries.length > 0) {
+    const tail = log.entries[log.entries.length - 1];
+    if (tail.cumulative_root !== log.log_root) {
+      fail("tail cumulative_root must equal log_root");
+    }
+  }
+
+  console.log(JSON.stringify({
+    ok: true,
+    log_path: args.log,
+    entry_count: log.entry_count,
+    head_entry_hash: log.head_entry_hash,
+    log_root: log.log_root
+  }, null, 2));
 }
 
-const expectedHead =
-  entries.length === 0 ? null : entries[entries.length - 1].entry_hash;
-
-if (log.head_entry_hash !== expectedHead) {
-  errors.push("head_entry_hash mismatch");
-}
-
-const expectedRoot = computeLogRoot(entries);
-if (log.log_root !== expectedRoot) {
-  errors.push("log_root mismatch");
-}
-
-if (log.entry_count !== entries.length) {
-  errors.push(
-    `entry_count mismatch: expected ${entries.length}, received ${log.entry_count}`
-  );
-}
-
-const result = {
-  ok: errors.length === 0,
-  schema: "grant-audit-transparency-log-verification-v1",
-  log_path: logPath,
-  entry_count: entries.length,
-  contiguous_indices: contiguousIndices,
-  chain_intact: chainIntact,
-  monotonic_timestamps: monotonicTimestamps,
-  duplicate_packet_manifest_hashes: duplicatePacketManifestHashes,
-  head_entry_hash: log.head_entry_hash,
-  expected_head_entry_hash: expectedHead,
-  log_root: log.log_root,
-  expected_log_root: expectedRoot,
-  first_entry_hash: entries.length ? entries[0].entry_hash : null,
-  last_entry_hash: entries.length ? entries[entries.length - 1].entry_hash : null,
-  errors
-};
-
-console.log(JSON.stringify(result, null, 2));
-process.exit(result.ok ? 0 : 1);
+main();

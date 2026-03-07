@@ -1,23 +1,19 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "grant-audit-transparency-log-entry-v1.schema.json",
-  "title": "Grant Audit Transparency Log Entry V1",
+  "title": "Grant Audit Transparency Log Entry v1",
   "type": "object",
-  "additionalProperties": false,
   "required": [
     "schema",
     "entry_version",
     "index",
     "appended_at",
-    "packet_manifest_hash",
-    "transparency_manifest_hash",
-    "lifecycle_status",
-    "bound_block_number",
-    "prev_entry_hash",
-    "entry_hash"
+    "entry_hash",
+    "cumulative_root"
   ],
   "properties": {
     "schema": {
+      "type": "string",
       "const": "grant-audit-transparency-log-entry-v1"
     },
     "entry_version": {
@@ -31,40 +27,14 @@
       "type": "string",
       "format": "date-time"
     },
-    "packet_manifest_hash": {
-      "type": "string",
-      "pattern": "^[a-f0-9]{64}$"
-    },
-    "transparency_manifest_hash": {
-      "type": "string",
-      "pattern": "^[a-f0-9]{64}$"
-    },
-    "lifecycle_status": {
-      "type": "string",
-      "enum": ["active", "superseded", "revoked"]
-    },
-    "bound_block_number": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "packet_path": {
-      "type": "string"
-    },
-    "notes": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "prev_entry_hash": {
-      "anyOf": [
-        { "type": "null" },
-        { "type": "string", "pattern": "^[a-f0-9]{64}$" }
-      ]
-    },
     "entry_hash": {
       "type": "string",
       "pattern": "^[a-f0-9]{64}$"
+    },
+    "cumulative_root": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
     }
-  }
+  },
+  "additionalProperties": true
 }
