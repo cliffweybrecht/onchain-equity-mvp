@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "grant-audit-transparency-log-checkpoint-v1.schema.json",
+  "title": "Grant Audit Transparency Log Checkpoint v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "version",
+    "created_at",
+    "entry_count",
+    "head_entry_hash",
+    "entries_merkle_root",
+    "checkpoint_log_root",
+    "anchor_contract",
+    "anchor_tx_hash",
+    "anchor_block_number",
+    "source_log_path",
+    "source_anchor_receipt_path"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "grant-audit-transparency-log-checkpoint-v1"
+    },
+    "version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "entry_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "head_entry_hash": {
+      "type": "string",
+      "pattern": "^0x[a-fA-F0-9]{64}$"
+    },
+    "entries_merkle_root": {
+      "type": "string",
+      "pattern": "^0x[a-fA-F0-9]{64}$"
+    },
+    "checkpoint_log_root": {
+      "type": "string",
+      "pattern": "^0x[a-fA-F0-9]{64}$"
+    },
+    "anchor_contract": {
+      "type": "string",
+      "pattern": "^0x[a-fA-F0-9]{40}$"
+    },
+    "anchor_tx_hash": {
+      "type": "string",
+      "pattern": "^0x[a-fA-F0-9]{64}$"
+    },
+    "anchor_block_number": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "source_log_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_anchor_receipt_path": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}
