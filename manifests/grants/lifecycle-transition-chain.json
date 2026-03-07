@@ -1,0 +1,35 @@
+{
+  "chain_root": "c347155fd55f240bc44b51e740f4e8a62298c6c647104debf76c82f172d4fa06",
+  "chain_version": "1.0.0",
+  "created_at": "2026-03-07T00:00:00.000Z",
+  "entries": [
+    {
+      "chain_entry_hash": "e02eff6d1a0a23269f1285e80f786c99062bba0a00b66169866d7a3b04f859eb",
+      "chain_position": 0,
+      "cumulative_chain_hash": "c347155fd55f240bc44b51e740f4e8a62298c6c647104debf76c82f172d4fa06",
+      "effective_at": "2026-03-07T18:00:00.000Z",
+      "entry_version": "1.0.0",
+      "event_sequence": 1,
+      "event_type": "vesting",
+      "grant_id": "GRANT-2026-0001",
+      "lifecycle_event_artifact_hash": "634b50c332003706b533aa8379d616640f9e1021b76ab756c3e342474492eee6",
+      "lifecycle_event_artifact_path": "manifests/grants/grant-lifecycle-event.json",
+      "lifecycle_event_hash": "6fd9a93ec01c84f3af64faa5c7d3c5adf78816a96a41092ec87354257aabce76",
+      "lifecycle_event_id": "GRANT-2026-0001-vesting-0001",
+      "lifecycle_inclusion_proof_hash": "83877e6107ff8c41da5cde9f74cef85fe484437b00ee3564f139a174c05a866f",
+      "lifecycle_inclusion_proof_path": "manifests/transparency/lifecycle-inclusion-proof.json",
+      "lifecycle_lineage_hash": "3f6af96cf6977059b12f1181317b794569ae0cc93555814af7630700224d9e86",
+      "previous_chain_entry_hash": null,
+      "previous_lifecycle_event_id": null,
+      "recorded_at": "2026-03-07T18:00:00.000Z",
+      "schema": "grant-audit-lifecycle-transition-chain-entry-v1",
+      "trust_chain_hash": "c63c62bae033514b457c8c6b11f9438f85fa9b4cca3e0d748290407147dd252f"
+    }
+  ],
+  "entry_count": 1,
+  "grant_id": "GRANT-2026-0001",
+  "head_chain_entry_hash": "e02eff6d1a0a23269f1285e80f786c99062bba0a00b66169866d7a3b04f859eb",
+  "head_lifecycle_event_id": "GRANT-2026-0001-vesting-0001",
+  "schema": "grant-audit-lifecycle-transition-chain-v1",
+  "updated_at": "2026-03-07T19:08:52.486Z"
+}

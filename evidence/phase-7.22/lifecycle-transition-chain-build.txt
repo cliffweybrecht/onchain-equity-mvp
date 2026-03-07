@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "grant_id": "GRANT-2026-0001",
+  "appended_lifecycle_event_id": "GRANT-2026-0001-vesting-0001",
+  "chain_position": 0,
+  "previous_lifecycle_event_id": null,
+  "previous_chain_entry_hash": null,
+  "chain_entry_hash": "e02eff6d1a0a23269f1285e80f786c99062bba0a00b66169866d7a3b04f859eb",
+  "cumulative_chain_hash": "c347155fd55f240bc44b51e740f4e8a62298c6c647104debf76c82f172d4fa06",
+  "chain_root": "c347155fd55f240bc44b51e740f4e8a62298c6c647104debf76c82f172d4fa06",
+  "entry_count": 1,
+  "output_path": "manifests/grants/lifecycle-transition-chain.json"
+}

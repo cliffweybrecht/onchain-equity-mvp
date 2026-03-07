@@ -1,0 +1,115 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "grant-audit-lifecycle-transition-chain-entry-v1.schema.json",
+  "title": "Grant Audit Lifecycle Transition Chain Entry V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "entry_version",
+    "grant_id",
+    "lifecycle_event_id",
+    "event_type",
+    "event_sequence",
+    "effective_at",
+    "recorded_at",
+    "previous_lifecycle_event_id",
+    "previous_chain_entry_hash",
+    "lifecycle_event_artifact_path",
+    "lifecycle_event_artifact_hash",
+    "lifecycle_event_hash",
+    "lifecycle_lineage_hash",
+    "trust_chain_hash",
+    "lifecycle_inclusion_proof_path",
+    "lifecycle_inclusion_proof_hash",
+    "chain_position",
+    "chain_entry_hash",
+    "cumulative_chain_hash"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-lifecycle-transition-chain-entry-v1"
+    },
+    "entry_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "grant_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lifecycle_event_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "event_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "event_sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "effective_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "previous_lifecycle_event_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "previous_chain_entry_hash": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[a-f0-9]{64}$|^null$"
+    },
+    "lifecycle_event_artifact_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lifecycle_event_artifact_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "lifecycle_event_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "lifecycle_lineage_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "trust_chain_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "lifecycle_inclusion_proof_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lifecycle_inclusion_proof_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "chain_position": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "chain_entry_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "cumulative_chain_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

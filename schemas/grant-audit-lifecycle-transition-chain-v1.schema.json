@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "grant-audit-lifecycle-transition-chain-v1.schema.json",
+  "title": "Grant Audit Lifecycle Transition Chain V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "chain_version",
+    "created_at",
+    "updated_at",
+    "grant_id",
+    "entry_count",
+    "head_lifecycle_event_id",
+    "head_chain_entry_hash",
+    "chain_root",
+    "entries"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-lifecycle-transition-chain-v1"
+    },
+    "chain_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "grant_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entry_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "head_lifecycle_event_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "head_chain_entry_hash": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[a-f0-9]{64}$|^null$"
+    },
+    "chain_root": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[a-f0-9]{64}$|^null$"
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "$ref": "grant-audit-lifecycle-transition-chain-entry-v1.schema.json"
+      }
+    }
+  }
+}
