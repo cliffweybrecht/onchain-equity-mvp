@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "grant-audit-transparency-lifecycle-log-entry-v1.schema.json",
+  "title": "Grant Audit Transparency Lifecycle Log Entry v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "entry_version",
+    "entry_type",
+    "index",
+    "appended_at",
+    "artifact",
+    "lineage",
+    "entry_hash",
+    "leaf_hash"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-transparency-lifecycle-log-entry-v1"
+    },
+    "entry_version": {
+      "type": "string"
+    },
+    "entry_type": {
+      "const": "grant_lifecycle_event"
+    },
+    "index": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "appended_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "schema",
+        "artifact_hash",
+        "lifecycle_event_hash"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "schema": {
+          "const": "grant-audit-grant-lifecycle-event-v1"
+        },
+        "artifact_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "lifecycle_event_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lifecycle_lineage_hash",
+        "trust_chain_hash",
+        "issuance_artifact_path",
+        "issuance_anchor_reference_path",
+        "checkpoint_reference_path",
+        "transparency_log_path",
+        "root_anchor_network"
+      ],
+      "properties": {
+        "lifecycle_lineage_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "trust_chain_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "issuance_artifact_path": {
+          "type": "string"
+        },
+        "issuance_anchor_reference_path": {
+          "type": "string"
+        },
+        "checkpoint_reference_path": {
+          "type": "string"
+        },
+        "transparency_log_path": {
+          "type": "string"
+        },
+        "root_anchor_network": {
+          "const": "base-sepolia"
+        }
+      }
+    },
+    "entry_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "leaf_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

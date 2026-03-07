@@ -1,0 +1,7 @@
+{
+  "ok": true,
+  "checkpoint_path": "manifests/transparency/checkpoint.json",
+  "entry_count": 2,
+  "head_entry_hash": "8df8f6abfe36b04a8ccb15cb8c29ffc8fc09e6958ef0a24e27de94dbe89ee35a",
+  "log_root": "792040d77ef7fb40d423d4a95c0482f812ccc533e25079aa001d202b9ec9b609"
+}

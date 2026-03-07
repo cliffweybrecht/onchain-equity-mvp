@@ -1,0 +1,219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "grant-audit-transparency-lifecycle-inclusion-proof-v1.schema.json",
+  "title": "Grant Audit Transparency Lifecycle Inclusion Proof v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "proof_version",
+    "created_at",
+    "subject",
+    "log_entry",
+    "inclusion_proof",
+    "log_binding",
+    "checkpoint_binding",
+    "root_anchor_binding",
+    "proof_hash"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-transparency-lifecycle-inclusion-proof-v1"
+    },
+    "proof_version": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_path",
+        "artifact_schema",
+        "artifact_hash",
+        "lifecycle_event_hash",
+        "lifecycle_lineage_hash",
+        "trust_chain_hash"
+      ],
+      "properties": {
+        "artifact_path": {
+          "type": "string"
+        },
+        "artifact_schema": {
+          "const": "grant-audit-grant-lifecycle-event-v1"
+        },
+        "artifact_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "lifecycle_event_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "lifecycle_lineage_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "trust_chain_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "log_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "index",
+        "entry_hash",
+        "leaf_hash"
+      ],
+      "properties": {
+        "index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "entry_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "leaf_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "inclusion_proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tree_size",
+        "hash_algorithm",
+        "odd_node_rule",
+        "siblings"
+      ],
+      "properties": {
+        "tree_size": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "hash_algorithm": {
+          "const": "sha256"
+        },
+        "odd_node_rule": {
+          "const": "promote"
+        },
+        "siblings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "position",
+              "hash"
+            ],
+            "properties": {
+              "position": {
+                "enum": ["left", "right"]
+              },
+              "hash": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "log_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "log_path",
+        "entry_count",
+        "head_entry_hash",
+        "log_root"
+      ],
+      "properties": {
+        "log_path": {
+          "type": "string"
+        },
+        "entry_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "head_entry_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "log_root": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "checkpoint_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checkpoint_path",
+        "checkpoint_schema",
+        "checkpoint_hash",
+        "log_root",
+        "entry_count"
+      ],
+      "properties": {
+        "checkpoint_path": {
+          "type": "string"
+        },
+        "checkpoint_schema": {
+          "type": "string"
+        },
+        "checkpoint_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "log_root": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "entry_count": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "root_anchor_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "network",
+        "source"
+      ],
+      "properties": {
+        "network": {
+          "const": "base-sepolia"
+        },
+        "source": {
+          "type": "string"
+        },
+        "tx_hash": {
+          "type": "string"
+        },
+        "block_number": {
+          "type": ["integer", "string"]
+        },
+        "contract_address": {
+          "type": "string"
+        }
+      }
+    },
+    "proof_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

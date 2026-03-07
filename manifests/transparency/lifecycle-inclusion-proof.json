@@ -1,0 +1,55 @@
+{
+  "checkpoint_binding": {
+    "checkpoint_hash": "2405a2b02c00207aaf911840520b77705ebb4f07f499be741337ec46e8108023",
+    "checkpoint_path": "manifests/transparency/checkpoint.json",
+    "checkpoint_schema": "grant-audit-transparency-log-checkpoint-v1",
+    "entry_count": 2,
+    "log_root": "792040d77ef7fb40d423d4a95c0482f812ccc533e25079aa001d202b9ec9b609"
+  },
+  "created_at": "2026-03-07T18:00:00.000Z",
+  "inclusion_proof": {
+    "hash_algorithm": "sha256",
+    "odd_node_rule": "promote",
+    "siblings": [
+      {
+        "hash": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+        "position": "left"
+      }
+    ],
+    "tree_size": 2
+  },
+  "log_binding": {
+    "entry_count": 2,
+    "head_entry_hash": "8df8f6abfe36b04a8ccb15cb8c29ffc8fc09e6958ef0a24e27de94dbe89ee35a",
+    "log_path": "manifests/transparency/transparency-log.json",
+    "log_root": "792040d77ef7fb40d423d4a95c0482f812ccc533e25079aa001d202b9ec9b609"
+  },
+  "log_entry": {
+    "entry_hash": "8df8f6abfe36b04a8ccb15cb8c29ffc8fc09e6958ef0a24e27de94dbe89ee35a",
+    "index": 1,
+    "leaf_hash": "e61bc4b8b613f278527e65d25dfd73728e8be9e0181bb1b0dfd9d7cc0f5ed950"
+  },
+  "proof_hash": "83877e6107ff8c41da5cde9f74cef85fe484437b00ee3564f139a174c05a866f",
+  "proof_version": "1.0.0",
+  "root_anchor_binding": {
+    "block_number": "38541783",
+    "chain_id": "84532",
+    "checkpoint_path": "manifests/transparency/checkpoint.json",
+    "network": "base-sepolia",
+    "source": "grant-lifecycle-event:lifecycle_anchor_lineage_reference.base_sepolia_root_anchor_reference",
+    "tx_hash": "0x279296e27eca99a8c80f2414cffa7d59f7ee8b6bb41c848afc436bbc7639b6a9"
+  },
+  "schema": "grant-audit-transparency-lifecycle-inclusion-proof-v1",
+  "subject": {
+    "artifact_hash": "634b50c332003706b533aa8379d616640f9e1021b76ab756c3e342474492eee6",
+    "artifact_path": "manifests/grants/grant-lifecycle-event.json",
+    "artifact_schema": "grant-audit-grant-lifecycle-event-v1",
+    "event_sequence": 1,
+    "event_type": "vesting",
+    "grant_id": "GRANT-2026-0001",
+    "lifecycle_event_hash": "6fd9a93ec01c84f3af64faa5c7d3c5adf78816a96a41092ec87354257aabce76",
+    "lifecycle_event_id": "GRANT-2026-0001-vesting-0001",
+    "lifecycle_lineage_hash": "3f6af96cf6977059b12f1181317b794569ae0cc93555814af7630700224d9e86",
+    "trust_chain_hash": "c63c62bae033514b457c8c6b11f9438f85fa9b4cca3e0d748290407147dd252f"
+  }
+}
