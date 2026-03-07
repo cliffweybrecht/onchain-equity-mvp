@@ -1,0 +1,16 @@
+{
+  "schema": "grant-audit-transparency-log-anchor-v1",
+  "version": "1.0.0",
+  "created_at": "2026-03-07T03:10:12.521Z",
+  "network": {
+    "name": "base-sepolia",
+    "chain_id": 84532
+  },
+  "anchor_contract": "0x84BEc654B6883536BE86171a60EE6cCd402E4F58",
+  "log": {
+    "path": "/home/cliff/onchain-equity-mvp/contracts/manifests/transparency/transparency-log.json",
+    "entry_count": 1,
+    "head_entry_hash": "0xacd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+    "log_root": "0x17425158cd0adf067564abfe44726ea5a0b03f07472cb9c438cd24c8768662ef"
+  }
+}

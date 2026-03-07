@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "schema": "grant-audit-transparency-log-anchor-verification-v1",
+  "network": "base-sepolia",
+  "receipt_path": "/home/cliff/onchain-equity-mvp/contracts/evidence/phase-7.13/transparency-log-anchor-receipt.json",
+  "log_path": "/home/cliff/onchain-equity-mvp/contracts/manifests/transparency/transparency-log.json",
+  "anchor_contract": "0x84BEc654B6883536BE86171a60EE6cCd402E4F58",
+  "log_root": "0x17425158cd0adf067564abfe44726ea5a0b03f07472cb9c438cd24c8768662ef",
+  "head_entry_hash": "0xacd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+  "entry_count": "1",
+  "tx_hash": "0x279296e27eca99a8c80f2414cffa7d59f7ee8b6bb41c848afc436bbc7639b6a9",
+  "block_number": "38541783",
+  "block_hash": "0x4f9da0b46de67448ff0d3e3183d6ef7fbe7667a807523a46ee25f4efa4376f80",
+  "block_timestamp": "1772851854",
+  "anchored": true,
+  "errors": []
+}

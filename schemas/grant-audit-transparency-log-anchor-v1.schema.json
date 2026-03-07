@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Grant Audit Transparency Log Anchor",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "version",
+    "created_at",
+    "network",
+    "anchor_contract",
+    "log"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-transparency-log-anchor-v1"
+    },
+    "version": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "network": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "chain_id"],
+      "properties": {
+        "name": { "type": "string" },
+        "chain_id": { "type": "integer" }
+      }
+    },
+    "anchor_contract": {
+      "type": "string",
+      "pattern": "^0x[a-fA-F0-9]{40}$"
+    },
+    "log": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "entry_count",
+        "head_entry_hash",
+        "log_root"
+      ],
+      "properties": {
+        "path": { "type": "string" },
+        "entry_count": { "type": "integer", "minimum": 1 },
+        "head_entry_hash": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{64}$"
+        },
+        "log_root": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{64}$"
+        }
+      }
+    }
+  }
+}
