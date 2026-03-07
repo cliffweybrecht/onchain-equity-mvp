@@ -1,0 +1,74 @@
+{
+  "consideration": {
+    "amount": "0",
+    "currency": "USD"
+  },
+  "deterministic_hashes": {
+    "artifact_hash": "634b50c332003706b533aa8379d616640f9e1021b76ab756c3e342474492eee6",
+    "lifecycle_event_hash": "6fd9a93ec01c84f3af64faa5c7d3c5adf78816a96a41092ec87354257aabce76",
+    "lifecycle_lineage_hash": "3f6af96cf6977059b12f1181317b794569ae0cc93555814af7630700224d9e86",
+    "trust_chain_hash": "c63c62bae033514b457c8c6b11f9438f85fa9b4cca3e0d748290407147dd252f"
+  },
+  "effective_at": "2026-03-07T18:00:00.000Z",
+  "event_sequence": 1,
+  "event_type": "vesting",
+  "event_version": "1.0.0",
+  "grant_id": "GRANT-2026-0001",
+  "lifecycle_anchor_lineage_reference": {
+    "base_sepolia_root_anchor_reference": {
+      "block_number": "38541783",
+      "chain_id": "84532",
+      "tx_hash": "0x279296e27eca99a8c80f2414cffa7d59f7ee8b6bb41c848afc436bbc7639b6a9"
+    },
+    "finalized_checkpoint_reference": {
+      "checkpoint_finalization_hash": "45a76eea514db02b605c9ddffa99d5cc73039616306fe0d9e6750b7e896b76f2",
+      "finalized_checkpoint_hash": "76954cef9776b6fbbab9a0158267a5e9fcb7f8e6cc0d58d71fd9fd0a7af11ef5",
+      "path": "manifests/transparency/checkpoint-finalization.json",
+      "schema": "grant-audit-transparency-checkpoint-finalization-v1"
+    },
+    "grant_id": "GRANT-2026-0001",
+    "issuance_anchor_reference": {
+      "checkpoint_finalization_hash": "45a76eea514db02b605c9ddffa99d5cc73039616306fe0d9e6750b7e896b76f2",
+      "checkpoint_finalization_path": "manifests/transparency/checkpoint-finalization.json",
+      "checkpoint_finalization_schema": "grant-audit-transparency-checkpoint-finalization-v1",
+      "finalized_checkpoint_hash": "76954cef9776b6fbbab9a0158267a5e9fcb7f8e6cc0d58d71fd9fd0a7af11ef5",
+      "issuance_anchor_hash": "18ceedc9486d9308738aea1cb334b53c8745a78cd004a53ac9ef24150098b1f6",
+      "issuance_anchor_path": "manifests/transparency/issuance-anchor.json",
+      "issuance_anchor_schema": "grant-audit-transparency-issuance-anchor-v1",
+      "onchain_root_anchor": {
+        "block_number": "38541783",
+        "chain_id": "84532",
+        "tx_hash": "0x279296e27eca99a8c80f2414cffa7d59f7ee8b6bb41c848afc436bbc7639b6a9"
+      },
+      "reference_version": "1.0.0",
+      "schema": "grant-audit-transparency-issuance-anchor-reference-v1",
+      "transparency_log_root": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e"
+    },
+    "lineage_hash": "3f6af96cf6977059b12f1181317b794569ae0cc93555814af7630700224d9e86",
+    "lineage_version": "1.0.0",
+    "schema": "grant-audit-lifecycle-anchor-lineage-reference-v1",
+    "source_grant_issuance_artifact_hash": "53f025d65fd1444db280f9a18151bd836b054389d2a8d75b410ed6257698c9b9",
+    "source_grant_issuance_path": "manifests/grants/grant-issuance.json",
+    "source_grant_issuance_trust_chain_hash": "9d740a3ee3ce6e32f77ec8dfeaa0f005b44a092de23b6ed76b5aad3398bc8d6a",
+    "source_issuance_bound_grant_hash": "4196db01bc091df3fbca7f20492c82941ba0787637c8f18295257e981fede91b",
+    "transparency_log_root_reference": {
+      "transparency_log_root": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e"
+    }
+  },
+  "lifecycle_event_id": "GRANT-2026-0001-vesting-0001",
+  "quantity": {
+    "delta": "100",
+    "post_event_balance": "100",
+    "unit": "shares"
+  },
+  "recorded_at": "2026-03-07T18:00:00.000Z",
+  "references": {
+    "operator": "system"
+  },
+  "schema": "grant-audit-grant-lifecycle-event-v1",
+  "state_transition": {
+    "from_state": "issued",
+    "reason_code": "scheduled_vesting",
+    "to_state": "vested"
+  }
+}

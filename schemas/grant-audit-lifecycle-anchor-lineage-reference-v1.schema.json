@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "grant-audit-lifecycle-anchor-lineage-reference-v1.schema.json",
+  "title": "Grant Audit Lifecycle Anchor Lineage Reference V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "lineage_version",
+    "grant_id",
+    "source_grant_issuance_path",
+    "source_grant_issuance_artifact_hash",
+    "source_grant_issuance_trust_chain_hash",
+    "source_issuance_bound_grant_hash",
+    "issuance_anchor_reference",
+    "finalized_checkpoint_reference",
+    "transparency_log_root_reference",
+    "base_sepolia_root_anchor_reference",
+    "lineage_hash"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-lifecycle-anchor-lineage-reference-v1"
+    },
+    "lineage_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "grant_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_grant_issuance_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_grant_issuance_artifact_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source_grant_issuance_trust_chain_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source_issuance_bound_grant_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "issuance_anchor_reference": {
+      "type": "object"
+    },
+    "finalized_checkpoint_reference": {
+      "type": "object"
+    },
+    "transparency_log_root_reference": {
+      "type": "object"
+    },
+    "base_sepolia_root_anchor_reference": {
+      "type": "object"
+    },
+    "lineage_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}
