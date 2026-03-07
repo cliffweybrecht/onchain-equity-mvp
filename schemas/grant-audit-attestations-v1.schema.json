@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "grant-audit-attestations-v1.schema.json",
+  "title": "Grant Audit Attestations V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "version",
+    "packet_manifest_hash",
+    "attestations"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-attestations-v1"
+    },
+    "version": {
+      "type": "string"
+    },
+    "packet_manifest_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "attestations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema",
+          "signature_algorithm",
+          "signer_key_id",
+          "signed_at",
+          "signed_payload",
+          "signature",
+          "signer"
+        ],
+        "properties": {
+          "schema": {
+            "const": "grant-audit-packet-attestation-v1"
+          },
+          "signature_algorithm": {
+            "const": "ed25519"
+          },
+          "signer_key_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "signed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "signed_payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "packet_manifest_hash",
+              "signer_key_id",
+              "signed_at"
+            ],
+            "properties": {
+              "type": {
+                "const": "grant-audit-packet-attestation-v1"
+              },
+              "packet_manifest_hash": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "signer_key_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "signed_at": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          },
+          "signature": {
+            "type": "string",
+            "minLength": 1
+          },
+          "signer": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "key_id",
+              "public_key_pem"
+            ],
+            "properties": {
+              "key_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "name": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string"
+              },
+              "public_key_pem": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

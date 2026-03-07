@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "grant-audit-trust-policy-v1.schema.json",
+  "title": "Grant Audit Trust Policy V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "version",
+    "packet_manifest_hash",
+    "threshold",
+    "trusted_signers"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-trust-policy-v1"
+    },
+    "version": {
+      "type": "string"
+    },
+    "packet_manifest_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "threshold": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "trusted_signers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "key_id",
+          "public_key_pem"
+        ],
+        "properties": {
+          "key_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "public_key_pem": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

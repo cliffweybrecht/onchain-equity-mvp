@@ -1,0 +1,21 @@
+Trust policy verification successful
+{
+  "ok": true,
+  "schema": "grant-audit-trust-policy-verification-v1",
+  "packet_manifest_hash": "aa6b4994839c8a90c81e982c3174f6f52f9f3e1036524508af1e401e6b2a8209",
+  "threshold": 2,
+  "valid_trusted_signature_count": 2,
+  "threshold_met": true,
+  "missing_required_signers": [],
+  "verified_trusted_signers": [
+    {
+      "signer_key_id": "audit-signer-dev",
+      "signed_at": "2026-03-07T01:09:26.352Z"
+    },
+    {
+      "signer_key_id": "audit-signer-peer",
+      "signed_at": "2026-03-07T01:09:31.516Z"
+    }
+  ],
+  "rejected_attestations": []
+}

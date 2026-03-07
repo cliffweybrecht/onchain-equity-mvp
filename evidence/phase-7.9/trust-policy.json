@@ -1,0 +1,22 @@
+{
+  "schema": "grant-audit-trust-policy-v1",
+  "version": "1.0.0",
+  "packet_manifest_hash": "aa6b4994839c8a90c81e982c3174f6f52f9f3e1036524508af1e401e6b2a8209",
+  "threshold": 2,
+  "trusted_signers": [
+    {
+      "key_id": "audit-signer-dev",
+      "name": "Dev Audit Signer",
+      "role": "primary-auditor",
+      "required": true,
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA83AsaXTDTHN1HflVRNpd3ffUT6HBng3W2j5lnntTPDQ=\n-----END PUBLIC KEY-----\n"
+    },
+    {
+      "key_id": "audit-signer-peer",
+      "name": "Peer Audit Signer",
+      "role": "independent-reviewer",
+      "required": false,
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAuy14/O4LoMGbfRTgDoLMOhZlgbOIgCbOT+0U3V4YRYk=\n-----END PUBLIC KEY-----\n"
+    }
+  ]
+}

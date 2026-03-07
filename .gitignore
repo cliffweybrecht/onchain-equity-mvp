@@ -38,3 +38,5 @@ evidence/phase-6.2/*.json
 # audit packet build artifacts
 *.tgz
 grant-audit-packet*.tgz
+
+.secrets/

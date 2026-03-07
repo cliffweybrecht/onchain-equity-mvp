@@ -1,0 +1,45 @@
+{
+  "schema": "grant-audit-attestations-v1",
+  "version": "1.0.0",
+  "packet_manifest_hash": "aa6b4994839c8a90c81e982c3174f6f52f9f3e1036524508af1e401e6b2a8209",
+  "attestations": [
+    {
+      "schema": "grant-audit-packet-attestation-v1",
+      "signature_algorithm": "ed25519",
+      "signer_key_id": "audit-signer-dev",
+      "signed_at": "2026-03-07T01:09:26.352Z",
+      "signed_payload": {
+        "type": "grant-audit-packet-attestation-v1",
+        "packet_manifest_hash": "aa6b4994839c8a90c81e982c3174f6f52f9f3e1036524508af1e401e6b2a8209",
+        "signer_key_id": "audit-signer-dev",
+        "signed_at": "2026-03-07T01:09:26.352Z"
+      },
+      "signature": "zNV7i+zsF6+RME0W8K5cuvbh8fb0G01SH/3QmTvUTxOo6b82byxlAcTHBGWFRUmp7zrL/5sjpWB5TqmoWO3nDA==",
+      "signer": {
+        "key_id": "audit-signer-dev",
+        "name": "Dev Audit Signer",
+        "role": "primary-auditor",
+        "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA83AsaXTDTHN1HflVRNpd3ffUT6HBng3W2j5lnntTPDQ=\n-----END PUBLIC KEY-----\n"
+      }
+    },
+    {
+      "schema": "grant-audit-packet-attestation-v1",
+      "signature_algorithm": "ed25519",
+      "signer_key_id": "audit-signer-peer",
+      "signed_at": "2026-03-07T01:09:31.516Z",
+      "signed_payload": {
+        "type": "grant-audit-packet-attestation-v1",
+        "packet_manifest_hash": "aa6b4994839c8a90c81e982c3174f6f52f9f3e1036524508af1e401e6b2a8209",
+        "signer_key_id": "audit-signer-peer",
+        "signed_at": "2026-03-07T01:09:31.516Z"
+      },
+      "signature": "pOJoKl82QDEVPfE0R2lhSw6rcdaF+5F7r8BO2W3x5yiHuoYv4ALPUMGVKwTVN5bcDs3EXvpPNhWOUwzPviqRBw==",
+      "signer": {
+        "key_id": "audit-signer-peer",
+        "name": "Peer Audit Signer",
+        "role": "independent-reviewer",
+        "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAuy14/O4LoMGbfRTgDoLMOhZlgbOIgCbOT+0U3V4YRYk=\n-----END PUBLIC KEY-----\n"
+      }
+    }
+  ]
+}
