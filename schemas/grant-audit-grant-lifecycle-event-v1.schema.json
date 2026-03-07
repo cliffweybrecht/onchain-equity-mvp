@@ -7,199 +7,67 @@
   "required": [
     "schema",
     "event_version",
-    "event_type",
-    "recorded_at",
     "grant_id",
-    "lifecycle_event_id",
-    "event_sequence",
+    "event_id",
+    "event_type",
     "effective_at",
-    "state_transition",
-    "quantity",
-    "consideration",
-    "references",
-    "lifecycle_anchor_lineage_reference",
-    "deterministic_hashes"
+    "current_state",
+    "lifecycle_lineage_hash",
+    "trust_chain_hash",
+    "quantity_normalization",
+    "event_hash"
   ],
   "properties": {
     "schema": {
       "const": "grant-audit-grant-lifecycle-event-v1"
     },
     "event_version": {
-      "type": "string",
-      "const": "1.0.0"
-    },
-    "event_type": {
-      "type": "string",
-      "enum": [
-        "vesting",
-        "cancellation",
-        "settlement",
-        "exercise",
-        "transfer_state_change",
-        "repurchase",
-        "forfeiture",
-        "manual_adjustment"
-      ]
-    },
-    "recorded_at": {
-      "type": "string",
-      "format": "date-time"
+      "type": "string"
     },
     "grant_id": {
       "type": "string",
       "minLength": 1
     },
-    "lifecycle_event_id": {
+    "event_id": {
       "type": "string",
       "minLength": 1
     },
-    "event_sequence": {
-      "type": "integer",
-      "minimum": 0
+    "event_type": {
+      "type": "string",
+      "minLength": 1
     },
     "effective_at": {
       "type": "string",
       "format": "date-time"
     },
-    "state_transition": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "from_state",
-        "to_state",
-        "reason_code"
-      ],
-      "properties": {
-        "from_state": {
-          "type": "string",
-          "minLength": 1
-        },
-        "to_state": {
-          "type": "string",
-          "minLength": 1
-        },
-        "reason_code": {
-          "type": "string",
-          "minLength": 1
-        },
-        "notes": {
-          "type": "string"
-        }
-      }
+    "current_state": {
+      "type": "string",
+      "minLength": 1
+    },
+    "previous_state": {
+      "type": ["string", "null"]
     },
     "quantity": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "unit",
-        "delta"
-      ],
-      "properties": {
-        "unit": {
-          "type": "string",
-          "minLength": 1
-        },
-        "delta": {
-          "type": [
-            "string",
-            "number",
-            "integer"
-          ]
-        },
-        "post_event_balance": {
-          "type": [
-            "string",
-            "number",
-            "integer"
-          ]
-        }
-      }
+      "type": ["string", "null"],
+      "pattern": "^[0-9]+$"
     },
-    "consideration": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "currency",
-        "amount"
-      ],
-      "properties": {
-        "currency": {
-          "type": "string",
-          "minLength": 1
-        },
-        "amount": {
-          "type": [
-            "string",
-            "number",
-            "integer"
-          ]
-        },
-        "price_per_unit": {
-          "type": [
-            "string",
-            "number",
-            "integer"
-          ]
-        }
-      }
-    },
-    "references": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "grant_document_uri": {
-          "type": "string"
-        },
-        "cap_table_entry_id": {
-          "type": "string"
-        },
-        "settlement_reference_id": {
-          "type": "string"
-        },
-        "exercise_notice_id": {
-          "type": "string"
-        },
-        "transfer_reference_id": {
-          "type": "string"
-        },
-        "operator": {
-          "type": "string"
-        },
-        "notes": {
-          "type": "string"
-        }
-      }
-    },
-    "lifecycle_anchor_lineage_reference": {
+    "metadata": {
       "type": "object"
     },
-    "deterministic_hashes": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "lifecycle_event_hash",
-        "lifecycle_lineage_hash",
-        "trust_chain_hash",
-        "artifact_hash"
-      ],
-      "properties": {
-        "lifecycle_event_hash": {
-          "type": "string",
-          "pattern": "^[a-f0-9]{64}$"
-        },
-        "lifecycle_lineage_hash": {
-          "type": "string",
-          "pattern": "^[a-f0-9]{64}$"
-        },
-        "trust_chain_hash": {
-          "type": "string",
-          "pattern": "^[a-f0-9]{64}$"
-        },
-        "artifact_hash": {
-          "type": "string",
-          "pattern": "^[a-f0-9]{64}$"
-        }
-      }
+    "lifecycle_lineage_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "trust_chain_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "quantity_normalization": {
+      "$ref": "grant-audit-lifecycle-quantity-normalization-v1.schema.json"
+    },
+    "event_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
     }
   }
 }

@@ -1,0 +1,7 @@
+{
+  "ok": true,
+  "grant_id": "GRANT-2026-0001",
+  "entry_count": 1,
+  "head_chain_entry_hash": "7cc89267ab0a7d6e9fb71632ad9656b0b1986138c703d839cfcc4345bd801827",
+  "chain_root": "b409b0b93a1710397073ab1f45df2343e81b65029c1d61897da3432a40ab64a9"
+}

@@ -1,5 +1,5 @@
 {
-  "chain_root": "b409b0b93a1710397073ab1f45df2343e81b65029c1d61897da3432a40ab64a9",
+  "chain_root": "f81036da7db48e42684297075d06847fb7eb34648138ca21845564d73f2728a8",
   "chain_version": "1.0.0",
   "entries": [
     {
@@ -27,10 +27,23 @@
       "previous_state": "pending",
       "schema": "grant-audit-lifecycle-transition-chain-entry-v1",
       "trust_chain_hash": "c63c62bae033514b457c8c6b11f9438f85fa9b4cca3e0d748290407147dd252f"
+    },
+    {
+      "effective_at": "2026-03-07T18:00:00.000Z",
+      "entry_hash": "561a711f30c40f1d8636baacd21e4798bd2f5fd796ec6f6289f62f19f675d9ca",
+      "entry_version": "1.1.0",
+      "event_type": "vesting",
+      "grant_id": "GRANT-2026-0001",
+      "index": 1,
+      "lifecycle_lineage_hash": "3f6af96cf6977059b12f1181317b794569ae0cc93555814af7630700224d9e86",
+      "prev_entry_hash": "7cc89267ab0a7d6e9fb71632ad9656b0b1986138c703d839cfcc4345bd801827",
+      "previous_state": null,
+      "schema": "grant-audit-lifecycle-transition-chain-entry-v1",
+      "trust_chain_hash": "c63c62bae033514b457c8c6b11f9438f85fa9b4cca3e0d748290407147dd252f"
     }
   ],
-  "entry_count": 1,
+  "entry_count": 2,
   "grant_id": "GRANT-2026-0001",
-  "head_chain_entry_hash": "7cc89267ab0a7d6e9fb71632ad9656b0b1986138c703d839cfcc4345bd801827",
+  "head_chain_entry_hash": "561a711f30c40f1d8636baacd21e4798bd2f5fd796ec6f6289f62f19f675d9ca",
   "schema": "grant-audit-lifecycle-transition-chain-v1"
 }

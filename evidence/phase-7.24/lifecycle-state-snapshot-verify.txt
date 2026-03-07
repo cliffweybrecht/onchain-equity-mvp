@@ -1,0 +1,10 @@
+{
+  "ok": true,
+  "grant_id": "GRANT-2026-0001",
+  "total_vested": "1000",
+  "total_exercised": "0",
+  "total_cancelled": "0",
+  "total_forfeited": "0",
+  "current_balance": "1000",
+  "snapshot_hash": "3eefa9627974d78da9d5467e8388d864cb8f16e1da9efe6696868c41264be5d4"
+}

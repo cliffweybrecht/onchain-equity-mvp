@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "grant_id": "GRANT-2026-0001",
+  "event_id": "GRANT-2026-0001-vesting-0001",
+  "event_type": "vesting",
+  "event_hash": "ed76614ab634e053cdb11161c438d54ba66c91062e2067de8c2aa73e4136de84",
+  "quantity_normalization": {
+    "cancelled_delta": "0",
+    "exercised_delta": "0",
+    "forfeited_delta": "0",
+    "mode": "derived",
+    "normalization_version": "1.0.0",
+    "schema": "grant-audit-lifecycle-quantity-normalization-v1",
+    "source_quantity": "1000",
+    "vested_delta": "1000"
+  }
+}

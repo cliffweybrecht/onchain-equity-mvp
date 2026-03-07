@@ -1,0 +1,25 @@
+{
+  "schema": "grant-audit-grant-lifecycle-event-v1",
+  "event_version": "1.1.0",
+  "grant_id": "GRANT-2026-0001",
+  "event_id": "GRANT-2026-0001-vesting-0001",
+  "event_type": "vesting",
+  "effective_at": "2026-03-07T00:00:00.000Z",
+  "previous_state": "pending",
+  "current_state": "active",
+  "quantity": "1000",
+  "metadata": {},
+  "lifecycle_lineage_hash": "3f6af96cf6977059b12f1181317b794569ae0cc93555814af7630700224d9e86",
+  "trust_chain_hash": "c63c62bae033514b457c8c6b11f9438f85fa9b4cca3e0d748290407147dd252f",
+  "quantity_normalization": {
+    "schema": "grant-audit-lifecycle-quantity-normalization-v1",
+    "normalization_version": "1.0.0",
+    "mode": "derived",
+    "source_quantity": "1000",
+    "vested_delta": "1000",
+    "exercised_delta": "0",
+    "cancelled_delta": "0",
+    "forfeited_delta": "0"
+  },
+  "event_hash": "ed76614ab634e053cdb11161c438d54ba66c91062e2067de8c2aa73e4136de84"
+}

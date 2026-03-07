@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "grant-audit-lifecycle-quantity-normalization-v1.schema.json",
+  "title": "Grant Audit Lifecycle Quantity Normalization V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "normalization_version",
+    "mode",
+    "vested_delta",
+    "exercised_delta",
+    "cancelled_delta",
+    "forfeited_delta"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-lifecycle-quantity-normalization-v1"
+    },
+    "normalization_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["derived", "explicit", "legacy-zero"]
+    },
+    "source_quantity": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9]+$"
+    },
+    "vested_delta": {
+      "type": "string",
+      "pattern": "^[0-9]+$"
+    },
+    "exercised_delta": {
+      "type": "string",
+      "pattern": "^[0-9]+$"
+    },
+    "cancelled_delta": {
+      "type": "string",
+      "pattern": "^[0-9]+$"
+    },
+    "forfeited_delta": {
+      "type": "string",
+      "pattern": "^[0-9]+$"
+    }
+  }
+}

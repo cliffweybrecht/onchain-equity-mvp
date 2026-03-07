@@ -7,38 +7,36 @@
   "required": [
     "schema",
     "entry_version",
+    "index",
     "grant_id",
-    "lifecycle_event_id",
+    "event_id",
     "event_type",
-    "event_sequence",
     "effective_at",
-    "recorded_at",
-    "previous_lifecycle_event_id",
-    "previous_chain_entry_hash",
-    "lifecycle_event_artifact_path",
-    "lifecycle_event_artifact_hash",
-    "lifecycle_event_hash",
+    "previous_state",
+    "current_state",
+    "event_hash",
+    "normalized_quantities",
     "lifecycle_lineage_hash",
     "trust_chain_hash",
-    "lifecycle_inclusion_proof_path",
-    "lifecycle_inclusion_proof_hash",
-    "chain_position",
-    "chain_entry_hash",
-    "cumulative_chain_hash"
+    "prev_entry_hash",
+    "entry_hash"
   ],
   "properties": {
     "schema": {
       "const": "grant-audit-lifecycle-transition-chain-entry-v1"
     },
     "entry_version": {
-      "type": "string",
-      "const": "1.0.0"
+      "type": "string"
+    },
+    "index": {
+      "type": "integer",
+      "minimum": 0
     },
     "grant_id": {
       "type": "string",
       "minLength": 1
     },
-    "lifecycle_event_id": {
+    "event_id": {
       "type": "string",
       "minLength": 1
     },
@@ -46,42 +44,23 @@
       "type": "string",
       "minLength": 1
     },
-    "event_sequence": {
-      "type": "integer",
-      "minimum": 0
-    },
     "effective_at": {
       "type": "string",
       "format": "date-time"
     },
-    "recorded_at": {
-      "type": "string",
-      "format": "date-time"
+    "previous_state": {
+      "type": ["string", "null"]
     },
-    "previous_lifecycle_event_id": {
-      "type": [
-        "string",
-        "null"
-      ]
-    },
-    "previous_chain_entry_hash": {
-      "type": [
-        "string",
-        "null"
-      ],
-      "pattern": "^[a-f0-9]{64}$|^null$"
-    },
-    "lifecycle_event_artifact_path": {
+    "current_state": {
       "type": "string",
       "minLength": 1
     },
-    "lifecycle_event_artifact_hash": {
+    "event_hash": {
       "type": "string",
       "pattern": "^[a-f0-9]{64}$"
     },
-    "lifecycle_event_hash": {
-      "type": "string",
-      "pattern": "^[a-f0-9]{64}$"
+    "normalized_quantities": {
+      "$ref": "grant-audit-lifecycle-quantity-normalization-v1.schema.json"
     },
     "lifecycle_lineage_hash": {
       "type": "string",
@@ -91,23 +70,11 @@
       "type": "string",
       "pattern": "^[a-f0-9]{64}$"
     },
-    "lifecycle_inclusion_proof_path": {
-      "type": "string",
-      "minLength": 1
-    },
-    "lifecycle_inclusion_proof_hash": {
-      "type": "string",
+    "prev_entry_hash": {
+      "type": ["string", "null"],
       "pattern": "^[a-f0-9]{64}$"
     },
-    "chain_position": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "chain_entry_hash": {
-      "type": "string",
-      "pattern": "^[a-f0-9]{64}$"
-    },
-    "cumulative_chain_hash": {
+    "entry_hash": {
       "type": "string",
       "pattern": "^[a-f0-9]{64}$"
     }
