@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "grant-audit-transparency-witness-signature-v1.schema.json",
+  "title": "Grant Audit Transparency Witness Signature v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "signature_version",
+    "witness_id",
+    "display_name",
+    "key_algorithm",
+    "public_key_pem_path",
+    "public_key_fingerprint_sha256",
+    "signature_algorithm",
+    "signature_encoding",
+    "signed_at",
+    "payload_hash",
+    "checkpoint_hash",
+    "checkpoint_cumulative_root",
+    "checkpoint_log_root",
+    "checkpoint_entry_count",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-transparency-witness-signature-v1"
+    },
+    "signature_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "witness_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "key_algorithm": {
+      "type": "string",
+      "enum": [
+        "RSA-SHA256"
+      ]
+    },
+    "public_key_pem_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "public_key_fingerprint_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "signature_algorithm": {
+      "type": "string",
+      "enum": [
+        "RSA-SHA256"
+      ]
+    },
+    "signature_encoding": {
+      "type": "string",
+      "enum": [
+        "base64"
+      ]
+    },
+    "signed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "payload_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "checkpoint_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "checkpoint_cumulative_root": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "checkpoint_log_root": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "checkpoint_entry_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "signature": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

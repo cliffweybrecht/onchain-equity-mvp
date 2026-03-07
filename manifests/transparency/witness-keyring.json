@@ -1,0 +1,18 @@
+{
+  "schema": "grant-audit-transparency-witness-keyring-v1",
+  "keyring_version": "1.0.0",
+  "created_at": "2026-03-07T00:00:00.000Z",
+  "updated_at": "2026-03-07T03:00:00.000Z",
+  "witnesses": [
+    {
+      "schema": "grant-audit-transparency-witness-key-v1",
+      "key_version": "1.0.0",
+      "witness_id": "witness-1",
+      "display_name": "Independent Witness 1",
+      "key_algorithm": "RSA-SHA256",
+      "public_key_pem_path": "keys/transparency-witness-1-public.pem",
+      "public_key_fingerprint_sha256": "e3c21c12dd1d586b4c4fccb6882d4d0ff9249eb2eadaed7cec9037ce9d3a5fa0",
+      "status": "active"
+    }
+  ]
+}

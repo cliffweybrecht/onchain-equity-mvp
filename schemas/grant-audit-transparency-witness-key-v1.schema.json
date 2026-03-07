@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "grant-audit-transparency-witness-key-v1.schema.json",
+  "title": "Grant Audit Transparency Witness Key v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "key_version",
+    "witness_id",
+    "display_name",
+    "key_algorithm",
+    "public_key_pem_path",
+    "public_key_fingerprint_sha256",
+    "status"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-transparency-witness-key-v1"
+    },
+    "key_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "witness_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "key_algorithm": {
+      "type": "string",
+      "enum": [
+        "RSA-SHA256"
+      ]
+    },
+    "public_key_pem_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "public_key_fingerprint_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "retired",
+        "revoked"
+      ]
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

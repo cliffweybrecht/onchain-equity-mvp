@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "grant-audit-transparency-checkpoint-witnesses-v1.schema.json",
+  "title": "Grant Audit Transparency Checkpoint Witnesses v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "artifact_version",
+    "created_at",
+    "updated_at",
+    "checkpoint",
+    "signing_payload",
+    "witnesses"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-transparency-checkpoint-witnesses-v1"
+    },
+    "artifact_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "checkpoint_hash",
+        "checkpoint_created_at",
+        "entry_count",
+        "log_root",
+        "cumulative_root"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "checkpoint_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "checkpoint_created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "entry_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "log_root": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "cumulative_root": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "signing_payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "payload_version",
+        "canonicalization",
+        "hash_algorithm",
+        "payload_hash"
+      ],
+      "properties": {
+        "schema": {
+          "const": "grant-audit-transparency-checkpoint-witness-signing-payload-v1"
+        },
+        "payload_version": {
+          "type": "string",
+          "const": "1.0.0"
+        },
+        "canonicalization": {
+          "type": "string",
+          "const": "deterministic-recursive-key-sorted-json"
+        },
+        "hash_algorithm": {
+          "type": "string",
+          "const": "SHA-256"
+        },
+        "payload_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "witnesses": {
+      "type": "array",
+      "items": {
+        "$ref": "grant-audit-transparency-witness-signature-v1.schema.json"
+      }
+    }
+  }
+}

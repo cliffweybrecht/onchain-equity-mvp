@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "checkpoint_path": "manifests/transparency/checkpoint.json",
+  "bundle_path": "manifests/transparency/checkpoint-witnesses.json",
+  "checkpoint_hash": "76954cef9776b6fbbab9a0158267a5e9fcb7f8e6cc0d58d71fd9fd0a7af11ef5",
+  "checkpoint_cumulative_root": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+  "checkpoint_log_root": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+  "checkpoint_entry_count": 1,
+  "payload_hash": "1e51a0a149f9497107cdfcc7862980bde8e2b5d17cc2c6822d3622d0468fd33c",
+  "witness_count": 1,
+  "witnesses": [
+    {
+      "witness_id": "witness-1",
+      "display_name": "Independent Witness 1",
+      "signed_at": "2026-03-07T03:00:00.000Z",
+      "public_key_fingerprint_sha256": "e3c21c12dd1d586b4c4fccb6882d4d0ff9249eb2eadaed7cec9037ce9d3a5fa0",
+      "verified": true
+    }
+  ]
+}
