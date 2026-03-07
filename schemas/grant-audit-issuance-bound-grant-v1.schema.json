@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "grant-audit-issuance-bound-grant-v1.schema.json",
+  "title": "Issuance-Bound Grant",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "grant_version",
+    "lifecycle_state",
+    "grant_id",
+    "issuer_id",
+    "beneficiary_id",
+    "plan_id",
+    "class_id",
+    "security_type",
+    "share_quantity",
+    "unit_price",
+    "currency",
+    "issued_at",
+    "issuance_anchor_reference"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-issuance-bound-grant-v1"
+    },
+    "grant_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "lifecycle_state": {
+      "type": "string",
+      "const": "issued"
+    },
+    "grant_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "issuer_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "beneficiary_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "plan_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "class_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "security_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "share_quantity": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "unit_price": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3,10}$"
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "issuance_anchor_reference": {
+      "$ref": "grant-audit-transparency-issuance-anchor-reference-v1.schema.json"
+    }
+  }
+}

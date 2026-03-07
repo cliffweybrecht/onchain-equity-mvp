@@ -1,0 +1,115 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "grant-audit-grant-issuance-v1.schema.json",
+  "title": "Grant Issuance Artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "artifact_version",
+    "created_at",
+    "grant",
+    "binding",
+    "artifact_hash"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-grant-issuance-v1"
+    },
+    "artifact_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "grant": {
+      "$ref": "grant-audit-issuance-bound-grant-v1.schema.json"
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding_scope",
+        "binding_version",
+        "issuance_bound_grant_hash",
+        "issuance_anchor_reference_hash",
+        "checkpoint_finalization_hash",
+        "finalized_checkpoint_hash",
+        "transparency_log_root",
+        "onchain_root_anchor",
+        "trust_chain_hash"
+      ],
+      "properties": {
+        "binding_scope": {
+          "type": "string",
+          "const": "grant-issuance"
+        },
+        "binding_version": {
+          "type": "string",
+          "const": "1.0.0"
+        },
+        "issuance_bound_grant_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "issuance_anchor_reference_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "checkpoint_finalization_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "finalized_checkpoint_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "transparency_log_root": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "onchain_root_anchor": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "chain_id",
+            "block_number",
+            "tx_hash"
+          ],
+          "properties": {
+            "network": {
+              "type": "string",
+              "minLength": 1
+            },
+            "chain_id": {
+              "oneOf": [
+                { "type": "integer", "minimum": 1 },
+                { "type": "string", "pattern": "^[0-9]+$" }
+              ]
+            },
+            "block_number": {
+              "oneOf": [
+                { "type": "integer", "minimum": 0 },
+                { "type": "string", "pattern": "^[0-9]+$" }
+              ]
+            },
+            "tx_hash": {
+              "type": "string",
+              "pattern": "^0x[a-fA-F0-9]{64}$"
+            }
+          }
+        },
+        "trust_chain_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "artifact_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

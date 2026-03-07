@@ -1,0 +1,9 @@
+{
+  "ok": true,
+  "phase": "7.19",
+  "artifact_path": "manifests/grants/grant-issuance.json",
+  "grant_id": "GRANT-2026-0001",
+  "issuance_bound_grant_hash": "4196db01bc091df3fbca7f20492c82941ba0787637c8f18295257e981fede91b",
+  "trust_chain_hash": "9d740a3ee3ce6e32f77ec8dfeaa0f005b44a092de23b6ed76b5aad3398bc8d6a",
+  "artifact_hash": "53f025d65fd1444db280f9a18151bd836b054389d2a8d75b410ed6257698c9b9"
+}
