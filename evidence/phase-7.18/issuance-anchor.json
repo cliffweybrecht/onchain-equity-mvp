@@ -1,0 +1,48 @@
+{
+  "schema": "grant-audit-transparency-issuance-anchor-v1",
+  "anchor_version": "1.0.0",
+  "anchor_kind": "issuance-checkpoint-anchor",
+  "anchor_deterministic_id": "caa4ff10b1a57035cbf031bacb3ce196623f7019ca1dff2df55eba2e6424cf1c",
+  "anchored_at": "2026-03-07T03:30:00.000Z",
+  "anchored_artifact": {
+    "artifact_path": "manifests/transparency/checkpoint-finalization.json",
+    "artifact_type": "transparency-checkpoint-finalization",
+    "artifact_hash": "45a76eea514db02b605c9ddffa99d5cc73039616306fe0d9e6750b7e896b76f2",
+    "artifact_schema": "grant-audit-transparency-checkpoint-finalization-v1",
+    "issuance_id": "checkpoint-finalization-anchor",
+    "grant_id": "transparency-system"
+  },
+  "checkpoint_reference": {
+    "schema": "grant-audit-transparency-issuance-checkpoint-reference-v1",
+    "reference_version": "1.0.0",
+    "finalization_artifact_path": "manifests/transparency/checkpoint-finalization.json",
+    "finalization_artifact_hash": "45a76eea514db02b605c9ddffa99d5cc73039616306fe0d9e6750b7e896b76f2",
+    "finalization_schema": "grant-audit-transparency-checkpoint-finalization-v1",
+    "finalized_at": "2026-03-07T03:30:00.000Z",
+    "finalization_status": "finalized",
+    "quorum_met": true,
+    "threshold": 1,
+    "witness_count": 1,
+    "checkpoint_schema": "grant-audit-transparency-log-checkpoint-v1",
+    "checkpoint_hash": "76954cef9776b6fbbab9a0158267a5e9fcb7f8e6cc0d58d71fd9fd0a7af11ef5",
+    "checkpoint_root": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+    "log_root": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+    "entry_count": 1,
+    "root_anchor": {
+      "chain_id": "84532",
+      "block_number": "38541783",
+      "tx_hash": "0x279296e27eca99a8c80f2414cffa7d59f7ee8b6bb41c848afc436bbc7639b6a9"
+    }
+  },
+  "audit_chain": {
+    "equity_artifact_hash": "45a76eea514db02b605c9ddffa99d5cc73039616306fe0d9e6750b7e896b76f2",
+    "finalized_checkpoint_hash": "76954cef9776b6fbbab9a0158267a5e9fcb7f8e6cc0d58d71fd9fd0a7af11ef5",
+    "transparency_log_root": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+    "onchain_root_anchor": {
+      "chain_id": "84532",
+      "block_number": "38541783",
+      "tx_hash": "0x279296e27eca99a8c80f2414cffa7d59f7ee8b6bb41c848afc436bbc7639b6a9"
+    }
+  },
+  "anchor_hash": "ecf7bf191061e50f3bd7cf34ec725c87879dcf4e6c2b434730e93cf278558261"
+}

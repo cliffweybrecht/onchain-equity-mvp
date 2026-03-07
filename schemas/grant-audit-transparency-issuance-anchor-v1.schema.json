@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "grant-audit-transparency-issuance-anchor-v1.schema.json",
+  "title": "Grant Audit Transparency Issuance Anchor v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "anchor_version",
+    "anchor_kind",
+    "anchor_deterministic_id",
+    "anchored_at",
+    "anchored_artifact",
+    "checkpoint_reference",
+    "audit_chain",
+    "anchor_hash"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-transparency-issuance-anchor-v1"
+    },
+    "anchor_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "anchor_kind": {
+      "type": "string",
+      "const": "issuance-checkpoint-anchor"
+    },
+    "anchor_deterministic_id": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "anchored_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "anchored_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_path",
+        "artifact_type",
+        "artifact_hash"
+      ],
+      "properties": {
+        "artifact_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_schema": {
+          "type": "string"
+        },
+        "artifact_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "issuance_id": {
+          "type": "string"
+        },
+        "grant_id": {
+          "type": "string"
+        }
+      }
+    },
+    "checkpoint_reference": {
+      "$ref": "grant-audit-transparency-issuance-checkpoint-reference-v1.schema.json"
+    },
+    "audit_chain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "equity_artifact_hash",
+        "finalized_checkpoint_hash",
+        "transparency_log_root",
+        "onchain_root_anchor"
+      ],
+      "properties": {
+        "equity_artifact_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "finalized_checkpoint_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "transparency_log_root": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "onchain_root_anchor": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "chain_id",
+            "block_number",
+            "tx_hash"
+          ],
+          "properties": {
+            "chain_id": {
+              "oneOf": [
+                { "type": "integer", "minimum": 1 },
+                { "type": "string", "minLength": 1 }
+              ]
+            },
+            "block_number": {
+              "oneOf": [
+                { "type": "integer", "minimum": 0 },
+                { "type": "string", "pattern": "^[0-9]+$" }
+              ]
+            },
+            "tx_hash": {
+              "type": "string",
+              "pattern": "^0x[a-fA-F0-9]{64}$"
+            }
+          }
+        }
+      }
+    },
+    "anchor_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

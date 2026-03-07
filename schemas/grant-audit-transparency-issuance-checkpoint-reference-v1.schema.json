@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "grant-audit-transparency-issuance-checkpoint-reference-v1.schema.json",
+  "title": "Grant Audit Transparency Issuance Checkpoint Reference v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "reference_version",
+    "finalization_artifact_path",
+    "finalization_artifact_hash",
+    "finalization_schema",
+    "finalized_at",
+    "finalization_status",
+    "quorum_met",
+    "threshold",
+    "witness_count",
+    "checkpoint_schema",
+    "checkpoint_hash",
+    "checkpoint_root",
+    "log_root",
+    "entry_count",
+    "root_anchor"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-transparency-issuance-checkpoint-reference-v1"
+    },
+    "reference_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "finalization_artifact_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "finalization_artifact_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "finalization_schema": {
+      "type": "string",
+      "minLength": 1
+    },
+    "finalized_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "finalization_status": {
+      "type": "string",
+      "enum": ["finalized"]
+    },
+    "quorum_met": {
+      "type": "boolean",
+      "const": true
+    },
+    "threshold": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "witness_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "checkpoint_schema": {
+      "type": "string",
+      "minLength": 1
+    },
+    "checkpoint_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "checkpoint_root": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "log_root": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "entry_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "root_anchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "chain_id",
+        "block_number",
+        "tx_hash"
+      ],
+      "properties": {
+        "chain_id": {
+          "oneOf": [
+            { "type": "integer", "minimum": 1 },
+            { "type": "string", "minLength": 1 }
+          ]
+        },
+        "block_number": {
+          "oneOf": [
+            { "type": "integer", "minimum": 0 },
+            { "type": "string", "pattern": "^[0-9]+$" }
+          ]
+        },
+        "tx_hash": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{64}$"
+        }
+      }
+    }
+  }
+}

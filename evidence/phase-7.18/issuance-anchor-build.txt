@@ -1,0 +1,14 @@
+{
+  "ok": true,
+  "output_path": "manifests/transparency/issuance-anchor.json",
+  "anchor_hash": "ecf7bf191061e50f3bd7cf34ec725c87879dcf4e6c2b434730e93cf278558261",
+  "anchor_deterministic_id": "caa4ff10b1a57035cbf031bacb3ce196623f7019ca1dff2df55eba2e6424cf1c",
+  "anchored_artifact_path": "manifests/transparency/checkpoint-finalization.json",
+  "anchored_artifact_hash": "45a76eea514db02b605c9ddffa99d5cc73039616306fe0d9e6750b7e896b76f2",
+  "checkpoint_finalization_path": "manifests/transparency/checkpoint-finalization.json",
+  "checkpoint_finalization_hash": "45a76eea514db02b605c9ddffa99d5cc73039616306fe0d9e6750b7e896b76f2",
+  "checkpoint_hash": "76954cef9776b6fbbab9a0158267a5e9fcb7f8e6cc0d58d71fd9fd0a7af11ef5",
+  "checkpoint_root": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+  "log_root": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+  "root_anchor_tx_hash": "0x279296e27eca99a8c80f2414cffa7d59f7ee8b6bb41c848afc436bbc7639b6a9"
+}
