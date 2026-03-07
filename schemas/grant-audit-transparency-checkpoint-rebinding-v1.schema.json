@@ -1,0 +1,228 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/grant-audit-transparency-checkpoint-rebinding-v1.schema.json",
+  "title": "Grant Audit Transparency Checkpoint Rebinding v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "rebinding_scope",
+    "checkpoint",
+    "prior_witnesses",
+    "rebound_witnesses",
+    "prior_finalization",
+    "rebound_finalization",
+    "compatibility",
+    "canonicalization",
+    "hashes",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "grant-audit-transparency-checkpoint-rebinding-v1"
+    },
+    "artifact_type": {
+      "type": "string",
+      "const": "transparency_checkpoint_rebinding"
+    },
+    "rebinding_scope": {
+      "type": "string",
+      "const": "post_lifecycle_replay_inclusion"
+    },
+    "checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checkpoint_hash",
+        "checkpoint_path",
+        "transparency_log_path",
+        "transparency_log_root"
+      ],
+      "properties": {
+        "checkpoint_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "checkpoint_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "transparency_log_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "transparency_log_root": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "prior_witnesses": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "artifact_hash"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "rebound_witnesses": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "artifact_hash",
+        "witness_count"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "witness_count": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "prior_finalization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "artifact_hash"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "rebound_finalization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "artifact_hash",
+        "finalization_status"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "finalization_status": {
+          "type": "string",
+          "enum": [
+            "finalized"
+          ]
+        }
+      }
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "compatible_from_phase",
+        "compatible_through_phase",
+        "preserves_append_only_transparency",
+        "preserves_checkpoint_trust_chain",
+        "preserves_canonical_json_hashing",
+        "preserves_recursive_key_sorted_canonicalization",
+        "preserves_deterministic_rebuilds"
+      ],
+      "properties": {
+        "compatible_from_phase": {
+          "type": "string"
+        },
+        "compatible_through_phase": {
+          "type": "string"
+        },
+        "preserves_append_only_transparency": {
+          "type": "boolean"
+        },
+        "preserves_checkpoint_trust_chain": {
+          "type": "boolean"
+        },
+        "preserves_canonical_json_hashing": {
+          "type": "boolean"
+        },
+        "preserves_recursive_key_sorted_canonicalization": {
+          "type": "boolean"
+        },
+        "preserves_deterministic_rebuilds": {
+          "type": "boolean"
+        }
+      }
+    },
+    "canonicalization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "json_mode",
+        "key_ordering",
+        "whitespace",
+        "numeric_normalization"
+      ],
+      "properties": {
+        "json_mode": {
+          "type": "string",
+          "const": "canonical_json"
+        },
+        "key_ordering": {
+          "type": "string",
+          "const": "recursive_lexicographic"
+        },
+        "whitespace": {
+          "type": "string",
+          "const": "minimal"
+        },
+        "numeric_normalization": {
+          "type": "string",
+          "const": "verbatim_json_number_encoding"
+        }
+      }
+    },
+    "hashes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rebinding_hash"
+      ],
+      "properties": {
+        "rebinding_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "generated_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    }
+  }
+}

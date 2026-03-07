@@ -1,0 +1,8 @@
+{
+  "checkpoint_hash": "3d5460ce02f4f5397a0a15d49d403d59a55e5d36b7fbb6f4342d6ba678831ed1",
+  "transparency_log_root": "e2f2d0522e4e7f3fad81640368dd37b3844166fd060c9e82a6d0250ed2a3d2d7",
+  "rebound_witnesses_hash": "20f8631ada512a3fb5d39bf0160b2e1aba5237a8ceb55983e0a00588055c8fca",
+  "rebound_finalization_hash": "80d884d5356263d522baa47d2c4bde82e47602733c0b2768e848142fc5585d16",
+  "rebinding_hash": "a926b66422906b03d19da972df23a38d20b7d76b069d00cd85eda4f6918cd32f",
+  "output_path": "evidence/phase-7.27/transparency-checkpoint-rebinding.json"
+}

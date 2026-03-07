@@ -1,0 +1,7 @@
+{
+  "verification_status": "verified",
+  "checkpoint_hash": "3d5460ce02f4f5397a0a15d49d403d59a55e5d36b7fbb6f4342d6ba678831ed1",
+  "witness_artifact_hash": "965e31fa95eab06a68c8543cb13277637b4ad815aed4326c5a366d988e58360e",
+  "verified_witness_count": 1,
+  "signed_witness_threshold": 1
+}

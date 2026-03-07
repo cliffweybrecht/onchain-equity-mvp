@@ -1,0 +1,8 @@
+{
+  "verification_status": "verified",
+  "checkpoint_hash": "3d5460ce02f4f5397a0a15d49d403d59a55e5d36b7fbb6f4342d6ba678831ed1",
+  "checkpoint_witnesses_hash": "20f8631ada512a3fb5d39bf0160b2e1aba5237a8ceb55983e0a00588055c8fca",
+  "checkpoint_finalization_hash": "ec8fa3142a7eb879deb2f1aa96a344ddbab0a17d42f5b38e48db1e1c9661089f",
+  "finalization_status": "finalized",
+  "satisfied_witness_count": 1
+}
