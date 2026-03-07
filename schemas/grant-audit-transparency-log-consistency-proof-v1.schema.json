@@ -1,0 +1,147 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Grant Audit Transparency Log Consistency Proof v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "proof_version",
+    "generated_at",
+    "base_checkpoint",
+    "candidate_state",
+    "proof"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-transparency-log-consistency-proof-v1"
+    },
+    "proof_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "base_checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "entry_count",
+        "head_entry_hash",
+        "log_root"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "entry_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "head_entry_hash": {
+          "type": "string",
+          "pattern": "^0x[a-f0-9]{64}$"
+        },
+        "log_root": {
+          "type": "string",
+          "pattern": "^0x[a-f0-9]{64}$"
+        }
+      }
+    },
+    "candidate_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "entry_count",
+        "head_entry_hash",
+        "log_root"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "entry_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "head_entry_hash": {
+          "type": "string",
+          "pattern": "^0x[a-f0-9]{64}$"
+        },
+        "log_root": {
+          "type": "string",
+          "pattern": "^0x[a-f0-9]{64}$"
+        }
+      }
+    },
+    "proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "normalization",
+        "old_size",
+        "new_size",
+        "old_head_entry_hash",
+        "new_head_entry_hash",
+        "old_log_root",
+        "new_log_root",
+        "prefix_entry_hashes",
+        "appended_entry_hashes"
+      ],
+      "properties": {
+        "model": {
+          "type": "string",
+          "const": "append-only-prefix-consistency"
+        },
+        "normalization": {
+          "type": "string",
+          "const": "0x-lowercase-64-hex"
+        },
+        "old_size": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "new_size": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "old_head_entry_hash": {
+          "type": "string",
+          "pattern": "^0x[a-f0-9]{64}$"
+        },
+        "new_head_entry_hash": {
+          "type": "string",
+          "pattern": "^0x[a-f0-9]{64}$"
+        },
+        "old_log_root": {
+          "type": "string",
+          "pattern": "^0x[a-f0-9]{64}$"
+        },
+        "new_log_root": {
+          "type": "string",
+          "pattern": "^0x[a-f0-9]{64}$"
+        },
+        "prefix_entry_hashes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^0x[a-f0-9]{64}$"
+          }
+        },
+        "appended_entry_hashes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^0x[a-f0-9]{64}$"
+          }
+        }
+      }
+    }
+  }
+}

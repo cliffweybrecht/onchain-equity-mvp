@@ -1,0 +1,9 @@
+Built transparency log consistency proof
+  checkpoint: manifests/transparency/checkpoint.json
+  log:        manifests/transparency/transparency-log.json
+  out:        manifests/transparency/transparency-log-consistency-proof.json
+  old_size:   1
+  new_size:   1
+  appended:   0
+  old_root:   0x17425158cd0adf067564abfe44726ea5a0b03f07472cb9c438cd24c8768662ef
+  new_root:   0x17425158cd0adf067564abfe44726ea5a0b03f07472cb9c438cd24c8768662ef
