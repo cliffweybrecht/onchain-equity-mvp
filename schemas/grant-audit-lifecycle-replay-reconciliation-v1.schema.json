@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "grant-audit-lifecycle-replay-reconciliation-v1.schema.json",
+  "title": "Grant Audit Lifecycle Replay Reconciliation v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "reconciliation_version",
+    "grant_id",
+    "entry_count",
+    "transition_chain_root",
+    "transition_chain_head_entry_hash",
+    "lifecycle_lineage_hash",
+    "trust_chain_hash",
+    "replayed_total_vested",
+    "replayed_total_exercised",
+    "replayed_total_cancelled",
+    "replayed_total_forfeited",
+    "replayed_current_balance",
+    "snapshot_total_vested",
+    "snapshot_total_exercised",
+    "snapshot_total_cancelled",
+    "snapshot_total_forfeited",
+    "snapshot_current_balance",
+    "reconciliation_status",
+    "reconciliation_hash"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-lifecycle-replay-reconciliation-v1"
+    },
+    "reconciliation_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "grant_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entry_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "transition_chain_root": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "transition_chain_head_entry_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "lifecycle_lineage_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "trust_chain_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "replayed_total_vested": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "replayed_total_exercised": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "replayed_total_cancelled": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "replayed_total_forfeited": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "replayed_current_balance": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "snapshot_total_vested": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "snapshot_total_exercised": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "snapshot_total_cancelled": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "snapshot_total_forfeited": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "snapshot_current_balance": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "reconciliation_status": {
+      "type": "string",
+      "enum": [
+        "match",
+        "mismatch"
+      ]
+    },
+    "reconciliation_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

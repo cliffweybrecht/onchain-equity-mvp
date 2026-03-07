@@ -1,0 +1,22 @@
+{
+  "entry_count": 1,
+  "grant_id": "GRANT-2026-0001",
+  "lifecycle_lineage_hash": "3f6af96cf6977059b12f1181317b794569ae0cc93555814af7630700224d9e86",
+  "reconciliation_hash": "351b902eb685be752d5d3d4142c133e821b316728664d9be88661f053cc54917",
+  "reconciliation_status": "match",
+  "reconciliation_version": "1.0.0",
+  "replayed_current_balance": 1000,
+  "replayed_total_cancelled": 0,
+  "replayed_total_exercised": 0,
+  "replayed_total_forfeited": 0,
+  "replayed_total_vested": 1000,
+  "schema": "grant-audit-lifecycle-replay-reconciliation-v1",
+  "snapshot_current_balance": 1000,
+  "snapshot_total_cancelled": 0,
+  "snapshot_total_exercised": 0,
+  "snapshot_total_forfeited": 0,
+  "snapshot_total_vested": 1000,
+  "transition_chain_head_entry_hash": "7cc89267ab0a7d6e9fb71632ad9656b0b1986138c703d839cfcc4345bd801827",
+  "transition_chain_root": "b409b0b93a1710397073ab1f45df2343e81b65029c1d61897da3432a40ab64a9",
+  "trust_chain_hash": "c63c62bae033514b457c8c6b11f9438f85fa9b4cca3e0d748290407147dd252f"
+}
