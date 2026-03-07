@@ -1,0 +1,12 @@
+{
+  "ok": true,
+  "schema": "grant-audit-transparency-log-append-result-v1",
+  "log_path": "/home/cliff/onchain-equity-mvp/contracts/manifests/transparency/transparency-log.json",
+  "appended_index": 0,
+  "packet_manifest_hash": "aa6b4994839c8a90c81e982c3174f6f52f9f3e1036524508af1e401e6b2a8209",
+  "entry_hash": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+  "prev_entry_hash": null,
+  "head_entry_hash": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+  "log_root": "17425158cd0adf067564abfe44726ea5a0b03f07472cb9c438cd24c8768662ef",
+  "entry_count": 1
+}
