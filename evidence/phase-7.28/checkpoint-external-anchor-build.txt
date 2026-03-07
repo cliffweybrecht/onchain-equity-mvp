@@ -1,0 +1,12 @@
+{
+  "ok": true,
+  "output_path": "manifests/transparency/checkpoint-external-anchor.json",
+  "checkpoint_hash": "3d5460ce02f4f5397a0a15d49d403d59a55e5d36b7fbb6f4342d6ba678831ed1",
+  "transparency_log_root": "e2f2d0522e4e7f3fad81640368dd37b3844166fd060c9e82a6d0250ed2a3d2d7",
+  "checkpoint_witnesses_hash": "a2e4685ce1ab872ae8a96dc15f2ee9888eac4f602cded1ad12b6ab1b13c14c9d",
+  "checkpoint_finalization_hash": "6992141312ce5e2c5cac6e77eb3e0d1caa3b4088a00aefa5c8d18ae119d7645b",
+  "checkpoint_rebinding_hash": "95a11ce177d61a1223bc1d12165bc51f72ba64ef9660c3342249ff4c3f15186b",
+  "anchor_count": 1,
+  "anchor_set_hash": "26bdb4609a2602df59607ce128860009e258ff8c6fddcfbd47e673851497bc71",
+  "external_anchor_hash": "9a88dc7d88cd4a28186201b0d53b522a95a46d98d942b5c74b6d42596e11f01d"
+}

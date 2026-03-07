@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Grant Audit Transparency Checkpoint External Anchor Entry v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "entry_version",
+    "anchor_type",
+    "anchor_network",
+    "anchor_identifier",
+    "anchor_entry_hash"
+  ],
+  "properties": {
+    "schema": {
+      "const": "grant-audit-transparency-checkpoint-external-anchor-entry-v1"
+    },
+    "entry_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "anchor_type": {
+      "type": "string",
+      "enum": [
+        "git_commit",
+        "ipfs_cid",
+        "base_tx",
+        "ethereum_l1_tx"
+      ]
+    },
+    "anchor_network": {
+      "type": "string",
+      "enum": [
+        "git",
+        "ipfs",
+        "base-sepolia",
+        "base-mainnet",
+        "ethereum-sepolia",
+        "ethereum-mainnet"
+      ]
+    },
+    "anchor_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "anchor_locator": {
+      "type": "string",
+      "minLength": 1
+    },
+    "anchor_entry_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}
