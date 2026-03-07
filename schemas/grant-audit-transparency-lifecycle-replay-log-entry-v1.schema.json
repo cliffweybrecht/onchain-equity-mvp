@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "grant-audit-transparency-lifecycle-replay-log-entry-v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "entry_version",
+    "artifact_type",
+    "grant_id",
+    "reconciliation_status",
+    "reconciliation_hash",
+    "replay_entry_count",
+    "source_artifact_schema",
+    "source_artifact_hash",
+    "source_artifact_path",
+    "lifecycle_transition_chain_hash",
+    "lifecycle_state_snapshot_hash"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "grant-audit-transparency-lifecycle-replay-log-entry-v1"
+    },
+    "entry_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "artifact_type": {
+      "type": "string",
+      "const": "lifecycle_replay_reconciliation"
+    },
+    "grant_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reconciliation_status": {
+      "type": "string",
+      "enum": ["match", "mismatch"]
+    },
+    "reconciliation_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "replay_entry_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "source_artifact_schema": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_artifact_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source_artifact_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lifecycle_transition_chain_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "lifecycle_state_snapshot_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "lineage": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

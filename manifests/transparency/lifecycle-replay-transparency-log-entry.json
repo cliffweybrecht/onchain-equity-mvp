@@ -1,0 +1,21 @@
+{
+  "schema": "grant-audit-transparency-lifecycle-replay-log-entry-v1",
+  "entry_version": "1.0.0",
+  "artifact_type": "lifecycle_replay_reconciliation",
+  "grant_id": "GRANT-2026-0001",
+  "reconciliation_status": "match",
+  "reconciliation_hash": "351b902eb685be752d5d3d4142c133e821b316728664d9be88661f053cc54917",
+  "replay_entry_count": 1,
+  "source_artifact_schema": "grant-audit-lifecycle-replay-reconciliation-v1",
+  "source_artifact_hash": "83f847b205ae08576a0c9bce89dff8f2f7affe4741695cbc3bdbc5519e950bf5",
+  "source_artifact_path": "manifests/grants/lifecycle-replay-reconciliation.json",
+  "lifecycle_transition_chain_hash": "f35c30533d52b159851dc476da4bd781858b66cd1fabda4cf1acffe453b441f4",
+  "lifecycle_state_snapshot_hash": "e62aca8bca0a1c4e1a3a8db687f5596afe6926672e68e3d862b2b380b0ae232f",
+  "lineage": {
+    "lifecycle_transition_chain_hash": "f35c30533d52b159851dc476da4bd781858b66cd1fabda4cf1acffe453b441f4",
+    "lifecycle_state_snapshot_hash": "e62aca8bca0a1c4e1a3a8db687f5596afe6926672e68e3d862b2b380b0ae232f",
+    "source_artifact_hash": "83f847b205ae08576a0c9bce89dff8f2f7affe4741695cbc3bdbc5519e950bf5",
+    "lifecycle_transition_chain_path": "manifests/grants/lifecycle-transition-chain.json",
+    "lifecycle_state_snapshot_path": "manifests/grants/lifecycle-state-snapshot.json"
+  }
+}

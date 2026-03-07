@@ -1,0 +1,29 @@
+{
+  "schema": "grant-audit-transparency-lifecycle-replay-inclusion-proof-v1",
+  "proof_version": "1.0.0",
+  "grant_id": "GRANT-2026-0001",
+  "artifact_type": "lifecycle_replay_reconciliation",
+  "reconciliation_hash": "351b902eb685be752d5d3d4142c133e821b316728664d9be88661f053cc54917",
+  "replay_log_entry_hash": "9a6ecf2adc330e03a296d2f44014f1b128eb9f484edbaecdbdf37e425a965b7b",
+  "transparency_log": {
+    "path": "manifests/transparency/transparency-log.json",
+    "entry_index": 2,
+    "entry_hash": "596b4033f1d2e838f849e28e8923b766d8591e496aeaa943ca12072f177ebbbe",
+    "entry_count": 3,
+    "head_entry_hash": "596b4033f1d2e838f849e28e8923b766d8591e496aeaa943ca12072f177ebbbe",
+    "log_root": "e2f2d0522e4e7f3fad81640368dd37b3844166fd060c9e82a6d0250ed2a3d2d7"
+  },
+  "checkpoint": {
+    "path": "manifests/transparency/checkpoint.json",
+    "entry_count": 3,
+    "head_entry_hash": "596b4033f1d2e838f849e28e8923b766d8591e496aeaa943ca12072f177ebbbe",
+    "log_root": "e2f2d0522e4e7f3fad81640368dd37b3844166fd060c9e82a6d0250ed2a3d2d7",
+    "checkpoint_hash": "5eea98eec172461cb5859c9886aae9f3bbc7eb27746b62235c4dc53a910410dc"
+  },
+  "lineage": {
+    "lifecycle_transition_chain_hash": "f35c30533d52b159851dc476da4bd781858b66cd1fabda4cf1acffe453b441f4",
+    "lifecycle_state_snapshot_hash": "e62aca8bca0a1c4e1a3a8db687f5596afe6926672e68e3d862b2b380b0ae232f",
+    "source_artifact_hash": "83f847b205ae08576a0c9bce89dff8f2f7affe4741695cbc3bdbc5519e950bf5"
+  },
+  "proof_hash": "a8d520d399108a04348e786cd0a1d2b874db588aaab8c46d602a2c4ee22f73fd"
+}

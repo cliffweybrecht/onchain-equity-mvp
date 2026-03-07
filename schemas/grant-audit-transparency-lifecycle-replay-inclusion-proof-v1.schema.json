@@ -1,0 +1,122 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "grant-audit-transparency-lifecycle-replay-inclusion-proof-v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "proof_version",
+    "grant_id",
+    "artifact_type",
+    "reconciliation_hash",
+    "replay_log_entry_hash",
+    "transparency_log",
+    "checkpoint",
+    "proof_hash"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "grant-audit-transparency-lifecycle-replay-inclusion-proof-v1"
+    },
+    "proof_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "grant_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact_type": {
+      "type": "string",
+      "const": "lifecycle_replay_reconciliation"
+    },
+    "reconciliation_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "replay_log_entry_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "transparency_log": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "entry_index",
+        "entry_hash",
+        "entry_count",
+        "head_entry_hash",
+        "log_root"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "entry_index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "entry_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "entry_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "head_entry_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "log_root": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "entry_count",
+        "head_entry_hash",
+        "log_root",
+        "checkpoint_hash"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "entry_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "head_entry_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "log_root": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "checkpoint_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "lineage": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "proof_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "phase": "7.26",
+  "artifact_type": "lifecycle_replay_reconciliation",
+  "grant_id": "GRANT-2026-0001",
+  "transparency_log_entry_index": 2,
+  "transparency_log_entry_hash": "596b4033f1d2e838f849e28e8923b766d8591e496aeaa943ca12072f177ebbbe",
+  "transparency_log_root": "e2f2d0522e4e7f3fad81640368dd37b3844166fd060c9e82a6d0250ed2a3d2d7",
+  "checkpoint_hash": "5eea98eec172461cb5859c9886aae9f3bbc7eb27746b62235c4dc53a910410dc",
+  "proof_hash": "a8d520d399108a04348e786cd0a1d2b874db588aaab8c46d602a2c4ee22f73fd"
+}
