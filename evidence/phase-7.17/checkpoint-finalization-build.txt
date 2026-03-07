@@ -1,0 +1,15 @@
+{
+  "ok": true,
+  "output": "manifests/transparency/checkpoint-finalization.json",
+  "finalized_at": "2026-03-07T03:30:00.000Z",
+  "checkpoint_hash": "76954cef9776b6fbbab9a0158267a5e9fcb7f8e6cc0d58d71fd9fd0a7af11ef5",
+  "checkpoint_cumulative_root": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+  "payload_hash": "1e51a0a149f9497107cdfcc7862980bde8e2b5d17cc2c6822d3622d0468fd33c",
+  "policy_hash": "1e8b06c66d057b1f0adfdaec2ab098c758bcaba379a9f68fc85f9db0a7385307",
+  "threshold": 1,
+  "verified_witness_count": 1,
+  "eligible_witness_count": 1,
+  "verified_witness_ids": [
+    "witness-1"
+  ]
+}

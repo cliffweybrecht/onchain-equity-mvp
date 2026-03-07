@@ -4,7 +4,9 @@
   "type": "module",
   "scripts": {
     "sign:audit-packet": "node scripts/ops/grants/sign-audit-packet.mjs",
-    "verify:audit-packet-signature": "node scripts/audit/verify-audit-packet-signature.mjs"
+    "verify:audit-packet-signature": "node scripts/audit/verify-audit-packet-signature.mjs",
+    "build:transparency-checkpoint-finalization": "node scripts/ops/grants/build-transparency-checkpoint-finalization.mjs",
+    "verify:transparency-checkpoint-finalization": "node scripts/audit/verify-transparency-checkpoint-finalization.mjs"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-ethers": "^4.0.3",

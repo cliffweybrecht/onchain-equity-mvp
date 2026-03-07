@@ -1,0 +1,67 @@
+{
+  "schema": "grant-audit-transparency-checkpoint-finalization-v1",
+  "artifact_version": "1.0.0",
+  "created_at": "2026-03-07T03:30:00.000Z",
+  "finalized_at": "2026-03-07T03:30:00.000Z",
+  "checkpoint": {
+    "path": "manifests/transparency/checkpoint.json",
+    "checkpoint_hash": "76954cef9776b6fbbab9a0158267a5e9fcb7f8e6cc0d58d71fd9fd0a7af11ef5",
+    "checkpoint_created_at": "2026-03-07T05:09:50.222Z",
+    "entry_count": 1,
+    "log_root": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+    "cumulative_root": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e"
+  },
+  "signing_payload": {
+    "schema": "grant-audit-transparency-checkpoint-witness-signing-payload-v1",
+    "payload_version": "1.0.0",
+    "canonicalization": "deterministic-recursive-key-sorted-json",
+    "hash_algorithm": "SHA-256",
+    "payload_hash": "1e51a0a149f9497107cdfcc7862980bde8e2b5d17cc2c6822d3622d0468fd33c"
+  },
+  "finalization_policy": {
+    "schema": "grant-audit-transparency-checkpoint-finalization-policy-v1",
+    "policy_version": "1.0.0",
+    "policy_path": "manifests/transparency/checkpoint-finalization-policy.json",
+    "policy_hash": "1e8b06c66d057b1f0adfdaec2ab098c758bcaba379a9f68fc85f9db0a7385307",
+    "threshold": 1,
+    "eligible_witness_count": 1,
+    "authorized_witnesses": [
+      {
+        "witness_id": "witness-1",
+        "display_name": "Independent Witness 1",
+        "public_key_pem_path": "keys/transparency-witness-1-public.pem",
+        "public_key_fingerprint_sha256": "e3c21c12dd1d586b4c4fccb6882d4d0ff9249eb2eadaed7cec9037ce9d3a5fa0"
+      }
+    ]
+  },
+  "quorum_status": {
+    "satisfied": true,
+    "required_witness_count": 1,
+    "verified_witness_count": 1,
+    "eligible_witness_count": 1,
+    "verified_witness_ids": [
+      "witness-1"
+    ],
+    "missing_witness_ids": []
+  },
+  "verified_witnesses": [
+    {
+      "schema": "grant-audit-transparency-witness-signature-v1",
+      "signature_version": "1.0.0",
+      "witness_id": "witness-1",
+      "display_name": "Independent Witness 1",
+      "key_algorithm": "RSA-SHA256",
+      "public_key_pem_path": "keys/transparency-witness-1-public.pem",
+      "public_key_fingerprint_sha256": "e3c21c12dd1d586b4c4fccb6882d4d0ff9249eb2eadaed7cec9037ce9d3a5fa0",
+      "signature_algorithm": "RSA-SHA256",
+      "signature_encoding": "base64",
+      "signed_at": "2026-03-07T03:00:00.000Z",
+      "payload_hash": "1e51a0a149f9497107cdfcc7862980bde8e2b5d17cc2c6822d3622d0468fd33c",
+      "checkpoint_hash": "76954cef9776b6fbbab9a0158267a5e9fcb7f8e6cc0d58d71fd9fd0a7af11ef5",
+      "checkpoint_cumulative_root": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+      "checkpoint_log_root": "acd5f7f90d58cc9c558c32d3547dc30beb03beb61cb04d201b665e889c1f794e",
+      "checkpoint_entry_count": 1,
+      "signature": "jkcT58yHRUSihiokNkzgHjHtn8o95bygpw5rNxLX4ViaGk69eGloNf7Uh0m3PLL/zJQfb8H9D9FteCDbfnpjYSyLxnxNcPzjazqFRQTx5NxixniifcPsXrgK9in1B54yQ/6xS6KKxR6if6h94OFeQC5+3c5QyatkV5ZLcADOUyuprv1gXgA7UtSp1EMW5VrYd+NzwAmFF3OQzXuUHHQB93GcspB1rFXtxiYC/18qNYoQCmqmtJNvl4QL6CxlVZOqrZ75tIjVMmd05bxhyaJdnLdg06EmAvU2/xTTyn2SLJfs8SxtgNiGQ7ETI7fMSQWpS69mh2MSTYcSNzjcRuA8dpXcXsXzne32qG4xGz5hohwgB2L83LAKr92lkRR+ev/35EkPMgtl1kF3orAoR4O3S3WApwVEfQano1rrW47OLKsfWuXgI/bYszoH6o5hHDM/20Zs5qWiHy7+DuqBun0vg7h/CwGwwfqvfvlcrYMHTTGXTTke0IvrnKT4ujLVy7eU"
+    }
+  ]
+}
