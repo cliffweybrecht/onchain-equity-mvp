@@ -1,4 +1,4 @@
-# deps
+# dependencies
 node_modules/
 
 # hardhat build output
@@ -7,11 +7,16 @@ cache/
 coverage/
 typechain/
 
-# env/secrets
+# environment variables
 .env
 .env.*
+**/.env
+**/.env.*
+
+# keys
 *.pem
 *.key
+!keys/*-public.pem
 
 # OS / editor
 .DS_Store
@@ -19,18 +24,23 @@ Thumbs.db
 .vscode/
 .idea/
 
+# logs
+*.log
+
 # backups
 *.bak
 
 # deployments (keep base-sepolia.json tracked)
 deployments/*
 !deployments/base-sepolia.json
+
+# archived artifacts
 archived/
 
 # golden diff artifacts (never commit)
 evidence/**/GOT.*
 
-# legacy local evidence (not committed)
+# legacy local evidence
 evidence/phase-6.1.F/
 evidence/phase-6.1.G/
 evidence/phase-6.2/*.json
@@ -39,7 +49,5 @@ evidence/phase-6.2/*.json
 *.tgz
 grant-audit-packet*.tgz
 
+# local secrets
 .secrets/
-
-keys/*.pem
-!keys/*-public.pem
