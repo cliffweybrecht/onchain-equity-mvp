@@ -1,0 +1,43 @@
+{
+  "demoName": "equity-grant-flow",
+
+  "network": {
+    "name": "baseSepolia",
+    "chainId": 84532
+  },
+
+  "rpcEnvVar": "BASE_SEPOLIA_RPC_URL",
+
+  "actors": {
+    "issuerEnvVar": "DEMO_ISSUER_PRIVATE_KEY",
+    "beneficiary": "0x8b24e58442c0ecc9ac11a22beb89c8ee53ed4544"
+  },
+
+  "contracts": {
+    "identityRegistry": "0x9d6831ccb9d6f971cb648b538448d175650cfea4",
+    "equityToken": "0x92bce3e624c4f40ee87dacdf3b4e27e178ec5b17",
+    "vesting": "0xef444c538769d7626511a4c538d03ffc7e53262b",
+    "policy": "0x028ba147828f331f4547b5dc211f95aba6dbbb43"
+  },
+
+  "grant": {
+    "grantId": "DEMO-GRANT-0001",
+    "quantity": "1000"
+  },
+
+  "vestingSchedule": {
+    "startTimestamp": 1735689600,
+    "cliffSeconds": 0,
+    "durationSeconds": 31536000
+  },
+
+  "claim": {
+    "mode": "time-warp",
+    "warpToTimestamp": 1751328000
+  },
+
+  "outputs": {
+    "evidenceDir": "evidence/phase-8.0",
+    "manifestPath": "manifests/demo/equity-grant-flow.json"
+  }
+}
