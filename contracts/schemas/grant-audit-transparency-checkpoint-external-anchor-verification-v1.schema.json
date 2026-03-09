@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Grant Audit Transparency Checkpoint External Anchor Verification V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "verification_version",
+    "phase",
+    "external_anchor_receipt_path",
+    "checkpoint_hash",
+    "transparency_log_root",
+    "checkpoint_witnesses_hash",
+    "checkpoint_finalization_hash",
+    "checkpoint_rebinding_hash",
+    "anchor_set_hash",
+    "external_anchor_hash",
+    "entry_count",
+    "entries",
+    "verification_set_hash",
+    "external_anchor_verification_hash"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "grant-audit-transparency-checkpoint-external-anchor-verification-v1"
+    },
+    "verification_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "phase": {
+      "type": "string",
+      "const": "7.29"
+    },
+    "external_anchor_receipt_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "checkpoint_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "transparency_log_root": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "checkpoint_witnesses_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "checkpoint_finalization_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "checkpoint_rebinding_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "anchor_set_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "external_anchor_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "entry_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "./grant-audit-transparency-checkpoint-external-anchor-verification-entry-v1.schema.json"
+      }
+    },
+    "verification_set_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "external_anchor_verification_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

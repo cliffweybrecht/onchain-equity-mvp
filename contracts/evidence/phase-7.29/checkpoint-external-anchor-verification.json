@@ -1,0 +1,41 @@
+{
+  "anchor_set_hash": "26bdb4609a2602df59607ce128860009e258ff8c6fddcfbd47e673851497bc71",
+  "checkpoint_finalization_hash": "6992141312ce5e2c5cac6e77eb3e0d1caa3b4088a00aefa5c8d18ae119d7645b",
+  "checkpoint_hash": "3d5460ce02f4f5397a0a15d49d403d59a55e5d36b7fbb6f4342d6ba678831ed1",
+  "checkpoint_rebinding_hash": "95a11ce177d61a1223bc1d12165bc51f72ba64ef9660c3342249ff4c3f15186b",
+  "checkpoint_witnesses_hash": "a2e4685ce1ab872ae8a96dc15f2ee9888eac4f602cded1ad12b6ab1b13c14c9d",
+  "entries": [
+    {
+      "anchor_label": "git_commit:848ea57eb01ddeb6fc635ba28f6d60cbea4a3fc2",
+      "anchor_locator": "git://github.com/cliffweybrecht/onchain-equity-mvp.git#848ea57eb01ddeb6fc635ba28f6d60cbea4a3fc2",
+      "anchor_network": "git",
+      "anchor_type": "git_commit",
+      "entry_version": "1.0.0",
+      "expected_anchor_identifier": "848ea57eb01ddeb6fc635ba28f6d60cbea4a3fc2",
+      "expected_checkpoint_finalization_hash": "6992141312ce5e2c5cac6e77eb3e0d1caa3b4088a00aefa5c8d18ae119d7645b",
+      "expected_checkpoint_hash": "3d5460ce02f4f5397a0a15d49d403d59a55e5d36b7fbb6f4342d6ba678831ed1",
+      "expected_checkpoint_rebinding_hash": "95a11ce177d61a1223bc1d12165bc51f72ba64ef9660c3342249ff4c3f15186b",
+      "expected_checkpoint_witnesses_hash": "a2e4685ce1ab872ae8a96dc15f2ee9888eac4f602cded1ad12b6ab1b13c14c9d",
+      "expected_external_anchor_hash": "9a88dc7d88cd4a28186201b0d53b522a95a46d98d942b5c74b6d42596e11f01d",
+      "expected_transparency_log_root": "e2f2d0522e4e7f3fad81640368dd37b3844166fd060c9e82a6d0250ed2a3d2d7",
+      "repository_name": "onchain-equity-mvp",
+      "repository_owner": "cliffweybrecht",
+      "repository_url": "https://github.com/cliffweybrecht/onchain-equity-mvp.git",
+      "resolution_method": "git_rev_parse",
+      "resolved_commit_hash": "848ea57eb01ddeb6fc635ba28f6d60cbea4a3fc2",
+      "resolved_reference": "848ea57eb01ddeb6fc635ba28f6d60cbea4a3fc2",
+      "schema": "grant-audit-transparency-checkpoint-external-anchor-verification-entry-v1",
+      "verification_material_hash": "9c3e4dd20058fb70942f091132d07ba6fbeac9b6f66ef28adb5f8411133f57b7",
+      "verification_status": "verified"
+    }
+  ],
+  "entry_count": 1,
+  "external_anchor_hash": "9a88dc7d88cd4a28186201b0d53b522a95a46d98d942b5c74b6d42596e11f01d",
+  "external_anchor_receipt_path": "../manifests/transparency/checkpoint-external-anchor.json",
+  "external_anchor_verification_hash": "ecd4e4a1a6dd127638ed2312262fc5c544fe6efcadac13df11598780be5e5b3f",
+  "phase": "7.29",
+  "schema": "grant-audit-transparency-checkpoint-external-anchor-verification-v1",
+  "transparency_log_root": "e2f2d0522e4e7f3fad81640368dd37b3844166fd060c9e82a6d0250ed2a3d2d7",
+  "verification_set_hash": "4f1a58076afd863b48b9c1c944888a0a7fede2d7a5af168e6b1e44cf739c2cc5",
+  "verification_version": "1.0.0"
+}

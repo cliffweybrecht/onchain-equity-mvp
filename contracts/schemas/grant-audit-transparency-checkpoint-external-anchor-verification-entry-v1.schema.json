@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Grant Audit Transparency Checkpoint External Anchor Verification Entry V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "entry_version",
+    "anchor_type",
+    "anchor_label",
+    "anchor_locator",
+    "resolved_reference",
+    "resolution_method",
+    "resolved_commit_hash",
+    "expected_external_anchor_hash",
+    "expected_checkpoint_hash",
+    "expected_transparency_log_root",
+    "expected_checkpoint_witnesses_hash",
+    "expected_checkpoint_finalization_hash",
+    "expected_checkpoint_rebinding_hash",
+    "verification_status",
+    "verification_material_hash"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "grant-audit-transparency-checkpoint-external-anchor-verification-entry-v1"
+    },
+    "entry_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "anchor_type": {
+      "type": "string",
+      "const": "git_commit"
+    },
+    "anchor_label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "anchor_locator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "ref"
+      ],
+      "properties": {
+        "repository": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "resolved_reference": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resolution_method": {
+      "type": "string",
+      "const": "git_rev_parse"
+    },
+    "resolved_commit_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$"
+    },
+    "expected_external_anchor_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "expected_checkpoint_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "expected_transparency_log_root": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "expected_checkpoint_witnesses_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "expected_checkpoint_finalization_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "expected_checkpoint_rebinding_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "verification_status": {
+      "type": "string",
+      "const": "verified"
+    },
+    "verification_material_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

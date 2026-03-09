@@ -1,0 +1,7 @@
+{
+  "schema": "grant-audit-transparency-checkpoint-external-anchor-verification-v1",
+  "phase": "7.29",
+  "verification_status": "verified",
+  "entry_count": 1,
+  "external_anchor_verification_hash": "ecd4e4a1a6dd127638ed2312262fc5c544fe6efcadac13df11598780be5e5b3f"
+}
