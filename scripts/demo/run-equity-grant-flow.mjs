@@ -19,6 +19,60 @@ const __dirname = path.dirname(new URL(import.meta.url).pathname);
 const ROOT_DIR = path.resolve(__dirname, "..", "..");
 const DEFAULT_CONFIG_PATH = path.resolve(__dirname, "demo.config.json");
 
+const IDENTITY_REGISTRY_ABI = [
+  {
+    type: "function",
+    name: "isVerified",
+    stateMutability: "view",
+    inputs: [{ name: "user", type: "address" }],
+    outputs: [{ name: "", type: "bool" }]
+  }
+];
+
+const ERC20_BALANCE_ABI = [
+  {
+    type: "function",
+    name: "balanceOf",
+    stateMutability: "view",
+    inputs: [{ name: "account", type: "address" }],
+    outputs: [{ name: "", type: "uint256" }]
+  }
+];
+
+const OPTIONAL_TOKEN_POLICY_ABI = [
+  {
+    type: "function",
+    name: "transferPolicy",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "address" }]
+  },
+  {
+    type: "function",
+    name: "policy",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "address" }]
+  }
+];
+
+const OPTIONAL_VESTING_METADATA_ABI = [
+  {
+    type: "function",
+    name: "admin",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "address" }]
+  },
+  {
+    type: "function",
+    name: "token",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "address" }]
+  }
+];
+
 function stableStringify(value) {
   if (value === null || typeof value !== "object") {
     return JSON.stringify(value);
@@ -88,9 +142,14 @@ function normalizeHexPrivateKey(value, envName) {
 }
 
 function normalizeAddress(value, label) {
-  if (!isAddress(value)) {
+  if (typeof value !== "string") {
+    fail(`Invalid address for ${label}: expected string`);
+  }
+
+  if (!isAddress(value, { strict: false })) {
     fail(`Invalid address for ${label}: ${value}`);
   }
+
   return getAddress(value);
 }
 
@@ -143,7 +202,6 @@ async function createRunContext() {
   );
 
   const issuerAccount = privateKeyToAccount(issuerPrivateKey);
-
   const beneficiary = normalizeAddress(config.actors?.beneficiary, "actors.beneficiary");
 
   const contractAddresses = {
@@ -198,7 +256,9 @@ async function createRunContext() {
       resolvedConfigPath: path.join(evidenceDir, "demo-config-resolved.json"),
       runLogPath: path.join(evidenceDir, "demo-run.log"),
       summaryPath: path.join(evidenceDir, "demo-summary.json"),
-      preflightPath: path.join(evidenceDir, "demo-preflight.json")
+      preflightPath: path.join(evidenceDir, "demo-preflight.json"),
+      prestatePath: path.join(evidenceDir, "demo-prestate.json"),
+      assertionsPath: path.join(evidenceDir, "demo-assertions.json")
     },
     run: {
       status: "initialized",
@@ -258,6 +318,32 @@ async function runStep(ctx, name, fn) {
   }
 }
 
+function addAssertion(ctx, name, passed, details = {}) {
+  ctx.run.assertions.push({
+    name,
+    passed,
+    details
+  });
+
+  if (!passed) {
+    fail(`Assertion failed: ${name}`, details);
+  }
+}
+
+async function safeReadContract(client, params) {
+  try {
+    const result = await client.readContract(params);
+    return { ok: true, result };
+  } catch (error) {
+    return {
+      ok: false,
+      error: {
+        message: error.message
+      }
+    };
+  }
+}
+
 async function preflight(ctx) {
   const chainId = await ctx.clients.publicClient.getChainId();
   const latestBlock = await ctx.clients.publicClient.getBlock({ blockTag: "latest" });
@@ -288,6 +374,123 @@ async function preflight(ctx) {
     beneficiary: ctx.actors.beneficiary,
     contractChecks: codeChecks
   };
+}
+
+async function readPrestate(ctx) {
+  const block = await ctx.clients.publicClient.getBlock({ blockTag: "latest" });
+
+  const verifiedRead = await safeReadContract(ctx.clients.publicClient, {
+    address: ctx.contracts.identityRegistry,
+    abi: IDENTITY_REGISTRY_ABI,
+    functionName: "isVerified",
+    args: [ctx.actors.beneficiary]
+  });
+
+  if (!verifiedRead.ok) {
+    fail("Unable to read IdentityRegistry.isVerified for beneficiary", verifiedRead.error);
+  }
+
+  const balanceRead = await safeReadContract(ctx.clients.publicClient, {
+    address: ctx.contracts.equityToken,
+    abi: ERC20_BALANCE_ABI,
+    functionName: "balanceOf",
+    args: [ctx.actors.beneficiary]
+  });
+
+  if (!balanceRead.ok) {
+    fail("Unable to read EquityToken.balanceOf for beneficiary", balanceRead.error);
+  }
+
+  const vestingAdminRead = await safeReadContract(ctx.clients.publicClient, {
+    address: ctx.contracts.vesting,
+    abi: OPTIONAL_VESTING_METADATA_ABI,
+    functionName: "admin"
+  });
+
+  const vestingTokenRead = await safeReadContract(ctx.clients.publicClient, {
+    address: ctx.contracts.vesting,
+    abi: OPTIONAL_VESTING_METADATA_ABI,
+    functionName: "token"
+  });
+
+  const transferPolicyRead = await safeReadContract(ctx.clients.publicClient, {
+    address: ctx.contracts.equityToken,
+    abi: OPTIONAL_TOKEN_POLICY_ABI,
+    functionName: "transferPolicy"
+  });
+
+  const legacyPolicyRead = transferPolicyRead.ok
+    ? null
+    : await safeReadContract(ctx.clients.publicClient, {
+        address: ctx.contracts.equityToken,
+        abi: OPTIONAL_TOKEN_POLICY_ABI,
+        functionName: "policy"
+      });
+
+  const tokenPolicyAddress = transferPolicyRead.ok
+    ? getAddress(transferPolicyRead.result)
+    : legacyPolicyRead?.ok
+      ? getAddress(legacyPolicyRead.result)
+      : null;
+
+  const prestate = {
+    capturedAt: nowIso(),
+    blockNumber: block.number.toString(),
+    blockTimestamp: block.timestamp.toString(),
+    issuer: ctx.actors.issuer,
+    beneficiary: ctx.actors.beneficiary,
+    beneficiaryIdentity: {
+      isVerified: Boolean(verifiedRead.result)
+    },
+    beneficiaryBalances: {
+      equityToken: balanceRead.result.toString()
+    },
+    vestingMetadata: {
+      admin: vestingAdminRead.ok ? getAddress(vestingAdminRead.result) : null,
+      token: vestingTokenRead.ok ? getAddress(vestingTokenRead.result) : null,
+      adminReadError: vestingAdminRead.ok ? null : vestingAdminRead.error.message,
+      tokenReadError: vestingTokenRead.ok ? null : vestingTokenRead.error.message
+    },
+    tokenPolicy: {
+      configuredPolicyAddress: ctx.contracts.policy,
+      tokenReportedPolicyAddress: tokenPolicyAddress,
+      readMode: transferPolicyRead.ok ? "transferPolicy()" : legacyPolicyRead?.ok ? "policy()" : null,
+      readError:
+        transferPolicyRead.ok || legacyPolicyRead?.ok
+          ? null
+          : {
+              transferPolicy: transferPolicyRead.error?.message ?? null,
+              policy: legacyPolicyRead?.error?.message ?? null
+            }
+    }
+  };
+
+  addAssertion(ctx, "beneficiary is verified", prestate.beneficiaryIdentity.isVerified, {
+    beneficiary: ctx.actors.beneficiary
+  });
+
+  addAssertion(
+    ctx,
+    "vesting token matches configured equity token",
+    prestate.vestingMetadata.token === null || prestate.vestingMetadata.token === ctx.contracts.equityToken,
+    {
+      configuredEquityToken: ctx.contracts.equityToken,
+      vestingToken: prestate.vestingMetadata.token
+    }
+  );
+
+  addAssertion(
+    ctx,
+    "token policy matches configured policy when readable",
+    prestate.tokenPolicy.tokenReportedPolicyAddress === null ||
+      prestate.tokenPolicy.tokenReportedPolicyAddress === ctx.contracts.policy,
+    {
+      configuredPolicy: ctx.contracts.policy,
+      tokenReportedPolicy: prestate.tokenPolicy.tokenReportedPolicyAddress
+    }
+  );
+
+  return prestate;
 }
 
 function buildResolvedConfigArtifact(ctx) {
@@ -328,16 +531,20 @@ function buildSummaryArtifact(ctx) {
   };
 }
 
-async function writeArtifacts(ctx, preflightArtifact) {
+async function writeArtifacts(ctx, preflightArtifact, prestateArtifact) {
   const resolvedConfigArtifact = buildResolvedConfigArtifact(ctx);
   const summaryArtifact = buildSummaryArtifact(ctx);
 
   await writeJson(ctx.paths.resolvedConfigPath, resolvedConfigArtifact);
   await writeJson(ctx.paths.preflightPath, preflightArtifact);
+  await writeJson(ctx.paths.prestatePath, prestateArtifact);
+  await writeJson(ctx.paths.assertionsPath, ctx.run.assertions);
   await writeJson(ctx.paths.summaryPath, summaryArtifact);
 
   const resolvedConfigHash = sha256Hex(stableStringify(resolvedConfigArtifact));
   const preflightHash = sha256Hex(stableStringify(preflightArtifact));
+  const prestateHash = sha256Hex(stableStringify(prestateArtifact));
+  const assertionsHash = sha256Hex(stableStringify(ctx.run.assertions));
   const summaryHash = sha256Hex(stableStringify(summaryArtifact));
 
   const manifest = {
@@ -349,11 +556,15 @@ async function writeArtifacts(ctx, preflightArtifact) {
     artifactHashes: {
       resolvedConfigHash,
       preflightHash,
+      prestateHash,
+      assertionsHash,
       summaryHash
     },
     artifactPaths: {
       resolvedConfig: path.relative(ROOT_DIR, ctx.paths.resolvedConfigPath),
       preflight: path.relative(ROOT_DIR, ctx.paths.preflightPath),
+      prestate: path.relative(ROOT_DIR, ctx.paths.prestatePath),
+      assertions: path.relative(ROOT_DIR, ctx.paths.assertionsPath),
       summary: path.relative(ROOT_DIR, ctx.paths.summaryPath),
       runLog: path.relative(ROOT_DIR, ctx.paths.runLogPath)
     }
@@ -364,6 +575,8 @@ async function writeArtifacts(ctx, preflightArtifact) {
   ctx.run.artifacts = {
     resolvedConfig: path.relative(ROOT_DIR, ctx.paths.resolvedConfigPath),
     preflight: path.relative(ROOT_DIR, ctx.paths.preflightPath),
+    prestate: path.relative(ROOT_DIR, ctx.paths.prestatePath),
+    assertions: path.relative(ROOT_DIR, ctx.paths.assertionsPath),
     summary: path.relative(ROOT_DIR, ctx.paths.summaryPath),
     runLog: path.relative(ROOT_DIR, ctx.paths.runLogPath),
     manifest: path.relative(ROOT_DIR, ctx.paths.manifestPath)
@@ -379,11 +592,12 @@ async function main() {
     await appendLog(ctx, `Using config ${ctx.meta.configPath}`);
 
     const preflightArtifact = await runStep(ctx, "preflight", async () => preflight(ctx));
+    const prestateArtifact = await runStep(ctx, "prestate-read", async () => readPrestate(ctx));
 
     ctx.run.status = "passed";
-    await writeArtifacts(ctx, preflightArtifact);
+    await writeArtifacts(ctx, preflightArtifact, prestateArtifact);
 
-    await appendLog(ctx, "Demo bootstrap completed successfully");
+    await appendLog(ctx, "Demo pre-state verification completed successfully");
     process.stdout.write(
       `${stableStringify({
         ok: true,

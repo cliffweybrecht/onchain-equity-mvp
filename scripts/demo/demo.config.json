@@ -15,7 +15,7 @@
 
   "contracts": {
     "identityRegistry": "0x9d6831ccb9d6f971cb648b538448d175650cfea4",
-    "equityToken": "0x92bce3e624c4f40ee87dacdf3b4e27e178ec5b17",
+    "equityToken": "0x2791d08fc94c787e5772daba3507a68e74ba4b10",
     "vesting": "0xef444c538769d7626511a4c538d03ffc7e53262b",
     "policy": "0x028ba147828f331f4547b5dc211f95aba6dbbb43"
   },
