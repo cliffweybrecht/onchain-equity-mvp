@@ -1,0 +1,14 @@
+{
+  "phase": "8.1.C",
+  "generated_at": "2026-03-10T02:24:16.681Z",
+  "purpose": "Safe/admin-contract execution payload for beneficiary identity verification",
+  "safe_admin": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+  "to": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+  "value": "0",
+  "function": "setStatus(address,uint8)",
+  "args": {
+    "user": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+    "newStatus": 1
+  },
+  "data": "0x278e07ce000000000000000000000000d3ed697274ec8bc9f638ce80fd789a49da4ad9960000000000000000000000000000000000000000000000000000000000000001"
+}

@@ -1,0 +1,23 @@
+{
+  "phase": "8.1.C",
+  "title": "Grant execution path alignment and fresh-beneficiary targeting",
+  "artifacts": [
+    "contracts/evidence/phase-8.1.C/fresh-beneficiary-selection.json",
+    "contracts/evidence/phase-8.1.C/beneficiary-identity-preflight.json",
+    "contracts/evidence/phase-8.1.C/grant-admin-alignment.json",
+    "contracts/evidence/phase-8.1.C/verified-fresh-beneficiary-search.json",
+    "contracts/evidence/phase-8.1.C/admin-path-convergence.json",
+    "contracts/evidence/phase-8.1.C/beneficiary-identity-registration-calldata.json",
+    "contracts/evidence/phase-8.1.C/grant-create-calldata.json",
+    "contracts/evidence/phase-8.1.C/grant-execution-attempt.json"
+  ],
+  "summary": {
+    "selected_beneficiary": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+    "beneficiary_fresh": true,
+    "beneficiary_identity_verified_currently": false,
+    "registry_and_vesting_share_same_safe_admin": true,
+    "converged_safe_admin": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+    "direct_eoa_execution_permitted": false,
+    "next_required_operator_action": "Submit Safe/admin-contract transaction for registry setStatus(user,1), then submit Safe/admin-contract transaction for vesting createGrant"
+  }
+}

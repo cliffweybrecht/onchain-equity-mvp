@@ -1,0 +1,22 @@
+{
+  "id": "0x941aac7bbdff1ef1e4fcb9d0e88b0e695f9dbe0d2bfa25ca0e83f09d9a79e1b5",
+  "payload": {
+    "chainId": 84532,
+    "chainName": "baseSepolia",
+    "createdAt": "2026-03-10T02:24:43.942Z",
+    "details": {
+      "cliff": 1770000000,
+      "duration": 31536000,
+      "notes": "Phase 8.1.C safe-path prepared only; no direct EOA broadcast",
+      "start": 1770000000,
+      "total": "1000000000000000000"
+    },
+    "employee": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+    "identityRegistry": "0x9d6831ccb9d6f971cb648b538448d175650cfea4",
+    "issuer": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
+    "op": "create",
+    "rpcHint": "https://sepolia.base.org",
+    "vestingContract": "0xEf444C538769d7626511A4C538d03fFc7e53262B"
+  },
+  "schema": "grant-manifest-v1"
+}

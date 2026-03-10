@@ -1,0 +1,2063 @@
+{
+  "phase": "8.1.C",
+  "generated_at": "2026-03-10T02:06:19.173Z",
+  "registry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+  "vesting": "0xEf444C538769d7626511A4C538d03fFc7e53262B",
+  "candidates_file": "contracts/evidence/phase-8.1.C/candidate-addresses.txt",
+  "candidate_count": 108,
+  "first_verified_fresh_beneficiary": "0x1111111111111111111111111111111111111111",
+  "results": [
+    {
+      "beneficiary": "0x0000000000000000000000000000000000000000",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x000000000000000000000000000000000000dEaD",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x0000000000000000000000009D6831CCb9d6f971",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x000000000000000000000000eF444C538769d762",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x000000000000000000000000F7E66def3745c664",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x0000000000000200800000000000000000000000",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x0000000040000000000010000000000000000000",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x0000000040000200000000000000000000000010",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x0000000040000200800000000000000000000000",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x00E0dd2109925e32f39f84aa9926B2220F3B5db2",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x028ba147828f331f4547B5Dc211F95aBA6dBbb43",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x03a2fC81165E24491B186faD51A31E278509c5b1",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x0d35302f827A91D56c49cDeAf0312fCe55b9b715",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x0f6798A560793a54C3bcFe86a93CDe1e73087d94",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x101ad76cd5f0F25bD7D955e72527cEECE7974840",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x1111111111111111111111111111111111111111",
+      "identity": {
+        "is_verified": true,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": true
+    },
+    {
+      "beneficiary": "0x114E74f6eA3bd819998f78687BFCb11b140dA08E",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x14519FbDAbA4DdDfB334Ed342C405049718a1c2F",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x17425158CD0ADF067564abfE44726Ea5a0B03f07",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x19165587000000000000000000000000f7E66dEF",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x1A0E8fC547DC74d4caEcC506dc605534846B6A06",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x1d3854fd3c70540A38918aD9C54303d1e0E31e20",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x2237d846D3EE2Baf268FF2a91C5971F5E594E1B1",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x23C472877e532f34f946BA3D2348D77541487b1A",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x2626c09eF40176300A0bcf1ddb56Cf4A3d530485",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x278e07CE000000000000000000000000F7E66DeF",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x2791D08fC94C787e5772Daba3507A68e74BA4B10",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x279296E27eCa99A8c80f2414cFfa7d59f7ee8b6B",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x292bC5B0bE626b082de3eB07CCd3EF1AB2D58974",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x2f84c9918ec2602efA68000eAe8b1fbe550311DC",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x2FbcDa8966bB426D2AAfbF8523f84b4268273a23",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x304A2C79Bf45F970ff06128B5dd8DFD40423157C",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x30705dcEb83F4B11be5a3797683B33a29b3906D4",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x30e14268C53EA1AEaFF1064486b198a9699219Bc",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x36923aE4B0fdcDB99F476C30Ac3EF7AA6FbfE655",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x38c905c289b3eF1a244d95c8b1925a37c34839C8",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x3aDE7ba24ddA6305F691c64Ae075F374b94383AD",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x43D6E9D7E309698804485e63459934152eC0Ea02",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x442E715F626346e8C54381002dA614f62Bee8d27",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x4C4c66FfDD3Ed28D8CD8447CE441E93D36cC7895",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x4a76bC972d906EC85FdddD60B579c30F3028a7dA",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x4EC61A8e74085135372BB235ec4F3eab9464DE63",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x4f9DA0B46DE67448FF0D3E3183D6eF7fBe7667A8",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x50d170371B00Bb64c46Fd67C0b64d899f2088beD",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x520D4c6662A3B5A4e529c8c182CCB11BbFffd3b5",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x60774e502456D750bDC0bEA4381548c6758E357A",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x637096e6000000000000000000000000F7e66dEF",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x66753cd2356569Ee081232E3BE8909B950E0A76C",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
+      "identity": {
+        "is_verified": true,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": true
+    },
+    {
+      "beneficiary": "0x6A66205Bc7D539aAde11560d4CB470750b867b86",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x6A7612020000000000000000000000009d6831cC",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x6a761202000000000000000000000000ef444c53",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x6c4e57BDBF65daE0058eCE3351f109C7cD5a8fa4",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x6f9899101a74e8b3Eaee0dFe88d6EEb444F26B12",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x704B6C020000000000000000000000001eDc7585",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x71AbEFfdFB86B2D3BfAb001e55315613f53e78D1",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x7223e8a749764B7e4b29c28f16fc067226336EDD",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x72daF10067387Bb9022356246A1734E871931E58",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x734F03113a44199d976eed1Ab8a739a15EB1666E",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x7499f3b9412b8F42e291671a5C0B2F89d5d22C05",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x7752b86BC79C9E089812C7a3891b461c4b5132fF",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x7A7079Aa03aB963e75aC5A84C8Bd7FAD40441688",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x7DF0bB151637c8Cc18642FD9aA005b1D418Fc7Bb",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x824548BcF479Ed885335B00455889E7C602C904e",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x84BEc654B6883536BE86171a60EE6cCd402E4F58",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x87e84730a4D8236d8fd55f74C4832660f1C4bD59",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x8B24E58442c0ECc9Ac11A22beb89C8eE53ED4544",
+      "identity": {
+        "is_verified": true,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "2",
+        "total_display": "0.000000000000000002",
+        "released_raw": "2",
+        "released_display": "0.000000000000000002",
+        "start": 1769137492,
+        "cliff": 1769137492,
+        "duration": 1,
+        "exists": true
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x8A5bB0B6449A5eB45ac1e275A8343DDeFD4992c3",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x8e1bbc62cd3Bfb6D6FBDb7fF715d66d5DeD8B219",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x8f35875DC02185849561a07E9C92D94778a0887C",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x921b2464D977D2E9E297568Afad077367f5Afd3f",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x92bce3e624C4F40EE87dAcdF3b4E27e178eC5b17",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x933B30265BFAf3D949CAe43f450cD38D9018df8C",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x95425AbeF939bF09BB79c382AE062EA787F11B0C",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x97C9A7B6155CA7a794ee23f48c33427a4adb3cF8",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x98242DCAeD993E73c679043C727F4f9C69C19B7D",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x98b59FbB97F25F9fD72976Ca15572A000C875368",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x99B60B5481c7B6a5dcAbE51DA61536D6DbF2d9FE",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xEf444C538769d7626511A4C538d03fFc7e53262B",
+      "identity": {
+        "is_verified": true,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": true
+    },
+    {
+      "beneficiary": "0xa5dC56eB13A625584C128ad056C23d6e9035f814",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xaA6b4994839C8a90c81E982C3174F6F52f9f3e10",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xacd5f7F90d58cC9C558C32D3547dC30BeB03beB6",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xb09c259771409F472C9B970BAAcA55f18021BD03",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xb19016c0BEdED25248fe69Ed2602fED2E97E1748",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xb39E37Bf87837F97805718E26DA89735B2319789",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xb97D108Bc06721DEB6202B5d7c1e4e103e8e79c6",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xBb9bfA7F0A398262FdB46606aE086944a5407309",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xC0347E4676DEd729785bb47245F4F2Ba6d714eA7",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xC2e7c7C164bB38B6b078645D344eB043662225dB",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xC3048420b031c80732C4A25baAf754A46feda493",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xC572995491a084BE21B591de274f549FdDf94c79",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xCB77c4742d2BF89529c4dB605c797Be8242b16cA",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xd59D171DC3c7c4C220672C077E3738003E17f960",
+      "identity": {
+        "is_verified": true,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": true
+    },
+    {
+      "beneficiary": "0xDdF252aD1be2C89b69C2b068fC378dAA952Ba7F1",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xe648C1d2858492982b38Bd861576984490c0A07d",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xe834C98259c0372976D1f41C2F9418771c89f926",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xF26317132dd230bCBaCF7e80dB7ac95Db7e54E61",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+      "identity": {
+        "is_verified": true,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "1000",
+        "total_display": "0.000000000000001",
+        "released_raw": "30",
+        "released_display": "0.00000000000000003",
+        "start": 1771644494,
+        "cliff": 1771644494,
+        "duration": 31536000,
+        "exists": true
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xF9A2E60AF436F6bC940d36030b91e4e7aa6e4bD1",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    },
+    {
+      "beneficiary": "0xfE7e692a333e5B9e81A2A664d4B946B1128Bb55D",
+      "identity": {
+        "is_verified": false,
+        "error_message": null
+      },
+      "grant_state": {
+        "total_raw": "0",
+        "total_display": "0",
+        "released_raw": "0",
+        "released_display": "0",
+        "start": 0,
+        "cliff": 0,
+        "duration": 0,
+        "exists": false
+      },
+      "grant_error": null,
+      "verified_fresh": false
+    }
+  ]
+}

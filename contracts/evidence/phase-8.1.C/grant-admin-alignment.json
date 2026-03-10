@@ -1,0 +1,15 @@
+{
+  "phase": "8.1.C",
+  "generated_at": "2026-03-10T02:04:06.492Z",
+  "vesting": "0xEf444C538769d7626511A4C538d03fFc7e53262B",
+  "authority_surface": {
+    "method_used": "admin()",
+    "detected_admin": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+    "owner_supported": false,
+    "role_based_admin_supported": false
+  },
+  "configured_sender": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
+  "sender_matches_admin": false,
+  "required_execution_path": "SAFE_OR_ADMIN_CONTRACT_EXECUTION_REQUIRED",
+  "verdict": "CONFIGURED_SENDER_NOT_ADMIN"
+}

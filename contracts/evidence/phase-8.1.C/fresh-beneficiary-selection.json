@@ -1,0 +1,18 @@
+{
+  "phase": "8.1.C",
+  "generated_at": "2026-03-10T02:02:32.498Z",
+  "vesting": "0xEf444C538769d7626511A4C538d03fFc7e53262B",
+  "beneficiary": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+  "raw_grant_shape": "tuple_array",
+  "grant_state": {
+    "total_raw": "0",
+    "total_display": "0",
+    "released_raw": "0",
+    "released_display": "0",
+    "start": 0,
+    "cliff": 0,
+    "duration": 0,
+    "exists": false
+  },
+  "verdict": "FRESH_BENEFICIARY_CONFIRMED"
+}

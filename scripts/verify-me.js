@@ -15,8 +15,18 @@ async function main() {
   const deploymentsPath = path.join(__dirname, "..", "deployments", "base-sepolia.json");
   const deployments = JSON.parse(fs.readFileSync(deploymentsPath, "utf8"));
 
-  const registryAddress = deployments.IdentityRegistry;
-  const defaultTarget = deployments.deployer;
+  const registryAddress =
+    deployments.IdentityRegistry ??
+    deployments.contracts?.IdentityRegistry;
+
+  const defaultTarget =
+    deployments.deployer ??
+    deployments.contracts?.deployer ??
+    deployments.addresses?.deployer;
+
+if (!registryAddress) {
+  throw new Error("IdentityRegistry address not found in deployments/base-sepolia.json");
+}
 
   // Choose who to verify (Hardhat v3-friendly): env var first, otherwise verify deployer
   const maybeEnv =

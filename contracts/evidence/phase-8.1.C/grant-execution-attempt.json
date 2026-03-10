@@ -1,0 +1,23 @@
+{
+  "phase": "8.1.C",
+  "generated_at": "2026-03-10T02:27:19.465509Z",
+  "status": "PRECHECK_BLOCKED",
+  "code": "SAFE_ADMIN_EXECUTION_REQUIRED",
+  "message": "Both IdentityRegistry.setStatus and VestingContract.createGrant require execution via converged admin 0x1eDc758579C66967C42066e8dDCB690a1651517e. Direct EOA execution from 0x6C775411e11cAb752Af03C5BBb440618788E13Be is not authorized.",
+  "selected_beneficiary": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+  "required_admin_actions": [
+    {
+      "contract": "IdentityRegistry",
+      "function": "setStatus(address,uint8)",
+      "target_status": 1
+    },
+    {
+      "contract": "VestingContract",
+      "function": "createGrant(address,uint256,uint64,uint64,uint64)"
+    }
+  ],
+  "prepared_artifacts": [
+    "contracts/evidence/phase-8.1.C/beneficiary-identity-registration-calldata.json",
+    "contracts/evidence/phase-8.1.C/grant-create-calldata.json"
+  ]
+}

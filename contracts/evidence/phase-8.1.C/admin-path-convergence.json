@@ -1,0 +1,19 @@
+{
+  "phase": "8.1.C",
+  "generated_at": "2026-03-10T02:24:03.669Z",
+  "configured_sender": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
+  "registry": {
+    "address": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+    "admin": "0x1eDc758579C66967C42066e8dDCB690a1651517e"
+  },
+  "vesting": {
+    "address": "0xEf444C538769d7626511A4C538d03fFc7e53262B",
+    "admin": "0x1eDc758579C66967C42066e8dDCB690a1651517e"
+  },
+  "convergence": {
+    "same_admin_for_registry_and_vesting": true,
+    "converged_admin": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+    "configured_sender_matches_converged_admin": false
+  },
+  "verdict": "SAFE_ADMIN_CONVERGENCE_CONFIRMED"
+}
