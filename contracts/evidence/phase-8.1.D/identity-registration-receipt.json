@@ -1,0 +1,13 @@
+{
+  "phase": "8.1.D",
+  "operation": "IdentityRegistry.setStatus(address,uint8)",
+  "transaction_hash": "0x0972b9dde864f0dac25cbade233b39fcdad3bf249130612815c589c9f498bfe1",
+  "network": "base-sepolia",
+  "block_number": 38710635,
+  "timestamp_utc": "2026-03-11T00:39:18Z",
+  "from": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
+  "to": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+  "value": "0",
+  "status": "success",
+  "note": "Safe executed transaction calling IdentityRegistry.setStatus for beneficiary verification"
+}

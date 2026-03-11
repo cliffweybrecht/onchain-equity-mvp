@@ -1,0 +1,15 @@
+{
+  "phase": "8.1.D",
+  "checked_at": "2026-03-11T00:39:18Z",
+  "registry_contract": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+  "beneficiary": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+  "checks": {
+    "getStatus": 1,
+    "isVerified": true
+  },
+  "expected": {
+    "getStatus": 1,
+    "isVerified": true
+  },
+  "result": "pass"
+}

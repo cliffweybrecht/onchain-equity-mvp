@@ -1,0 +1,22 @@
+{
+  "phase": "8.1.D",
+  "checked_at": "2026-03-11T00:39:18Z",
+  "vesting_contract": "0xEf444C538769d7626511A4C538d03fFc7e53262B",
+  "beneficiary": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+  "checks": {
+    "total": "1000000000000000000",
+    "released": "0",
+    "start": 1770000000,
+    "cliff": 1770000000,
+    "duration": 31536000,
+    "exists": true
+  },
+  "expected": {
+    "total": "1000000000000000000",
+    "start": 1770000000,
+    "cliff": 1770000000,
+    "duration": 31536000,
+    "exists": true
+  },
+  "result": "pass"
+}

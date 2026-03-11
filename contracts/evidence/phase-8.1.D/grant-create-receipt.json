@@ -1,0 +1,9 @@
+{
+  "phase": "8.1.D",
+  "operation": "VestingContract.createGrant(address,uint256,uint64,uint64,uint64)",
+  "transaction_hash": "0x2fd1e6315c2f786792080bf42bc4a405f86efbec726a74b3aa69441d6c3da39d",
+  "network": "base-sepolia",
+  "block_number": 38712109,
+  "status": "success",
+  "note": "Safe executed transaction calling VestingContract.createGrant for verified beneficiary"
+}

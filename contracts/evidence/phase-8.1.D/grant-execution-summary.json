@@ -1,0 +1,33 @@
+{
+  "phase": "8.1.D",
+  "completed_at": "2026-03-11T00:39:18Z",
+  "network": "base-sepolia",
+  "safe_admin": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+  "beneficiary": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+  "authorization_path": {
+    "registry_admin": "Safe",
+    "vesting_admin": "Safe",
+    "direct_eoa_execution_authorized": false
+  },
+  "identity_step": {
+    "contract": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+    "function": "setStatus(address,uint8)",
+    "tx_hash": "0x0972b9dde864f0dac25cbade233b39fcdad3bf249130612815c589c9f498bfe1",
+    "postcheck_file": "contracts/evidence/phase-8.1.D/identity-postcheck.json"
+  },
+  "grant_step": {
+    "contract": "0xEf444C538769d7626511A4C538d03fFc7e53262B",
+    "function": "createGrant(address,uint256,uint64,uint64,uint64)",
+    "tx_hash": "0x2fd1e6315c2f786792080bf42bc4a405f86efbec726a74b3aa69441d6c3da39d",
+    "postcheck_file": "contracts/evidence/phase-8.1.D/grant-postcheck.json"
+  },
+  "artifacts": {
+    "identity_registration_receipt": "contracts/evidence/phase-8.1.D/identity-registration-receipt.json",
+    "identity_registration_summary": "contracts/evidence/phase-8.1.D/identity-registration-summary.json",
+    "identity_postcheck": "contracts/evidence/phase-8.1.D/identity-postcheck.json",
+    "grant_create_receipt": "contracts/evidence/phase-8.1.D/grant-create-receipt.json",
+    "grant_create_summary": "contracts/evidence/phase-8.1.D/grant-create-summary.json",
+    "grant_postcheck": "contracts/evidence/phase-8.1.D/grant-postcheck.json"
+  },
+  "result": "authorized Safe execution completed and post-state verified"
+}
