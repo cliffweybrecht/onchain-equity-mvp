@@ -1,0 +1,26 @@
+{
+  "beneficiary": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+  "chain_id": 84532,
+  "computed": {
+    "expected_claimable": "101298198883815322",
+    "expected_vested": "101298198883815322",
+    "formula": "linear vesting; 0 before cliff; total after start+duration; otherwise total * (now-start) / duration"
+  },
+  "generated_at": "2026-03-11T02:02:21.372Z",
+  "grant_prestate": {
+    "cliff": 1770000000,
+    "duration": 31536000,
+    "exists": true,
+    "released": "0",
+    "start": 1770000000,
+    "total": "1000000000000000000"
+  },
+  "latest_block": {
+    "hash": "0x50001b131526edcaea0ebb1b5989fd44a12b3aaae9aac01fdd75e1bc3c4b487b",
+    "number": "38713126",
+    "timestamp": 1773194540
+  },
+  "phase": "8.2",
+  "rpc_url_redacted": true,
+  "vesting_contract": "0xEf444C538769d7626511A4C538d03fFc7e53262B"
+}

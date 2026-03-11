@@ -1,0 +1,71 @@
+{
+  "beneficiary": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+  "checks": {
+    "beneficiary_balance_delta_matches_released_delta": true,
+    "event_matches_released_delta": true,
+    "grant_exists_after": true,
+    "grant_exists_before": true,
+    "grant_released_event_detected": true,
+    "payout_transfer_detected": false,
+    "released_delta_positive": true,
+    "transfer_matches_released_delta": false
+  },
+  "generated_at": "2026-03-11T02:29:26.786Z",
+  "grant_poststate_at_claim_block": {
+    "cliff": 1770000000,
+    "duration": 31536000,
+    "exists": true,
+    "released": "101318112633181126",
+    "start": 1770000000,
+    "total": "1000000000000000000"
+  },
+  "grant_prestate_at_claim_block": {
+    "cliff": 1770000000,
+    "duration": 31536000,
+    "exists": true,
+    "released": "101314307458143074",
+    "start": 1770000000,
+    "total": "1000000000000000000"
+  },
+  "grant_released_event_verification": {
+    "amount_released_from_event": "3805175038052",
+    "matching_events": [
+      {
+        "amountReleased": "3805175038052",
+        "employee": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+        "log_index": 142
+      }
+    ]
+  },
+  "payout_balance_verification": {
+    "beneficiary_balance_after": "101318112633181126",
+    "beneficiary_balance_before": "101314307458143074",
+    "beneficiary_balance_delta": "3805175038052"
+  },
+  "payout_token": "0x2791D08fC94C787e5772Daba3507A68e74BA4B10",
+  "phase": "8.2",
+  "release_accounting": {
+    "released_after": "101318112633181126",
+    "released_before": "101314307458143074",
+    "released_delta": "3805175038052"
+  },
+  "source_transaction": {
+    "block_hash": "0x88547d304e36e557d8abbff615e35a52756a6b7defe39ef25bba759351ab8e75",
+    "block_number": "38713440",
+    "hash": "0xdd14b060b425d80e2e7af0c6596529af9aabf5e9b3d7da73647026d7c91aabca"
+  },
+  "transfer_verification": {
+    "all_payout_token_transfer_events": [
+      {
+        "from": "0x0000000000000000000000000000000000000000",
+        "log_index": 141,
+        "to": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+        "token_address": "0x2791D08fC94C787e5772Daba3507A68e74BA4B10",
+        "value": "3805175038052"
+      }
+    ],
+    "transfer_amount": null,
+    "vesting_to_beneficiary_transfer_events": []
+  },
+  "vesting_contract": "0xEf444C538769d7626511A4C538d03fFc7e53262B"
+}

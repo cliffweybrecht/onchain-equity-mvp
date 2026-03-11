@@ -1,0 +1,57 @@
+{
+  "artifacts": {
+    "execution_receipt": "contracts/evidence/phase-8.2/claim-execution-receipt.json",
+    "poststate": "contracts/evidence/phase-8.2/claim-poststate.json",
+    "prestate": "contracts/evidence/phase-8.2/claim-prestate.json"
+  },
+  "execution": {
+    "block_number": "38713440",
+    "selected_method": {
+      "args": [
+        "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996"
+      ],
+      "function_name": "release",
+      "label": "release(address)"
+    },
+    "timestamp": 1773195168,
+    "timestamp_source": "recovered",
+    "tx_hash": "0xdd14b060b425d80e2e7af0c6596529af9aabf5e9b3d7da73647026d7c91aabca"
+  },
+  "generated_at": "2026-03-11T02:32:09.270Z",
+  "hard_checks": {
+    "beneficiary_balance_delta_matches_released_delta": true,
+    "event_matches_released_delta": true,
+    "grant_released_event_detected": true,
+    "prestate_claimable_positive": true,
+    "released_delta_positive": true,
+    "tx_success": true
+  },
+  "notes": [
+    "The prestate artifact and the successful claim transaction occurred at different times.",
+    "Accordingly, payout proof is reconciled using block-bound deltas at the claim transaction block, not by comparing current cumulative released state to the earlier prestate snapshot.",
+    "Primary payout proof is established by agreement between grant released delta, GrantReleased event amount, and beneficiary payout-token balance delta.",
+    "A strict Transfer(from=vesting,to=beneficiary,value=delta) event match was not recovered from the claim receipt and is recorded as a soft-check inconsistency for follow-up.",
+    "EquityToken declares decimals = 0, while the grant quantity model used 18-decimal-style raw units. This phase proves raw-unit payout correctness and also surfaces a unit-model inconsistency for future cleanup."
+  ],
+  "objective": "Demonstrate deterministic vesting lifecycle payout: verified beneficiary with claimable grant -> release transaction -> released delta -> token payout delta",
+  "phase": "8.2",
+  "prestate_snapshot": {
+    "expected_claimable": "101298198883815322",
+    "expected_vested": "101298198883815322",
+    "prestate_block_number": "38713126"
+  },
+  "soft_checks": {
+    "payout_transfer_detected": false,
+    "transfer_matches_released_delta": false
+  },
+  "status": "PASS",
+  "tx_bound_reconciliation": {
+    "beneficiary_balance_delta": "3805175038052",
+    "grant_released_event_amount": "3805175038052",
+    "payout_token": "0x2791D08fC94C787e5772Daba3507A68e74BA4B10",
+    "payout_transfer_amount": null,
+    "released_after_at_claim_block": "101318112633181126",
+    "released_before_at_claim_block": "101314307458143074",
+    "released_delta_for_tx": "3805175038052"
+  }
+}

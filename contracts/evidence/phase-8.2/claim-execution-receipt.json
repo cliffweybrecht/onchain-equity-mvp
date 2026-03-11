@@ -1,0 +1,30 @@
+{
+  "beneficiary": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+  "caller": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+  "generated_at": "2026-03-11T02:15:28.834Z",
+  "logs_count": 3,
+  "phase": "8.2",
+  "recovery_mode": true,
+  "recovery_notes": [
+    "Recovered the successful claim transaction from onchain history after local receipt artifact generation failed.",
+    "Recovered by scanning recent beneficiary -> vesting transactions and selecting the successful claim/release call."
+  ],
+  "selected_method": {
+    "args": [
+      "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996"
+    ],
+    "function_name": "release",
+    "label": "release(address)"
+  },
+  "transaction": {
+    "block_hash": "0x88547d304e36e557d8abbff615e35a52756a6b7defe39ef25bba759351ab8e75",
+    "block_number": "38713440",
+    "effective_gas_price": "6000000",
+    "gas_used": "69350",
+    "hash": "0xdd14b060b425d80e2e7af0c6596529af9aabf5e9b3d7da73647026d7c91aabca",
+    "status": "success",
+    "timestamp": 1773195168,
+    "transaction_index": 33
+  },
+  "vesting_contract": "0xEf444C538769d7626511A4C538d03fFc7e53262B"
+}
