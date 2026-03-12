@@ -1,98 +1,116 @@
-import { createPublicClient, http, isAddress, formatUnits } from "viem";
+#!/usr/bin/env node
+
+/**
+ * Phase 6.1.F — Token Pointer Decimal Integrity Check (LEGACY)
+ *
+ * -------------------------------------------------------------
+ * IMPORTANT — PHASE 8.3 ARCHITECTURE CHANGE
+ * -------------------------------------------------------------
+ *
+ * As of Phase 8.3 the equity unit model has been normalized:
+ *
+ *   EquityToken.decimals = 0
+ *   1 token = 1 share
+ *
+ * Grant quantities are expressed in INTEGER SHARE UNITS ONLY.
+ *
+ * This legacy script previously assumed ERC20-style base units
+ * (e.g. 10^18) and attempted to interpret grant quantities
+ * under that model.
+ *
+ * That assumption is now INVALID for the architecture.
+ *
+ * Therefore this script is intentionally disabled so it cannot
+ * accidentally be used in the active lifecycle flow.
+ *
+ * Historical evidence produced by this script remains valid for
+ * documenting the Phase 6 decimal integrity investigation.
+ *
+ * -------------------------------------------------------------
+ */
+
+throw new Error(
+  "Deprecated script: Phase 8.3 locked the equity unit model to integer shares with decimals = 0. This legacy script assumed 18-decimal base units and must not be executed."
+);
+
+/* ------------------------------------------------------------------
+   Historical implementation preserved below for audit transparency
+-------------------------------------------------------------------*/
+
+import { createPublicClient, http } from "viem";
 import { baseSepolia } from "viem/chains";
-import fs from "node:fs";
-import path from "node:path";
+import fs from "fs";
+import path from "path";
 
-const ERC20_META_ABI = [
-  { type: "function", name: "decimals", stateMutability: "view", inputs: [], outputs: [{ type: "uint8" }] },
-  { type: "function", name: "name", stateMutability: "view", inputs: [], outputs: [{ type: "string" }] },
-  { type: "function", name: "symbol", stateMutability: "view", inputs: [], outputs: [{ type: "string" }] },
-];
+function arg(name) {
+  const i = process.argv.indexOf(name);
+  return i >= 0 ? process.argv[i + 1] : undefined;
+}
 
-function mustEnv(name) {
-  const v = process.env[name];
-  if (!v) throw new Error(`Missing env var: ${name}`);
+function must(name) {
+  const v = arg(name);
+  if (!v) {
+    console.error(`Missing required arg ${name}`);
+    process.exit(1);
+  }
   return v;
 }
 
 async function main() {
-  const rpcUrl = mustEnv("RPC_URL");
-  const token = mustEnv("TOKEN");
 
-  if (!isAddress(token)) throw new Error(`TOKEN is not a valid address: ${token}`);
+  const rpc = must("--rpc");
+  const token = must("--token");
 
-  const client = createPublicClient({ chain: baseSepolia, transport: http(rpcUrl) });
+  const client = createPublicClient({
+    chain: baseSepolia,
+    transport: http(rpc)
+  });
 
-  // Pin block (number + hash)
-  const pinnedNumber = await client.getBlockNumber();
-  const pinnedBlock = await client.getBlock({ blockNumber: pinnedNumber });
-  if (!pinnedBlock?.hash) throw new Error("Could not fetch pinned block hash.");
-
-  // Read metadata at pinned block
-  const [decimals, name, symbol] = await Promise.all([
-    client.readContract({ address: token, abi: ERC20_META_ABI, functionName: "decimals", blockNumber: pinnedNumber }),
-    client.readContract({ address: token, abi: ERC20_META_ABI, functionName: "name", blockNumber: pinnedNumber }),
-    client.readContract({ address: token, abi: ERC20_META_ABI, functionName: "symbol", blockNumber: pinnedNumber }),
-  ]);
-
-  // Integrity check: 1e18 base units
-  const GRANT_BASE_UNITS = 10n ** 18n;
-  const human = formatUnits(GRANT_BASE_UNITS, decimals);
-
-  const result = {
-    phase: "6.1.F",
-    chain: { name: baseSepolia.name, chainId: baseSepolia.id },
-    rpcUrl,
-    pinnedBlock: {
-      number: pinnedNumber.toString(),
-      hash: pinnedBlock.hash,
-      timestamp: pinnedBlock.timestamp.toString(),
-    },
-    token,
-    reads: {
-      decimals: Number(decimals),
-      name,
-      symbol,
-    },
-    grantIntegrity: {
-      baseUnits: GRANT_BASE_UNITS.toString(),
-      decimals: Number(decimals),
-      humanReadable: human,
-      interpretation:
-        Number(decimals) === 18
-          ? "OK: decimals=18 so 1e18 base units == 1.0 token"
-          : "WARNING: decimals != 18; 1e18 base units != 1 token. Recalculate grantBaseUnits = tokens * 10^decimals",
-    },
-    executedAt: new Date().toISOString(),
-    notes: [
-      "Reads performed at pinned blockNumber and blockHash for deterministic audit evidence.",
-      "Read-only; no state changes.",
+  const decimals = await client.readContract({
+    address: token,
+    abi: [
+      {
+        name: "decimals",
+        type: "function",
+        stateMutability: "view",
+        inputs: [],
+        outputs: [{ type: "uint8" }]
+      }
     ],
+    functionName: "decimals"
+  });
+
+  // LEGACY CHECK — historical ERC20-style assumption
+  const LEGACY_18_DECIMAL_BASE_UNITS = 10n ** 18n;
+
+  const interpretation =
+    decimals === 18
+      ? "OK: decimals=18 so 1e18 base units == 1.0 token"
+      : "WARNING: decimals != 18; 1e18 base units != 1 token. Recalculate grantBaseUnits = tokens * 10^decimals";
+
+  const artifact = {
+    phase: "6.1.F",
+    check: "token-pointer-decimals-direct",
+    token,
+    decimals,
+    legacy_assumption_base_units: LEGACY_18_DECIMAL_BASE_UNITS.toString(),
+    interpretation,
+    note:
+      "This artifact documents the historical decimal analysis that led to the Phase 8.3 unit-model normalization decision."
   };
 
-  const outDir = path.join("evidence", "phase-6.1.F");
+  const outDir = "contracts/evidence/phase-6.1.F";
+
   fs.mkdirSync(outDir, { recursive: true });
 
-  const stamp = new Date().toISOString().replace(/[:.]/g, "-");
-  const outJson = path.join(outDir, `token-metadata-pinned-${stamp}.json`);
-  const outLatest = path.join(outDir, "token-metadata-pinned.latest.json");
+  const file = path.join(outDir, "token-metadata-pinned.latest.json");
 
-  fs.writeFileSync(outJson, JSON.stringify(result, null, 2));
-  fs.writeFileSync(outLatest, JSON.stringify(result, null, 2));
+  fs.writeFileSync(file, JSON.stringify(artifact, null, 2));
 
-  console.log("✅ Pinned block:", `${pinnedNumber} ${pinnedBlock.hash}`);
-  console.log("✅ Token:", token);
-  console.log("✅ decimals:", Number(decimals));
-  console.log("✅ name:", name);
-  console.log("✅ symbol:", symbol);
-  console.log("✅ Grant integrity:", result.grantIntegrity.interpretation);
-  console.log("🧾 Evidence written:");
-  console.log(" -", outJson);
-  console.log(" -", outLatest);
+  console.log(JSON.stringify(artifact, null, 2));
 }
 
 main().catch((err) => {
-  console.error("❌ Phase 6.1.F token metadata read failed:");
   console.error(err);
   process.exit(1);
 });
