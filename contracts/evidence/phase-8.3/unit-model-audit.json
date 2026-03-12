@@ -1,0 +1,39 @@
+{
+  "phase": "8.3",
+  "generated_at": "2026-03-12T00:24:44.061Z",
+  "audit_scope": {
+    "token_source": "contracts/EquityToken.sol",
+    "demo_config": "scripts/demo/demo.config.json",
+    "demo_flow": "scripts/demo/run-equity-grant-flow.mjs",
+    "invariant_checker": "scripts/audit/check-equity-unit-invariants.mjs"
+  },
+  "token": {
+    "decimals_detected": 0,
+    "decimals_expected": 0,
+    "decimals_correct_for_equity": true
+  },
+  "grant_unit_model": {
+    "demo_config_grant_total": "100",
+    "numeric": true,
+    "observed_model": "integer_shares",
+    "expected_model": "integer_shares",
+    "consistent_with_equity_model": true
+  },
+  "active_path_scan": {
+    "demo_config_bad_patterns": [],
+    "demo_flow_bad_patterns": [],
+    "invariant_checker_present": true
+  },
+  "vesting_math": {
+    "formula": "floor(total * elapsed / duration)",
+    "formula_requires_change": false,
+    "rationale": "Integer floor math remains valid for whole-share vesting; the bug was unit encoding, not the vesting formula."
+  },
+  "conclusions": {
+    "decimals_should_change": false,
+    "grant_units_must_change": false,
+    "vesting_formula_must_change": false,
+    "active_demo_paths_clean": true,
+    "status": "PASS"
+  }
+}
