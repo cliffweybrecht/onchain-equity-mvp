@@ -1,43 +1,51 @@
 {
-  "demoName": "equity-grant-flow",
-
+  "schema": "onchain-equity-demo-config-v1",
+  "demo": {
+    "name": "onchain-equity-grant-demo",
+    "phase": "8.1.A",
+    "description": "Deterministic equity grant flow demo runner with canonical grant execution integration"
+  },
   "network": {
     "name": "baseSepolia",
-    "chainId": 84532
+    "chain_id": 84532,
+    "rpc_url_env": "BASE_SEPOLIA_RPC_URL"
   },
-
-  "rpcEnvVar": "BASE_SEPOLIA_RPC_URL",
-
-  "actors": {
-    "issuerEnvVar": "DEMO_ISSUER_PRIVATE_KEY",
-    "beneficiary": "0x8b24e58442c0ecc9ac11a22beb89c8ee53ed4544"
+  "addresses": {
+    "equity_token": "0x2791d08fc94c787e5772daba3507a68e74ba4b10",
+    "vesting_contract": "0xef444c538769d7626511a4c538d03ffc7e53262b",
+    "identity_registry": "0x9d6831ccb9d6f971cb648b538448d175650cfea4",
+    "policy_contract": "0x92bce3e624c4f40ee87dacdf3b4e27e178ec5b17"
   },
-
-  "contracts": {
-    "identityRegistry": "0x9d6831ccb9d6f971cb648b538448d175650cfea4",
-    "equityToken": "0x2791d08fc94c787e5772daba3507a68e74ba4b10",
-    "vesting": "0xef444c538769d7626511a4c538d03ffc7e53262b",
-    "policy": "0x028ba147828f331f4547b5dc211f95aba6dbbb43"
+  "demo_subject": {
+    "beneficiary": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72"
   },
-
-  "grant": {
-    "grantId": "DEMO-GRANT-0001",
-    "quantity": "1000"
+  "deterministic_checks": {
+    "require_contract_code": true,
+    "require_verified_beneficiary": true,
+    "require_token_pointer_match": true,
+    "require_policy_match": false
   },
-
-  "vestingSchedule": {
-    "startTimestamp": 1735689600,
-    "cliffSeconds": 0,
-    "durationSeconds": 31536000
+  "grant_execution": {
+    "enabled": true,
+    "script_path": "scripts/ops/grants/create-grant.mjs",
+    "beneficiary": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+    "grant_total": "100",
+    "start": 1770000000,
+    "cliff": 1770000000,
+    "duration": 31536000,
+    "notes": "Phase 8.1.A deterministic demo grant",
+    "expected_token": "0x2791d08fc94c787e5772daba3507a68e74ba4b10",
+    "expected_vesting_contract": "0xef444c538769d7626511a4c538d03ffc7e53262b",
+    "expected_identity_registry": "0x9d6831ccb9d6f971cb648b538448d175650cfea4",
+    "out_dir": "manifests/grants",
+    "evidence_root": "evidence/phase-8.1/grants",
+    "no_send": false
   },
-
-  "claim": {
-    "mode": "time-warp",
-    "warpToTimestamp": 1751328000
-  },
-
-  "outputs": {
-    "evidenceDir": "evidence/phase-8.0",
-    "manifestPath": "manifests/demo/equity-grant-flow.json"
+  "evidence": {
+    "phase_directory": "evidence/phase-8.1",
+    "write_stdout_log": true,
+    "write_stderr_log": true,
+    "write_execution_summary": true,
+    "write_post_state_verification": true
   }
 }

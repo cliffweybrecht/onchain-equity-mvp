@@ -1,623 +1,454 @@
 #!/usr/bin/env node
 
-import fs from "node:fs/promises";
+import fs from "node:fs";
 import path from "node:path";
-import process from "node:process";
-import crypto from "node:crypto";
+import { spawnSync } from "node:child_process";
 
-import {
-  createPublicClient,
-  createWalletClient,
-  getAddress,
-  http,
-  isAddress
-} from "viem";
-import { privateKeyToAccount } from "viem/accounts";
-import { baseSepolia } from "viem/chains";
+const ROOT = process.cwd();
+const CONTRACTS_ROOT = path.join(ROOT, "contracts");
+const PHASE = "8.1.B";
+const PHASE_DIR = path.join(CONTRACTS_ROOT, "evidence", `phase-${PHASE}`);
+const PRIOR_PHASE_61E_ADMIN_SURFACE = path.join(
+  ROOT,
+  "evidence",
+  "phase-6.1.E",
+  "admin-surface.json"
+);
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
-const ROOT_DIR = path.resolve(__dirname, "..", "..");
-const DEFAULT_CONFIG_PATH = path.resolve(__dirname, "demo.config.json");
-
-const IDENTITY_REGISTRY_ABI = [
-  {
-    type: "function",
-    name: "isVerified",
-    stateMutability: "view",
-    inputs: [{ name: "user", type: "address" }],
-    outputs: [{ name: "", type: "bool" }]
-  }
-];
-
-const ERC20_BALANCE_ABI = [
-  {
-    type: "function",
-    name: "balanceOf",
-    stateMutability: "view",
-    inputs: [{ name: "account", type: "address" }],
-    outputs: [{ name: "", type: "uint256" }]
-  }
-];
-
-const OPTIONAL_TOKEN_POLICY_ABI = [
-  {
-    type: "function",
-    name: "transferPolicy",
-    stateMutability: "view",
-    inputs: [],
-    outputs: [{ name: "", type: "address" }]
-  },
-  {
-    type: "function",
-    name: "policy",
-    stateMutability: "view",
-    inputs: [],
-    outputs: [{ name: "", type: "address" }]
-  }
-];
-
-const OPTIONAL_VESTING_METADATA_ABI = [
-  {
-    type: "function",
-    name: "admin",
-    stateMutability: "view",
-    inputs: [],
-    outputs: [{ name: "", type: "address" }]
-  },
-  {
-    type: "function",
-    name: "token",
-    stateMutability: "view",
-    inputs: [],
-    outputs: [{ name: "", type: "address" }]
-  }
-];
-
-function stableStringify(value) {
-  if (value === null || typeof value !== "object") {
-    return JSON.stringify(value);
-  }
-
-  if (Array.isArray(value)) {
-    return `[${value.map((item) => stableStringify(item)).join(",")}]`;
-  }
-
-  const keys = Object.keys(value).sort();
-  return `{${keys
-    .map((key) => `${JSON.stringify(key)}:${stableStringify(value[key])}`)
-    .join(",")}}`;
+function mkdirp(dir) {
+  fs.mkdirSync(dir, { recursive: true });
 }
 
-function sha256Hex(value) {
-  return crypto.createHash("sha256").update(value).digest("hex");
+function writeJson(filePath, value) {
+  mkdirp(path.dirname(filePath));
+  fs.writeFileSync(filePath, JSON.stringify(value, null, 2) + "\n");
+}
+
+function readJson(filePath) {
+  return JSON.parse(fs.readFileSync(filePath, "utf8"));
+}
+
+function fileExists(filePath) {
+  return fs.existsSync(filePath);
 }
 
 function nowIso() {
   return new Date().toISOString();
 }
 
-function resolvePathFromRoot(relativePath) {
-  return path.resolve(ROOT_DIR, relativePath);
+function argValue(name) {
+  const prefix = `--${name}=`;
+  const match = process.argv.find((x) => x.startsWith(prefix));
+  return match ? match.slice(prefix.length) : null;
 }
 
-async function fileExists(targetPath) {
-  try {
-    await fs.access(targetPath);
-    return true;
-  } catch {
-    return false;
-  }
+function die(message) {
+  throw new Error(message);
 }
 
-async function loadJson(filePath) {
-  const raw = await fs.readFile(filePath, "utf8");
-  return JSON.parse(raw);
-}
-
-async function writeJson(filePath, data) {
-  const content = `${stableStringify(data)}\n`;
-  await fs.writeFile(filePath, content, "utf8");
-}
-
-function fail(message, extra = {}) {
-  const error = new Error(message);
-  error.extra = extra;
-  throw error;
-}
-
-function requireEnv(name) {
-  const value = process.env[name];
-  if (!value || !value.trim()) {
-    fail(`Missing required environment variable: ${name}`);
-  }
-  return value.trim();
-}
-
-function normalizeHexPrivateKey(value, envName) {
-  const trimmed = value.trim();
-  if (!/^0x[0-9a-fA-F]{64}$/.test(trimmed)) {
-    fail(`Invalid private key format in ${envName}. Expected 0x-prefixed 32-byte hex.`);
-  }
-  return trimmed;
-}
-
-function normalizeAddress(value, label) {
-  if (typeof value !== "string") {
-    fail(`Invalid address for ${label}: expected string`);
+function parseIntegerShareCount(raw, fieldName) {
+  if (raw === null || raw === undefined || raw === "") {
+    die(`Missing required integer-share field: ${fieldName}`);
   }
 
-  if (!isAddress(value, { strict: false })) {
-    fail(`Invalid address for ${label}: ${value}`);
+  const value = String(raw);
+
+  if (!/^[0-9]+$/.test(value)) {
+    die(`${fieldName} must be a numeric string, got: ${value}`);
   }
 
-  return getAddress(value);
-}
+  const n = BigInt(value);
 
-function getChainByName(name) {
-  if (name === "baseSepolia") return baseSepolia;
-  fail(`Unsupported network name in demo config: ${name}`);
-}
-
-async function getGitCommit() {
-  try {
-    const headPath = resolvePathFromRoot(".git/HEAD");
-    const head = (await fs.readFile(headPath, "utf8")).trim();
-
-    if (head.startsWith("ref: ")) {
-      const ref = head.slice(5);
-      const refPath = resolvePathFromRoot(`.git/${ref}`);
-      if (await fileExists(refPath)) {
-        return (await fs.readFile(refPath, "utf8")).trim();
-      }
-    }
-
-    return head;
-  } catch {
-    return null;
-  }
-}
-
-async function createRunContext() {
-  const configPath = process.argv[2]
-    ? path.resolve(process.cwd(), process.argv[2])
-    : DEFAULT_CONFIG_PATH;
-
-  if (!(await fileExists(configPath))) {
-    fail(`Demo config not found: ${configPath}`);
+  if (n <= 0n) {
+    die(`${fieldName} must be a positive integer share count`);
   }
 
-  const config = await loadJson(configPath);
-  const chain = getChainByName(config.network?.name);
-
-  if (Number(config.network?.chainId) !== Number(chain.id)) {
-    fail(
-      `Config chainId mismatch. Expected ${chain.id} for ${config.network?.name}, got ${config.network?.chainId}.`
+  if (n >= 10n ** 12n) {
+    die(
+      `${fieldName} is implausibly large for integer-share equity and may indicate deprecated 18-decimal scaling`
     );
   }
 
-  const rpcUrl = requireEnv(config.rpcEnvVar);
-  const issuerPrivateKey = normalizeHexPrivateKey(
-    requireEnv(config.actors?.issuerEnvVar),
-    config.actors?.issuerEnvVar
-  );
+  return n.toString();
+}
 
-  const issuerAccount = privateKeyToAccount(issuerPrivateKey);
-  const beneficiary = normalizeAddress(config.actors?.beneficiary, "actors.beneficiary");
-
-  const contractAddresses = {
-    identityRegistry: normalizeAddress(
-      config.contracts?.identityRegistry,
-      "contracts.identityRegistry"
-    ),
-    equityToken: normalizeAddress(
-      config.contracts?.equityToken,
-      "contracts.equityToken"
-    ),
-    vesting: normalizeAddress(config.contracts?.vesting, "contracts.vesting"),
-    policy: normalizeAddress(config.contracts?.policy, "contracts.policy")
-  };
-
-  const publicClient = createPublicClient({
-    chain,
-    transport: http(rpcUrl)
+function runNodeScript(args, env = process.env, cwd = ROOT) {
+  const result = spawnSync("node", args, {
+    cwd,
+    env,
+    stdio: "pipe",
+    encoding: "utf8",
   });
-
-  const walletClient = createWalletClient({
-    account: issuerAccount,
-    chain,
-    transport: http(rpcUrl)
-  });
-
-  const evidenceDir = resolvePathFromRoot(config.outputs?.evidenceDir);
-  const manifestPath = resolvePathFromRoot(config.outputs?.manifestPath);
-
-  const meta = {
-    demoName: config.demoName,
-    startedAt: nowIso(),
-    configPath,
-    gitCommit: await getGitCommit()
-  };
 
   return {
-    meta,
+    command: "node",
+    args,
+    cwd,
+    status: result.status,
+    signal: result.signal,
+    stdout: result.stdout || "",
+    stderr: result.stderr || "",
+  };
+}
+
+function buildSummary({
+  config,
+  adminSurface,
+  preflight,
+  childProcess = null,
+  stoppedBeforeCreateGrant,
+}) {
+  return {
+    phase: PHASE,
+    generated_at: nowIso(),
+    stopped_before_create_grant: stoppedBeforeCreateGrant,
     config,
-    clients: {
-      publicClient,
-      walletClient
-    },
-    actors: {
-      issuer: issuerAccount.address,
-      beneficiary
-    },
-    contracts: contractAddresses,
-    paths: {
-      evidenceDir,
-      manifestPath,
-      resolvedConfigPath: path.join(evidenceDir, "demo-config-resolved.json"),
-      runLogPath: path.join(evidenceDir, "demo-run.log"),
-      summaryPath: path.join(evidenceDir, "demo-summary.json"),
-      preflightPath: path.join(evidenceDir, "demo-preflight.json"),
-      prestatePath: path.join(evidenceDir, "demo-prestate.json"),
-      assertionsPath: path.join(evidenceDir, "demo-assertions.json")
-    },
-    run: {
-      status: "initialized",
-      steps: [],
-      assertions: [],
-      transactions: [],
-      artifacts: {}
-    }
+    admin_surface: adminSurface,
+    preflight,
+    child_process: childProcess,
   };
 }
 
-async function appendLog(ctx, message) {
-  const line = `[${nowIso()}] ${message}\n`;
-  await fs.appendFile(ctx.paths.runLogPath, line, "utf8");
-  process.stdout.write(line);
-}
-
-async function ensureOutputDirectories(ctx) {
-  await fs.mkdir(ctx.paths.evidenceDir, { recursive: true });
-  await fs.mkdir(path.dirname(ctx.paths.manifestPath), { recursive: true });
-  await fs.writeFile(ctx.paths.runLogPath, "", "utf8");
-}
-
-async function runStep(ctx, name, fn) {
-  const startedAt = nowIso();
-  await appendLog(ctx, `START ${name}`);
-
-  try {
-    const result = await fn();
-
-    const finishedAt = nowIso();
-    ctx.run.steps.push({
-      name,
-      startedAt,
-      finishedAt,
-      status: "passed",
-      result
-    });
-
-    await appendLog(ctx, `PASS ${name}`);
-    return result;
-  } catch (error) {
-    const finishedAt = nowIso();
-    ctx.run.steps.push({
-      name,
-      startedAt,
-      finishedAt,
-      status: "failed",
-      error: {
-        message: error.message,
-        extra: error.extra ?? null
-      }
-    });
-
-    await appendLog(ctx, `FAIL ${name}: ${error.message}`);
-    throw error;
-  }
-}
-
-function addAssertion(ctx, name, passed, details = {}) {
-  ctx.run.assertions.push({
-    name,
-    passed,
-    details
-  });
-
-  if (!passed) {
-    fail(`Assertion failed: ${name}`, details);
-  }
-}
-
-async function safeReadContract(client, params) {
-  try {
-    const result = await client.readContract(params);
-    return { ok: true, result };
-  } catch (error) {
-    return {
-      ok: false,
-      error: {
-        message: error.message
-      }
-    };
-  }
-}
-
-async function preflight(ctx) {
-  const chainId = await ctx.clients.publicClient.getChainId();
-  const latestBlock = await ctx.clients.publicClient.getBlock({ blockTag: "latest" });
-
-  if (Number(chainId) !== Number(ctx.config.network.chainId)) {
-    fail(`Connected chainId ${chainId} does not match expected ${ctx.config.network.chainId}`);
-  }
-
-  const codeChecks = {};
-  for (const [name, address] of Object.entries(ctx.contracts)) {
-    const code = await ctx.clients.publicClient.getCode({ address });
-    const hasCode = !!code && code !== "0x";
-    if (!hasCode) {
-      fail(`No deployed contract code found at ${name} address ${address}`);
-    }
-    codeChecks[name] = {
-      address,
-      hasCode,
-      codeHash: sha256Hex(code)
-    };
-  }
-
+function buildBundle({
+  configResolution,
+  vestingAdminSurface,
+  grantAdminPreflight,
+  summary,
+}) {
   return {
-    connectedChainId: chainId,
-    latestBlockNumber: latestBlock.number.toString(),
-    latestBlockTimestamp: latestBlock.timestamp.toString(),
-    issuer: ctx.actors.issuer,
-    beneficiary: ctx.actors.beneficiary,
-    contractChecks: codeChecks
-  };
-}
-
-async function readPrestate(ctx) {
-  const block = await ctx.clients.publicClient.getBlock({ blockTag: "latest" });
-
-  const verifiedRead = await safeReadContract(ctx.clients.publicClient, {
-    address: ctx.contracts.identityRegistry,
-    abi: IDENTITY_REGISTRY_ABI,
-    functionName: "isVerified",
-    args: [ctx.actors.beneficiary]
-  });
-
-  if (!verifiedRead.ok) {
-    fail("Unable to read IdentityRegistry.isVerified for beneficiary", verifiedRead.error);
-  }
-
-  const balanceRead = await safeReadContract(ctx.clients.publicClient, {
-    address: ctx.contracts.equityToken,
-    abi: ERC20_BALANCE_ABI,
-    functionName: "balanceOf",
-    args: [ctx.actors.beneficiary]
-  });
-
-  if (!balanceRead.ok) {
-    fail("Unable to read EquityToken.balanceOf for beneficiary", balanceRead.error);
-  }
-
-  const vestingAdminRead = await safeReadContract(ctx.clients.publicClient, {
-    address: ctx.contracts.vesting,
-    abi: OPTIONAL_VESTING_METADATA_ABI,
-    functionName: "admin"
-  });
-
-  const vestingTokenRead = await safeReadContract(ctx.clients.publicClient, {
-    address: ctx.contracts.vesting,
-    abi: OPTIONAL_VESTING_METADATA_ABI,
-    functionName: "token"
-  });
-
-  const transferPolicyRead = await safeReadContract(ctx.clients.publicClient, {
-    address: ctx.contracts.equityToken,
-    abi: OPTIONAL_TOKEN_POLICY_ABI,
-    functionName: "transferPolicy"
-  });
-
-  const legacyPolicyRead = transferPolicyRead.ok
-    ? null
-    : await safeReadContract(ctx.clients.publicClient, {
-        address: ctx.contracts.equityToken,
-        abi: OPTIONAL_TOKEN_POLICY_ABI,
-        functionName: "policy"
-      });
-
-  const tokenPolicyAddress = transferPolicyRead.ok
-    ? getAddress(transferPolicyRead.result)
-    : legacyPolicyRead?.ok
-      ? getAddress(legacyPolicyRead.result)
-      : null;
-
-  const prestate = {
-    capturedAt: nowIso(),
-    blockNumber: block.number.toString(),
-    blockTimestamp: block.timestamp.toString(),
-    issuer: ctx.actors.issuer,
-    beneficiary: ctx.actors.beneficiary,
-    beneficiaryIdentity: {
-      isVerified: Boolean(verifiedRead.result)
+    phase: PHASE,
+    built_at: nowIso(),
+    files: {
+      config_resolution: {
+        path: `contracts/evidence/phase-${PHASE}/config-resolution.json`,
+        contents: configResolution,
+      },
+      vesting_admin_surface: {
+        path: `contracts/evidence/phase-${PHASE}/vesting-admin-surface.json`,
+        contents: vestingAdminSurface,
+      },
+      grant_admin_preflight: {
+        path: `contracts/evidence/phase-${PHASE}/grant-admin-preflight.json`,
+        contents: grantAdminPreflight,
+      },
+      summary: {
+        path: `contracts/evidence/phase-${PHASE}/grant-execution-summary.json`,
+        contents: summary,
+      },
     },
-    beneficiaryBalances: {
-      equityToken: balanceRead.result.toString()
-    },
-    vestingMetadata: {
-      admin: vestingAdminRead.ok ? getAddress(vestingAdminRead.result) : null,
-      token: vestingTokenRead.ok ? getAddress(vestingTokenRead.result) : null,
-      adminReadError: vestingAdminRead.ok ? null : vestingAdminRead.error.message,
-      tokenReadError: vestingTokenRead.ok ? null : vestingTokenRead.error.message
-    },
-    tokenPolicy: {
-      configuredPolicyAddress: ctx.contracts.policy,
-      tokenReportedPolicyAddress: tokenPolicyAddress,
-      readMode: transferPolicyRead.ok ? "transferPolicy()" : legacyPolicyRead?.ok ? "policy()" : null,
-      readError:
-        transferPolicyRead.ok || legacyPolicyRead?.ok
-          ? null
-          : {
-              transferPolicy: transferPolicyRead.error?.message ?? null,
-              policy: legacyPolicyRead?.error?.message ?? null
-            }
-    }
-  };
-
-  addAssertion(ctx, "beneficiary is verified", prestate.beneficiaryIdentity.isVerified, {
-    beneficiary: ctx.actors.beneficiary
-  });
-
-  addAssertion(
-    ctx,
-    "vesting token matches configured equity token",
-    prestate.vestingMetadata.token === null || prestate.vestingMetadata.token === ctx.contracts.equityToken,
-    {
-      configuredEquityToken: ctx.contracts.equityToken,
-      vestingToken: prestate.vestingMetadata.token
-    }
-  );
-
-  addAssertion(
-    ctx,
-    "token policy matches configured policy when readable",
-    prestate.tokenPolicy.tokenReportedPolicyAddress === null ||
-      prestate.tokenPolicy.tokenReportedPolicyAddress === ctx.contracts.policy,
-    {
-      configuredPolicy: ctx.contracts.policy,
-      tokenReportedPolicy: prestate.tokenPolicy.tokenReportedPolicyAddress
-    }
-  );
-
-  return prestate;
-}
-
-function buildResolvedConfigArtifact(ctx) {
-  return {
-    meta: ctx.meta,
-    network: ctx.config.network,
-    actors: {
-      issuer: ctx.actors.issuer,
-      beneficiary: ctx.actors.beneficiary
-    },
-    contracts: ctx.contracts,
-    grant: ctx.config.grant,
-    vestingSchedule: ctx.config.vestingSchedule,
-    claim: ctx.config.claim,
-    outputs: ctx.config.outputs
-  };
-}
-
-function buildSummaryArtifact(ctx) {
-  return {
-    demoName: ctx.meta.demoName,
-    status: ctx.run.status,
-    startedAt: ctx.meta.startedAt,
-    finishedAt: nowIso(),
-    gitCommit: ctx.meta.gitCommit,
-    network: ctx.config.network,
-    actors: ctx.actors,
-    contracts: ctx.contracts,
-    steps: ctx.run.steps.map((step) => ({
-      name: step.name,
-      status: step.status,
-      startedAt: step.startedAt,
-      finishedAt: step.finishedAt
-    })),
-    assertionCount: ctx.run.assertions.length,
-    transactionCount: ctx.run.transactions.length,
-    artifacts: ctx.run.artifacts
-  };
-}
-
-async function writeArtifacts(ctx, preflightArtifact, prestateArtifact) {
-  const resolvedConfigArtifact = buildResolvedConfigArtifact(ctx);
-  const summaryArtifact = buildSummaryArtifact(ctx);
-
-  await writeJson(ctx.paths.resolvedConfigPath, resolvedConfigArtifact);
-  await writeJson(ctx.paths.preflightPath, preflightArtifact);
-  await writeJson(ctx.paths.prestatePath, prestateArtifact);
-  await writeJson(ctx.paths.assertionsPath, ctx.run.assertions);
-  await writeJson(ctx.paths.summaryPath, summaryArtifact);
-
-  const resolvedConfigHash = sha256Hex(stableStringify(resolvedConfigArtifact));
-  const preflightHash = sha256Hex(stableStringify(preflightArtifact));
-  const prestateHash = sha256Hex(stableStringify(prestateArtifact));
-  const assertionsHash = sha256Hex(stableStringify(ctx.run.assertions));
-  const summaryHash = sha256Hex(stableStringify(summaryArtifact));
-
-  const manifest = {
-    demoName: ctx.meta.demoName,
-    version: 1,
-    generatedAt: nowIso(),
-    gitCommit: ctx.meta.gitCommit,
-    network: ctx.config.network,
-    artifactHashes: {
-      resolvedConfigHash,
-      preflightHash,
-      prestateHash,
-      assertionsHash,
-      summaryHash
-    },
-    artifactPaths: {
-      resolvedConfig: path.relative(ROOT_DIR, ctx.paths.resolvedConfigPath),
-      preflight: path.relative(ROOT_DIR, ctx.paths.preflightPath),
-      prestate: path.relative(ROOT_DIR, ctx.paths.prestatePath),
-      assertions: path.relative(ROOT_DIR, ctx.paths.assertionsPath),
-      summary: path.relative(ROOT_DIR, ctx.paths.summaryPath),
-      runLog: path.relative(ROOT_DIR, ctx.paths.runLogPath)
-    }
-  };
-
-  await writeJson(ctx.paths.manifestPath, manifest);
-
-  ctx.run.artifacts = {
-    resolvedConfig: path.relative(ROOT_DIR, ctx.paths.resolvedConfigPath),
-    preflight: path.relative(ROOT_DIR, ctx.paths.preflightPath),
-    prestate: path.relative(ROOT_DIR, ctx.paths.prestatePath),
-    assertions: path.relative(ROOT_DIR, ctx.paths.assertionsPath),
-    summary: path.relative(ROOT_DIR, ctx.paths.summaryPath),
-    runLog: path.relative(ROOT_DIR, ctx.paths.runLogPath),
-    manifest: path.relative(ROOT_DIR, ctx.paths.manifestPath)
   };
 }
 
 async function main() {
-  const ctx = await createRunContext();
-  await ensureOutputDirectories(ctx);
+  mkdirp(PHASE_DIR);
 
-  try {
-    await appendLog(ctx, `Demo bootstrap started for ${ctx.meta.demoName}`);
-    await appendLog(ctx, `Using config ${ctx.meta.configPath}`);
+  if (!fileExists(CONTRACTS_ROOT)) {
+    throw new Error(`Missing contracts directory: ${CONTRACTS_ROOT}`);
+  }
 
-    const preflightArtifact = await runStep(ctx, "preflight", async () => preflight(ctx));
-    const prestateArtifact = await runStep(ctx, "prestate-read", async () => readPrestate(ctx));
-
-    ctx.run.status = "passed";
-    await writeArtifacts(ctx, preflightArtifact, prestateArtifact);
-
-    await appendLog(ctx, "Demo pre-state verification completed successfully");
-    process.stdout.write(
-      `${stableStringify({
-        ok: true,
-        summary: path.relative(ROOT_DIR, ctx.paths.summaryPath),
-        manifest: path.relative(ROOT_DIR, ctx.paths.manifestPath)
-      })}\n`
+  if (!fileExists(PRIOR_PHASE_61E_ADMIN_SURFACE)) {
+    throw new Error(
+      `Missing prior evidence file: ${PRIOR_PHASE_61E_ADMIN_SURFACE}`
     );
-  } catch (error) {
-    ctx.run.status = "failed";
+  }
 
-    try {
-      const failedSummary = buildSummaryArtifact(ctx);
-      await writeJson(ctx.paths.summaryPath, failedSummary);
-    } catch {
-      // best effort only
+  const priorAdminSurface = readJson(PRIOR_PHASE_61E_ADMIN_SURFACE);
+
+  const sender =
+    argValue("sender") ||
+    process.env.DEMO_GRANT_SENDER ||
+    process.env.GRANT_SIGNER ||
+    process.env.SIGNER_ADDRESS ||
+    "0x6C775411e11cAb752Af03C5BBb440618788E13Be";
+
+  const beneficiary =
+    argValue("beneficiary") ||
+    process.env.DEMO_GRANT_BENEFICIARY ||
+    "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72";
+
+  const total = parseIntegerShareCount(
+    argValue("total") ||
+      process.env.DEMO_GRANT_TOTAL ||
+      "100",
+    "total"
+  );
+
+  const start =
+    argValue("start") ||
+    process.env.DEMO_GRANT_START ||
+    "1770000000";
+
+  const cliff =
+    argValue("cliff") ||
+    process.env.DEMO_GRANT_CLIFF ||
+    "1770000000";
+
+  const duration =
+    argValue("duration") ||
+    process.env.DEMO_GRANT_DURATION ||
+    "31536000";
+
+  const vesting = priorAdminSurface.contracts.vesting;
+  const identityRegistry = priorAdminSurface.reads.identityRegistry;
+  const token = priorAdminSurface.reads.token;
+  const expectedSafeAdmin = priorAdminSurface.contracts.expectedSafeAdmin;
+
+  const configResolution = {
+    phase: PHASE,
+    resolved_at: nowIso(),
+    repo_root: ROOT,
+    contracts_root: CONTRACTS_ROOT,
+    sender,
+    beneficiary,
+    total,
+    start,
+    cliff,
+    duration,
+    vesting,
+    identityRegistry,
+    token,
+    expectedSafeAdmin,
+    prior_evidence_source: "evidence/phase-6.1.E/admin-surface.json",
+    canonical_rail: "contracts/scripts/ops/grants/create-grant.mjs",
+    unit_model: "integer_shares",
+    token_decimals_expected: 0,
+  };
+
+  writeJson(
+    path.join(PHASE_DIR, "config-resolution.json"),
+    configResolution
+  );
+
+  const adminSurfaceRun = runNodeScript(
+    [
+      "scripts/audit/inspect-vesting-admin-surface.mjs",
+      `--signer=${sender}`,
+    ],
+    process.env,
+    CONTRACTS_ROOT
+  );
+
+  if (adminSurfaceRun.status !== 0) {
+    const failure = {
+      phase: PHASE,
+      step: "inspect-vesting-admin-surface",
+      ok: false,
+      generated_at: nowIso(),
+      config: configResolution,
+      child_process: adminSurfaceRun,
+    };
+
+    writeJson(path.join(PHASE_DIR, "grant-execution-summary.json"), failure);
+    writeJson(path.join(PHASE_DIR, "phase-8.1.B-bundle.json"), {
+      phase: PHASE,
+      built_at: nowIso(),
+      fatal: failure,
+    });
+
+    console.error(
+      adminSurfaceRun.stderr ||
+        adminSurfaceRun.stdout ||
+        "admin surface inspection failed"
+    );
+    process.exit(adminSurfaceRun.status || 1);
+  }
+
+  const vestingAdminSurfacePath = path.join(
+    PHASE_DIR,
+    "vesting-admin-surface.json"
+  );
+
+  if (!fileExists(vestingAdminSurfacePath)) {
+    throw new Error(
+      `Expected admin surface artifact not found: ${vestingAdminSurfacePath}`
+    );
+  }
+
+  const vestingAdminSurface = readJson(vestingAdminSurfacePath);
+
+  const grantAdminPreflightRun = runNodeScript(
+    [
+      "scripts/audit/build-grant-admin-preflight.mjs",
+      `--signer=${sender}`,
+      `--vesting=${vesting}`,
+      `--beneficiary=${beneficiary}`,
+      `--expected-safe-admin=${expectedSafeAdmin}`,
+    ],
+    process.env,
+    CONTRACTS_ROOT
+  );
+
+  if (grantAdminPreflightRun.status !== 0) {
+    const failure = {
+      phase: PHASE,
+      step: "build-grant-admin-preflight",
+      ok: false,
+      generated_at: nowIso(),
+      config: configResolution,
+      admin_surface: vestingAdminSurface,
+      child_process: grantAdminPreflightRun,
+    };
+
+    writeJson(path.join(PHASE_DIR, "grant-execution-summary.json"), failure);
+    writeJson(path.join(PHASE_DIR, "phase-8.1.B-bundle.json"), {
+      phase: PHASE,
+      built_at: nowIso(),
+      fatal: failure,
+    });
+
+    console.error(
+      grantAdminPreflightRun.stderr ||
+        grantAdminPreflightRun.stdout ||
+        "grant admin preflight failed"
+    );
+    process.exit(grantAdminPreflightRun.status || 1);
+  }
+
+  const grantAdminPreflightPath = path.join(
+    PHASE_DIR,
+    "grant-admin-preflight.json"
+  );
+
+  if (!fileExists(grantAdminPreflightPath)) {
+    throw new Error(
+      `Expected preflight artifact not found: ${grantAdminPreflightPath}`
+    );
+  }
+
+  const grantAdminPreflight = readJson(grantAdminPreflightPath);
+
+  if (!grantAdminPreflight?.verdict?.overall?.ok) {
+    const summary = buildSummary({
+      config: configResolution,
+      adminSurface: vestingAdminSurface,
+      preflight: grantAdminPreflight,
+      childProcess: null,
+      stoppedBeforeCreateGrant: true,
+    });
+
+    writeJson(path.join(PHASE_DIR, "grant-execution-summary.json"), summary);
+
+    const bundleRun = runNodeScript(
+      ["scripts/ops/grants/build-phase-8.1.B-bundle.mjs"],
+      process.env,
+      CONTRACTS_ROOT
+    );
+
+    const bundlePath = path.join(PHASE_DIR, "phase-8.1.B-bundle.json");
+
+    if (fileExists(bundlePath)) {
+      const bundle = readJson(bundlePath);
+      bundle.summary = summary;
+      writeJson(bundlePath, bundle);
+    } else {
+      const fallbackBundle = buildBundle({
+        configResolution,
+        vestingAdminSurface,
+        grantAdminPreflight,
+        summary,
+      });
+      writeJson(bundlePath, fallbackBundle);
     }
 
-    process.stderr.write(`ERROR: ${error.message}\n`);
-    process.exitCode = 1;
+    if (bundleRun.status !== 0) {
+      console.error(bundleRun.stderr || bundleRun.stdout);
+    }
+
+    console.error(
+      `Phase ${PHASE} preflight failed: ${
+        Array.isArray(grantAdminPreflight?.verdict?.overall?.failure_reasons)
+          ? grantAdminPreflight.verdict.overall.failure_reasons.join(", ")
+          : "UNKNOWN_PREFLIGHT_FAILURE"
+      }`
+    );
+    process.exit(1);
   }
+
+  const child = runNodeScript(
+    [
+      "scripts/ops/grants/create-grant.mjs",
+      `--employee=${beneficiary}`,
+      `--total=${total}`,
+      `--start=${start}`,
+      `--cliff=${cliff}`,
+      `--duration=${duration}`,
+      `--vesting=${vesting}`,
+      `--registry=${identityRegistry}`,
+      `--token=${token}`,
+    ],
+    process.env,
+    CONTRACTS_ROOT
+  );
+
+  const summary = buildSummary({
+    config: configResolution,
+    adminSurface: vestingAdminSurface,
+    preflight: grantAdminPreflight,
+    childProcess: child,
+    stoppedBeforeCreateGrant: false,
+  });
+
+  writeJson(path.join(PHASE_DIR, "grant-execution-summary.json"), summary);
+
+  const bundleRun = runNodeScript(
+    ["scripts/ops/grants/build-phase-8.1.B-bundle.mjs"],
+    process.env,
+    CONTRACTS_ROOT
+  );
+
+  const bundlePath = path.join(PHASE_DIR, "phase-8.1.B-bundle.json");
+
+  if (fileExists(bundlePath)) {
+    const bundle = readJson(bundlePath);
+    bundle.summary = summary;
+    writeJson(bundlePath, bundle);
+  } else {
+    const fallbackBundle = buildBundle({
+      configResolution,
+      vestingAdminSurface,
+      grantAdminPreflight,
+      summary,
+    });
+    writeJson(bundlePath, fallbackBundle);
+  }
+
+  if (bundleRun.status !== 0) {
+    console.error(bundleRun.stderr || bundleRun.stdout);
+  }
+
+  if (child.status !== 0) {
+    console.error(child.stderr || child.stdout || "create-grant.mjs failed");
+    process.exit(child.status || 1);
+  }
+
+  process.stdout.write(child.stdout);
 }
 
-main();
+main().catch((error) => {
+  mkdirp(PHASE_DIR);
+
+  const fatal = {
+    phase: PHASE,
+    failed_at: nowIso(),
+    ok: false,
+    error: {
+      name: error?.name || "Error",
+      message: error?.message || String(error),
+      stack: error?.stack || null,
+    },
+  };
+
+  try {
+    writeJson(path.join(PHASE_DIR, "grant-execution-summary.json"), fatal);
+    writeJson(path.join(PHASE_DIR, "phase-8.1.B-bundle.json"), {
+      phase: PHASE,
+      built_at: nowIso(),
+      fatal,
+    });
+  } catch {
+    // best effort only
+  }
+
+  console.error(error?.stack || error?.message || String(error));
+  process.exit(1);
+});
