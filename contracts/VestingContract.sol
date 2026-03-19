@@ -14,6 +14,8 @@ contract VestingContract {
         uint64 cliff;        // cliff timestamp
         uint64 duration;     // total vesting duration in seconds
         bool exists;         // grant existence flag
+        bool revoked;        // whether the grant has been revoked
+        uint64 revokedAt;    // timestamp when revocation became effective
     }
 
     address public admin;
@@ -25,6 +27,7 @@ contract VestingContract {
     error NotAdmin();
     error GrantAlreadyExists();
     error GrantDoesNotExist();
+    error GrantAlreadyRevoked();
     error NothingToRelease();
     error NotVerified();
 
@@ -37,6 +40,16 @@ contract VestingContract {
     );
 
     event GrantReleased(address indexed employee, uint256 amountReleased);
+
+    event GrantRevoked(
+        address indexed employee,
+        uint64 revokedAt,
+        uint256 total,
+        uint256 released,
+        uint256 vested,
+        uint256 claimable,
+        uint256 canceled
+    );
 
     constructor(
         address _admin,
@@ -84,24 +97,33 @@ contract VestingContract {
             start: start,
             cliff: cliff,
             duration: duration,
-            exists: true
+            exists: true,
+            revoked: false,
+            revokedAt: 0
         });
 
         emit GrantCreated(employee, total, start, cliff, duration);
     }
 
-    /// @notice Calculates how many units are vested for a given employee.
-    function vestedAmount(address employee) public view returns (uint256) {
-        Grant memory g = grants[employee];
-        if (!g.exists) return 0;
+    /// @dev Caps query time at revokedAt when the grant has been revoked.
+    function _effectiveTime(Grant memory g, uint256 queryTime) internal pure returns (uint256) {
+        if (g.revoked && queryTime > uint256(g.revokedAt)) {
+            return uint256(g.revokedAt);
+        }
+        return queryTime;
+    }
+
+    /// @dev Computes vested amount at a supplied query time, capped by revocation if applicable.
+    function _vestedAmountAt(Grant memory g, uint256 queryTime) internal pure returns (uint256) {
+        uint256 effectiveTime = _effectiveTime(g, queryTime);
 
         // Before cliff: nothing vested
-        if (block.timestamp < g.cliff) {
+        if (effectiveTime < g.cliff) {
             return 0;
         }
 
-        uint256 elapsed = block.timestamp > g.start
-            ? block.timestamp - g.start
+        uint256 elapsed = effectiveTime > g.start
+            ? effectiveTime - g.start
             : 0;
 
         if (elapsed >= g.duration) {
@@ -111,6 +133,43 @@ contract VestingContract {
 
         // Linear vesting between start and start + duration
         return (g.total * elapsed) / g.duration;
+    }
+
+    /// @notice Calculates how many units are vested for a given employee.
+    function vestedAmount(address employee) public view returns (uint256) {
+        Grant memory g = grants[employee];
+        if (!g.exists) return 0;
+
+        return _vestedAmountAt(g, block.timestamp);
+    }
+
+    /// @notice Revokes future unvested vesting for an employee while preserving
+    ///         already released and vested-but-unreleased amounts.
+    function revokeGrant(address employee) external onlyAdmin {
+        Grant storage g = grants[employee];
+        if (!g.exists) revert GrantDoesNotExist();
+        if (g.revoked) revert GrantAlreadyRevoked();
+
+        uint64 revocationTime = uint64(block.timestamp);
+
+        Grant memory snapshot = g;
+        uint256 vested = _vestedAmountAt(snapshot, uint256(revocationTime));
+        uint256 released = g.released;
+        uint256 claimable = vested - released;
+        uint256 canceled = g.total - vested;
+
+        g.revoked = true;
+        g.revokedAt = revocationTime;
+
+        emit GrantRevoked(
+            employee,
+            revocationTime,
+            g.total,
+            released,
+            vested,
+            claimable,
+            canceled
+        );
     }
 
     /// @notice Releases any vested but unreleased units to the employee.

@@ -174,7 +174,8 @@ async function readReleasedFromGrants(client, vesting, abi, beneficiary, blockNu
       args: [beneficiary],
       blockNumber,
     });
-    // grants tuple observed: [total, released, start, cliff, duration, active]
+    // grants tuple observed in current VestingContract:
+    // [total, released, start, cliff, duration, exists, revoked, revokedAt]
     return BigInt(g[1]);
   } catch {
     return null;

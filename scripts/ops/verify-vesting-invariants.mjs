@@ -6,7 +6,7 @@ import { canonStringify, sha256Hex } from "../lib/canon.mjs";
 import { vestedLinearWithCliff, clamp0 } from "../lib/vesting-math.mjs";
 
 /*
-  Minimal ABI — no artifacts, no hre, fully deterministic.
+  Minimal ABI — deterministic, no artifacts, matches current converged VestingContract.
 */
 const VESTING_MIN_ABI = [
   {
@@ -15,16 +15,19 @@ const VESTING_MIN_ABI = [
     stateMutability: "view",
     inputs: [{ type: "address" }],
     outputs: [
-      { type: "uint256" }, // total
-      { type: "uint256" }, // released
-      { type: "uint256" }, // start
-      { type: "uint256" }, // duplicate start (ignored)
-      { type: "uint256" }  // duration
+      { type: "uint256", name: "total" },
+      { type: "uint256", name: "released" },
+      { type: "uint64",  name: "start" },
+      { type: "uint64",  name: "cliff" },
+      { type: "uint64",  name: "duration" },
+      { type: "bool",    name: "exists" },
+      { type: "bool",    name: "revoked" },
+      { type: "uint64",  name: "revokedAt" }
     ]
   },
   {
     type: "function",
-    name: "releasable",
+    name: "vestedAmount",
     stateMutability: "view",
     inputs: [{ type: "address" }],
     outputs: [{ type: "uint256" }]
@@ -49,29 +52,68 @@ function toBigInt(x) {
   return BigInt(x);
 }
 
-/*
-  Your actual contract returns:
-  [ total, released, start, startDuplicate, duration ]
-*/
 function pickGrantShape(raw) {
-  if (!Array.isArray(raw) || raw.length < 5) {
-    throw new Error(`Unexpected grants() shape: ${JSON.stringify(raw)}`);
+  if (Array.isArray(raw)) {
+    if (raw.length < 8) {
+      throw new Error(`Unexpected grants() shape: ${JSON.stringify(raw)}`);
+    }
+
+    const total = toBigInt(raw[0]);
+    const released = toBigInt(raw[1]);
+    const start = toBigInt(raw[2]);
+    const cliff = toBigInt(raw[3]);
+    const duration = toBigInt(raw[4]);
+    const exists = Boolean(raw[5]);
+    const revoked = Boolean(raw[6]);
+    const revokedAt = toBigInt(raw[7]);
+    const end = start + duration;
+
+    return {
+      total,
+      released,
+      start,
+      cliff,
+      duration,
+      end,
+      exists,
+      revoked,
+      revokedAt
+    };
   }
 
-  const total = raw[0];
-  const released = raw[1];
-  const start = raw[2];
-  const duration = raw[4];
+  if (raw && typeof raw === "object") {
+    const total = toBigInt(raw.total);
+    const released = toBigInt(raw.released);
+    const start = toBigInt(raw.start);
+    const cliff = toBigInt(raw.cliff);
+    const duration = toBigInt(raw.duration);
+    const exists = Boolean(raw.exists);
+    const revoked = Boolean(raw.revoked);
+    const revokedAt = toBigInt(raw.revokedAt);
+    const end = start + duration;
 
-  const end = toBigInt(start) + toBigInt(duration);
+    return {
+      total,
+      released,
+      start,
+      cliff,
+      duration,
+      end,
+      exists,
+      revoked,
+      revokedAt
+    };
+  }
 
-  return {
-    total,
-    released,
-    start,
-    cliff: start,
-    end
-  };
+  throw new Error(`Unable to normalize grants() result shape: ${JSON.stringify(raw)}`);
+}
+
+function effectiveTimeForGrant(grant, queryTime) {
+  const t = toBigInt(queryTime);
+  if (grant.revoked && t > grant.revokedAt) {
+    return grant.revokedAt;
+  }
+  return t;
 }
 
 export async function runVestingInvariants({ configPath }) {
@@ -101,68 +143,120 @@ export async function runVestingInvariants({ configPath }) {
 
   const g = pickGrantShape(rawGrant);
 
-  const total = toBigInt(g.total);
-  const released = toBigInt(g.released);
-  const start = toBigInt(g.start);
-  const cliff = toBigInt(g.cliff);
-  const end = toBigInt(g.end);
-
-  let releasableOnchain = null;
-  try {
-    releasableOnchain = await client.readContract({
+  let vestedOnchain = 0n;
+  if (g.exists) {
+    vestedOnchain = await client.readContract({
       address: vesting,
       abi: VESTING_MIN_ABI,
-      functionName: "releasable",
+      functionName: "vestedAmount",
       args: [beneficiary],
       blockNumber: pinnedBlock
     });
-    releasableOnchain = toBigInt(releasableOnchain);
-  } catch {}
+    vestedOnchain = toBigInt(vestedOnchain);
+  }
 
-  const vested = vestedLinearWithCliff({
-    total,
-    start,
-    cliff,
-    end,
-    t: pinnedTimestamp
-  });
+  const effectiveTime = effectiveTimeForGrant(g, pinnedTimestamp);
 
-  const releasableScript = clamp0(vested - released);
+  const vestedScript = g.exists
+    ? vestedLinearWithCliff({
+        total: g.total,
+        start: g.start,
+        cliff: g.cliff,
+        end: g.end,
+        t: effectiveTime
+      })
+    : 0n;
+
+  const releasableScript = g.exists
+    ? clamp0(vestedScript - g.released)
+    : 0n;
 
   const inv = [];
   const ok = (name, cond, detail = null) =>
     inv.push({ name, pass: !!cond, detail });
 
-  ok("grant.total > 0", total > 0n, { total: total.toString() });
-  ok("start <= cliff", start <= cliff);
-  ok("cliff <= end", cliff <= end);
-  ok("released <= total", released <= total);
+  ok("grant.exists is true", g.exists === true, { exists: g.exists });
 
-  ok(
-    "vested in [0,total]",
-    vested >= 0n && vested <= total,
-    { vested: vested.toString() }
-  );
+  if (g.exists) {
+    ok("grant.total > 0", g.total > 0n, { total: g.total.toString() });
+    ok("start <= cliff", g.start <= g.cliff, {
+      start: g.start.toString(),
+      cliff: g.cliff.toString()
+    });
+    ok("cliff <= end", g.cliff <= g.end, {
+      cliff: g.cliff.toString(),
+      end: g.end.toString()
+    });
+    ok("released <= total", g.released <= g.total, {
+      released: g.released.toString(),
+      total: g.total.toString()
+    });
 
-  ok(
-    "releasableScript = max(0, vested - released)",
-    releasableScript === clamp0(vested - released)
-  );
-
-  if (releasableOnchain !== null) {
     ok(
-      "releasableOnchain == releasableScript",
-      releasableOnchain === releasableScript,
+      "vestedScript in [0,total]",
+      vestedScript >= 0n && vestedScript <= g.total,
       {
-        onchain: releasableOnchain.toString(),
-        script: releasableScript.toString()
+        vestedScript: vestedScript.toString(),
+        total: g.total.toString()
       }
     );
+
+    ok(
+      "vestedOnchain == vestedScript",
+      vestedOnchain === vestedScript,
+      {
+        onchain: vestedOnchain.toString(),
+        script: vestedScript.toString()
+      }
+    );
+
+    ok(
+      "releasableScript = max(0, vestedScript - released)",
+      releasableScript === clamp0(vestedScript - g.released),
+      {
+        releasableScript: releasableScript.toString(),
+        vestedScript: vestedScript.toString(),
+        released: g.released.toString()
+      }
+    );
+
+    if (g.revoked) {
+      ok(
+        "revokedAt > 0 when revoked",
+        g.revokedAt > 0n,
+        { revokedAt: g.revokedAt.toString() }
+      );
+
+      ok(
+        "effectiveTime == min(pinnedTimestamp, revokedAt) when revoked",
+        effectiveTime === (pinnedTimestamp > g.revokedAt ? g.revokedAt : pinnedTimestamp),
+        {
+          pinnedTimestamp: pinnedTimestamp.toString(),
+          revokedAt: g.revokedAt.toString(),
+          effectiveTime: effectiveTime.toString()
+        }
+      );
+    } else {
+      ok(
+        "revokedAt == 0 when not revoked",
+        g.revokedAt === 0n,
+        { revokedAt: g.revokedAt.toString() }
+      );
+
+      ok(
+        "effectiveTime == pinnedTimestamp when not revoked",
+        effectiveTime === pinnedTimestamp,
+        {
+          pinnedTimestamp: pinnedTimestamp.toString(),
+          effectiveTime: effectiveTime.toString()
+        }
+      );
+    }
   }
 
   const evidence = {
-    schema: "vesting-proof-v1",
-    phase: "6.2",
+    schema: "vesting-proof-v2",
+    phase: "8.4.B",
     pinned: {
       blockNumber: pinnedBlock.toString(),
       blockTimestamp: pinnedTimestamp.toString()
@@ -173,17 +267,21 @@ export async function runVestingInvariants({ configPath }) {
       beneficiary
     },
     grant: {
-      total: total.toString(),
-      released: released.toString(),
-      start: start.toString(),
-      cliff: cliff.toString(),
-      end: end.toString()
+      total: g.total.toString(),
+      released: g.released.toString(),
+      start: g.start.toString(),
+      cliff: g.cliff.toString(),
+      duration: g.duration.toString(),
+      end: g.end.toString(),
+      exists: g.exists,
+      revoked: g.revoked,
+      revokedAt: g.revokedAt.toString()
     },
     computed: {
-      vested: vested.toString(),
-      releasableScript: releasableScript.toString(),
-      releasableOnchain:
-        releasableOnchain?.toString?.() ?? null
+      effectiveTime: effectiveTime.toString(),
+      vestedScript: vestedScript.toString(),
+      vestedOnchain: vestedOnchain.toString(),
+      releasableScript: releasableScript.toString()
     },
     invariants: inv
   };

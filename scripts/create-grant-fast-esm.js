@@ -20,7 +20,7 @@ const wc = createWalletClient({ account, chain: baseSepolia, transport: http(rpc
 
 const abi = parseAbi([
   "function createGrant(address employee, uint256 total, uint64 start, uint64 cliff, uint64 duration)",
-  "function grants(address) view returns (uint256 total,uint256 released,uint64 start,uint64 cliff,uint64 duration,bool exists)"
+  "function grants(address) view returns (uint256 total,uint256 released,uint64 start,uint64 cliff,uint64 duration,bool exists,bool revoked,uint64 revokedAt)"
 ]);
 
 const block = await pc.getBlock({ blockTag: "latest" });
