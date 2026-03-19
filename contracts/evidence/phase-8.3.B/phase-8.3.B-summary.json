@@ -1,0 +1,38 @@
+{
+  "phase": "8.3.B",
+  "purpose": "repo deployed vesting implementation convergence before revocation",
+  "prior_phase_source": "contracts/evidence/phase-8.3/issuance-model-convergence.json",
+  "problem_statement": "main branch vesting implementation used prefunded transfer-based release while deployed runtime proved mint-on-claim behavior",
+  "drift_identified": {
+    "payout_primitive": {
+      "repo_before_patch": "transfer",
+      "deployed_truth": "mint"
+    },
+    "issuance_model": {
+      "repo_before_patch": "prefunded vesting balance distribution",
+      "deployed_truth": "direct mint-on-claim"
+    },
+    "commentary_assumptions": {
+      "repo_before_patch": "required funding vesting contract inventory before release",
+      "deployed_truth": "vesting acts as token admin payout path"
+    }
+  },
+  "minimum_patch_applied": {
+    "contracts/VestingContract.sol": {
+      "release_path_changed_to_mint": true,
+      "prefunding_language_removed": true,
+      "grant_math_changed": false,
+      "storage_layout_changed": false,
+      "identity_gate_changed": false
+    }
+  },
+  "phase_boundaries": {
+    "architecture_redesign_performed": false,
+    "revocation_started": false,
+    "phase_8_4_started": false
+  },
+  "result": {
+    "repo_deployed_convergence_restored": true,
+    "repo_truth_now_matches_phase_8_3_deployed_truth": true
+  }
+}

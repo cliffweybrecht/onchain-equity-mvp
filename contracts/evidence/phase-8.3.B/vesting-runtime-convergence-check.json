@@ -1,0 +1,26 @@
+{
+  "phase": "8.3.B",
+  "purpose": "semantic repo runtime convergence check against deployed phase 8.3 truth",
+  "source_of_truth": "contracts/evidence/phase-8.3/issuance-model-convergence.json",
+  "expected_deployed_truth": {
+    "issuance_model": "mint-on-claim",
+    "token_admin_relationship": "EquityToken.admin == VestingContract",
+    "mint_selector": "0x40c10f19",
+    "canonical_event_effect": "Transfer(0x0 -> beneficiary, amount)"
+  },
+  "repo_after_patch": {
+    "external_release_entrypoint": "release(address)",
+    "payout_primitive": "token.mint(employee, unreleased)",
+    "identity_verification_required": true,
+    "released_accounting_model": "g.released = vested"
+  },
+  "semantic_mapping": {
+    "repo_release_semantics_match_deployed_claim_semantics": true,
+    "repo_transfer_from_prefunded_balance_model_remains": false,
+    "repo_mint_on_claim_model_present": true
+  },
+  "conclusion": {
+    "semantic_convergence_achieved": true,
+    "remaining_blocker_for_phase_8_4_from_issuance_model_drift": false
+  }
+}

@@ -5,7 +5,7 @@ import "./EquityToken.sol";
 import "./IdentityRegistry.sol";
 
 /// @title VestingContract
-/// @notice Stores simple time-based vesting schedules and releases equity tokens to verified employees.
+/// @notice Stores simple time-based vesting schedules and releases equity to verified employees.
 contract VestingContract {
     struct Grant {
         uint256 total;       // total number of units granted
@@ -114,7 +114,9 @@ contract VestingContract {
     }
 
     /// @notice Releases any vested but unreleased units to the employee.
-    /// @dev Mints equity tokens directly to the employee wallet.
+    /// @dev Phase 8.3 deployed-runtime truth is mint-on-claim. This function
+    ///      mints vested units directly to the employee via the token admin path
+    ///      rather than transferring from a prefunded vesting-contract balance.
     function release(address employee) external {
         Grant storage g = grants[employee];
         if (!g.exists) revert GrantDoesNotExist();
@@ -131,10 +133,8 @@ contract VestingContract {
 
         g.released = vested;
 
-        // IMPORTANT:
-        // This contract must be set as the admin of EquityToken
-        // so that this mint call succeeds.
-        token.transfer(employee, unreleased);
+        // Converged repo behavior: deployed Phase 8.3 runtime proved mint-on-claim.
+        token.mint(employee, unreleased);
 
         emit GrantReleased(employee, unreleased);
     }

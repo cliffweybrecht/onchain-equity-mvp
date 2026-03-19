@@ -1,0 +1,51 @@
+{
+  "phase": "8.3.B",
+  "purpose": "repo deployed vesting drift analysis before convergence patch",
+  "source_of_truth": "contracts/evidence/phase-8.3/issuance-model-convergence.json",
+  "scope": "main branch vesting implementation compared against deployed runtime behavior already proven onchain",
+  "repo_file": "contracts/VestingContract.sol",
+  "repo_observed_behavior": {
+    "external_release_entrypoint": "release(address)",
+    "payout_primitive": "token.transfer(employee, unreleased)",
+    "issuance_model": "prefunded transfer from vesting contract token balance",
+    "repo_comments_describe_prefunding": true,
+    "identity_gate_present": true,
+    "released_accounting_model": "g.released = vested"
+  },
+  "deployed_truth_from_phase_8_3": {
+    "issuance_model": "mint-on-claim",
+    "token_admin_relationship": "EquityToken.admin == deployed VestingContract",
+    "claim_side_effect": "Transfer(0x0 -> beneficiary, amount)",
+    "inner_call_selector": "0x40c10f19",
+    "selector_meaning": "mint(address,uint256)"
+  },
+  "exact_drift": [
+    {
+      "category": "function_call_path",
+      "repo": "release(address) pays via token.transfer",
+      "deployed": "claim/release semantics pay via token.mint"
+    },
+    {
+      "category": "issuance_model",
+      "repo": "prefunded custody/distribution",
+      "deployed": "direct mint-on-claim issuance"
+    },
+    {
+      "category": "comments_and_operational_assumptions",
+      "repo": "release docs require token funding into vesting contract balance",
+      "deployed": "no prefunding required for payout path; vesting acts as token admin"
+    }
+  ],
+  "storage_layout_assessment": {
+    "grant_storage_requires_redesign": false,
+    "reason": "Grant structure remains compatible with mint-on-claim"
+  },
+  "abi_interface_assessment": {
+    "needs_token_mint_interface": true
+  },
+  "conclusion": {
+    "current_main_is_converged": false,
+    "phase_8_4_revocation_must_start_now": false,
+    "required_next_action": "apply minimum convergence patch"
+  }
+}

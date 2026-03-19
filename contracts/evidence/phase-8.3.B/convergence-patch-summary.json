@@ -1,0 +1,31 @@
+{
+  "phase": "8.3.B",
+  "purpose": "minimum convergence patch summary",
+  "source_of_truth": "contracts/evidence/phase-8.3/issuance-model-convergence.json",
+  "change_type": "minimum convergence only",
+  "architecture_redesign_performed": false,
+  "revocation_logic_added": false,
+  "files_changed": [
+    "contracts/VestingContract.sol"
+  ],
+  "functions_touched": [
+    "release(address)"
+  ],
+  "semantic_change": {
+    "before": "transfer from vesting contract balance",
+    "after": "mint directly to employee"
+  },
+  "comments_updated": true,
+  "storage_layout_changed": false,
+  "grant_math_changed": false,
+  "identity_gate_changed": false,
+  "released_accounting_changed": false,
+  "expected_repo_truth_after_patch": {
+    "issuance_model": "mint-on-claim",
+    "canonical_event": "Transfer(0x0 -> beneficiary, amount)"
+  },
+  "conclusion": {
+    "repo_truth_matches_deployed_truth_semantically": true,
+    "phase_8_4_started": false
+  }
+}
