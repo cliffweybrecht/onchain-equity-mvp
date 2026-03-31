@@ -1,0 +1,14 @@
+{
+  "chain_id": 84532,
+  "rpc_url": "https://sepolia.base.org",
+  "safe": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+  "identity_registry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+  "old_stack": {
+    "token": "0x2791D08fC94C787e5772Daba3507A68e74BA4B10",
+    "vesting": "0xEf444C538769d7626511A4C538d03fFc7e53262B"
+  },
+  "new_stack": {
+    "token": "",
+    "vesting": ""
+  }
+}
