@@ -1,0 +1,12 @@
+{
+  "configured_safe": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+  "configured_identity_registry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+  "configured_new_token": "0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95",
+  "configured_new_vesting": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+  "observed_token_admin": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+  "observed_token_identity_registry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+  "observed_token_decimals": 0,
+  "observed_vesting_admin": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+  "observed_vesting_token": "0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95",
+  "observed_vesting_identity_registry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4"
+}
