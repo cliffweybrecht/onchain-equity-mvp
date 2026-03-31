@@ -1,0 +1,12 @@
+{
+  "vesting": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+  "beneficiary": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+  "total": "0",
+  "released": "0",
+  "start": "0",
+  "cliff": "0",
+  "duration": "0",
+  "exists": false,
+  "revoked": false,
+  "revokedAt": "0"
+}
