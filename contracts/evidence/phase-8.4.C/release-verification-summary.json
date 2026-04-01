@@ -1,0 +1,44 @@
+{
+  "phase": "8.4.C",
+  "purpose": "verification summary for migrated release proof",
+  "network": "base-sepolia",
+  "token": "0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95",
+  "vesting": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+  "beneficiary": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+  "txHash": "0x865dbdc9c64ddc6b7850e1c9fd76a5e6c3affda32aa50e1232accf778bc95248",
+  "expectedRelease": 100,
+  "observed": {
+    "balancePre": 0,
+    "balancePost": 100,
+    "balanceDelta": 100,
+    "totalSupplyPre": 0,
+    "totalSupplyPost": 100,
+    "totalSupplyDelta": 100,
+    "releasedPre": 0,
+    "releasedPost": 100,
+    "releasedDelta": 100
+  },
+  "proofs": {
+    "tokenAdminMatchesVesting": true,
+    "vestingAdminMatchesSafe": true,
+    "vestingTokenMatchesToken": true,
+    "tokenDecimalsIsZero": true,
+    "releaseTxSucceeded": true,
+    "mintOnClaimTransferObserved": true,
+    "mintTransferFromZeroAddress": true,
+    "mintTransferToBeneficiary": true,
+    "mintTransferValueMatchesExpected": true,
+    "beneficiaryBalanceDeltaMatchesExpected": true,
+    "totalSupplyDeltaMatchesExpected": true,
+    "grantReleasedDeltaMatchesExpected": true,
+    "grantCoreFieldsPreserved": true,
+    "grantRemainsNotRevoked": true,
+    "noIssuanceModelRegressionDetected": true
+  },
+  "conclusion": {
+    "releaseWorksOnMigratedStack": true,
+    "mintOnClaimPreserved": true,
+    "canonicalErc20MintProven": true,
+    "stateTransitionsMatchExpected": true
+  }
+}

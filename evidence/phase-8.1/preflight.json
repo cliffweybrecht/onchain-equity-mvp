@@ -1,0 +1,41 @@
+{
+  "phase": "8.1.A",
+  "checked_at": "2026-03-10T00:44:30.224Z",
+  "rpc_env": "BASE_SEPOLIA_RPC_URL",
+  "rpc_url": "https://sepolia.base.org",
+  "addresses": {
+    "equity_token": "0x2791D08fC94C787e5772Daba3507A68e74BA4B10",
+    "vesting_contract": "0xEf444C538769d7626511A4C538d03fFc7e53262B",
+    "identity_registry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+    "beneficiary": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+    "grant_beneficiary": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+    "expected_token": "0x2791D08fC94C787e5772Daba3507A68e74BA4B10",
+    "expected_vesting_contract": "0xEf444C538769d7626511A4C538d03fFc7e53262B",
+    "expected_identity_registry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4"
+  },
+  "contract_code": {
+    "equity_token": true,
+    "vesting_contract": true,
+    "identity_registry": true
+  },
+  "beneficiary_verification": {
+    "verified": true,
+    "error": null
+  },
+  "token_pointer_check": {
+    "live_token_pointer": "0x2791D08fC94C787e5772Daba3507A68e74BA4B10",
+    "expected_token": "0x2791D08fC94C787e5772Daba3507A68e74BA4B10",
+    "matches_expected_token": true,
+    "error": null
+  },
+  "grant_inputs": {
+    "grant_total": "1000000000000000000",
+    "start": 1770000000,
+    "cliff": 1770000000,
+    "duration": 31536000,
+    "notes": "Phase 8.1.A deterministic demo grant",
+    "out_dir": "manifests/grants",
+    "evidence_root": "evidence/phase-8.1/grants",
+    "no_send": false
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "0xc572995491a084be21b591de274f549fddf94c79f79b340a45f70be28f16807a",
+  "payload": {
+    "chainId": 84532,
+    "chainName": "baseSepolia",
+    "createdAt": "2026-03-10T00:03:02.155Z",
+    "details": {
+      "cliff": 1770000000,
+      "duration": 31536000,
+      "notes": "Phase 8.1.A deterministic demo grant",
+      "start": 1770000000,
+      "total": "1000000000000000000"
+    },
+    "employee": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+    "identityRegistry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+    "issuer": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
+    "op": "create",
+    "rpcHint": "https://sepolia.base.org",
+    "vestingContract": "0xEf444C538769d7626511A4C538d03fFc7e53262B"
+  },
+  "schema": "grant-manifest-v1"
+}

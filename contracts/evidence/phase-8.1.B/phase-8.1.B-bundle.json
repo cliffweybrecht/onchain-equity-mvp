@@ -1,0 +1,430 @@
+{
+  "phase": "8.1.B",
+  "built_at": "2026-03-10T01:24:18.678Z",
+  "files": {
+    "vesting_admin_surface": {
+      "path": "evidence/phase-8.1.B/vesting-admin-surface.json",
+      "contents": {
+        "phase": "8.1.B",
+        "checked_at": "2026-03-10T01:24:17.768Z",
+        "chain_id": 84532,
+        "block_number": "38668784",
+        "vesting": "0xEf444C538769d7626511A4C538d03fFc7e53262B",
+        "configured_signer": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
+        "expected_safe_admin": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+        "bytecode_present": true,
+        "probes": {
+          "admin": {
+            "supported": true,
+            "ok": true,
+            "value": "0x1eDc758579C66967C42066e8dDCB690a1651517e"
+          },
+          "owner": {
+            "supported": false,
+            "ok": false,
+            "error": {
+              "name": "ContractFunctionExecutionError",
+              "message": "The contract function \"owner\" reverted."
+            }
+          },
+          "DEFAULT_ADMIN_ROLE": {
+            "supported": false,
+            "ok": false,
+            "error": {
+              "name": "ContractFunctionExecutionError",
+              "message": "The contract function \"DEFAULT_ADMIN_ROLE\" reverted."
+            }
+          },
+          "hasRole_default_admin_configured_signer": {
+            "supported": false,
+            "ok": false,
+            "error": {
+              "name": "Skipped",
+              "message": "DEFAULT_ADMIN_ROLE unavailable"
+            }
+          },
+          "hasRole_default_admin_expected_safe_admin": {
+            "supported": false,
+            "ok": false,
+            "error": {
+              "name": "Skipped",
+              "message": "DEFAULT_ADMIN_ROLE unavailable"
+            }
+          },
+          "isAdmin_configured_signer": {
+            "supported": false,
+            "ok": false,
+            "error": {
+              "name": "ContractFunctionExecutionError",
+              "message": "The contract function \"isAdmin\" reverted."
+            }
+          },
+          "isAdmin_expected_safe_admin": {
+            "supported": false,
+            "ok": false,
+            "error": {
+              "name": "ContractFunctionExecutionError",
+              "message": "The contract function \"isAdmin\" reverted."
+            }
+          }
+        },
+        "derived": {
+          "signer_matches_admin": false,
+          "signer_matches_owner": null,
+          "signer_has_default_admin_role": null,
+          "signer_is_admin": null,
+          "expected_safe_matches_admin": true,
+          "expected_safe_matches_owner": null,
+          "expected_safe_has_default_admin_role": null,
+          "expected_safe_is_admin": null
+        },
+        "verdict": {
+          "signer_authorized_by_detected_surface": false,
+          "expected_safe_authorized_by_detected_surface": true,
+          "authorization_model_detected": true
+        }
+      }
+    },
+    "grant_admin_preflight": {
+      "path": "evidence/phase-8.1.B/grant-admin-preflight.json",
+      "contents": {
+        "phase": "8.1.B",
+        "checked_at": "2026-03-10T01:24:18.654Z",
+        "chain_id": "84532",
+        "block_number": "38668785",
+        "inputs": {
+          "signer": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
+          "vesting": "0xEf444C538769d7626511A4C538d03fFc7e53262B",
+          "beneficiary": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+          "expected_safe_admin": "0x1eDc758579C66967C42066e8dDCB690a1651517e"
+        },
+        "probes": {
+          "admin": {
+            "supported": true,
+            "ok": true,
+            "value": "0x1eDc758579C66967C42066e8dDCB690a1651517e"
+          },
+          "owner": {
+            "supported": false,
+            "ok": false,
+            "error": {
+              "name": "ContractFunctionExecutionError",
+              "message": "The contract function \"owner\" reverted."
+            }
+          },
+          "DEFAULT_ADMIN_ROLE": {
+            "supported": false,
+            "ok": false,
+            "error": {
+              "name": "ContractFunctionExecutionError",
+              "message": "The contract function \"DEFAULT_ADMIN_ROLE\" reverted."
+            }
+          },
+          "hasRole_default_admin_signer": {
+            "supported": false,
+            "ok": false,
+            "error": {
+              "name": "Skipped",
+              "message": "DEFAULT_ADMIN_ROLE unavailable"
+            }
+          },
+          "hasRole_default_admin_expected_safe_admin": {
+            "supported": false,
+            "ok": false,
+            "error": {
+              "name": "Skipped",
+              "message": "DEFAULT_ADMIN_ROLE unavailable"
+            }
+          },
+          "isAdmin_signer": {
+            "supported": false,
+            "ok": false,
+            "error": {
+              "name": "ContractFunctionExecutionError",
+              "message": "The contract function \"isAdmin\" reverted."
+            }
+          },
+          "isAdmin_expected_safe_admin": {
+            "supported": false,
+            "ok": false,
+            "error": {
+              "name": "ContractFunctionExecutionError",
+              "message": "The contract function \"isAdmin\" reverted."
+            }
+          },
+          "grants_beneficiary": {
+            "supported": true,
+            "ok": true,
+            "value": [
+              "1000",
+              "30",
+              "1771644494",
+              "1771644494",
+              "31536000",
+              true
+            ]
+          }
+        },
+        "derived": {
+          "authorization": {
+            "signer_matches_admin": false,
+            "signer_matches_owner": false,
+            "signer_has_default_admin_role": false,
+            "signer_is_admin": false,
+            "expected_safe_matches_admin": true,
+            "expected_safe_matches_owner": false,
+            "expected_safe_has_default_admin_role": false,
+            "expected_safe_is_admin": false
+          },
+          "beneficiary_grant": {
+            "total": "1000",
+            "released": "30",
+            "start": 1771644494,
+            "cliff": 1771644494,
+            "duration": 31536000,
+            "exists": true
+          }
+        },
+        "verdict": {
+          "authorization": {
+            "ok": false,
+            "signer_authorized": false,
+            "expected_safe_authorized": true
+          },
+          "beneficiary_compatibility": {
+            "ok": false,
+            "beneficiary_compatible_for_create_grant": false
+          },
+          "overall": {
+            "ok": false,
+            "failure_reasons": [
+              "SIGNER_NOT_AUTHORIZED",
+              "BENEFICIARY_ALREADY_HAS_GRANT"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "summary": {
+    "phase": "8.1.B",
+    "generated_at": "2026-03-10T01:24:18.664Z",
+    "stopped_before_create_grant": true,
+    "config": {
+      "phase": "8.1.B",
+      "resolved_at": "2026-03-10T01:24:16.744Z",
+      "repo_root": "/home/cliff/onchain-equity-mvp",
+      "contracts_root": "/home/cliff/onchain-equity-mvp/contracts",
+      "sender": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
+      "beneficiary": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+      "total": "1000000000000000000",
+      "start": "1770000000",
+      "cliff": "1770000000",
+      "duration": "31536000",
+      "vesting": "0xEf444C538769d7626511A4C538d03fFc7e53262B",
+      "identityRegistry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+      "token": "0x2791D08fC94C787e5772Daba3507A68e74BA4B10",
+      "expectedSafeAdmin": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+      "prior_evidence_source": "evidence/phase-6.1.E/admin-surface.json",
+      "canonical_rail": "contracts/scripts/ops/grants/create-grant.mjs"
+    },
+    "admin_surface": {
+      "phase": "8.1.B",
+      "checked_at": "2026-03-10T01:24:17.768Z",
+      "chain_id": 84532,
+      "block_number": "38668784",
+      "vesting": "0xEf444C538769d7626511A4C538d03fFc7e53262B",
+      "configured_signer": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
+      "expected_safe_admin": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+      "bytecode_present": true,
+      "probes": {
+        "admin": {
+          "supported": true,
+          "ok": true,
+          "value": "0x1eDc758579C66967C42066e8dDCB690a1651517e"
+        },
+        "owner": {
+          "supported": false,
+          "ok": false,
+          "error": {
+            "name": "ContractFunctionExecutionError",
+            "message": "The contract function \"owner\" reverted."
+          }
+        },
+        "DEFAULT_ADMIN_ROLE": {
+          "supported": false,
+          "ok": false,
+          "error": {
+            "name": "ContractFunctionExecutionError",
+            "message": "The contract function \"DEFAULT_ADMIN_ROLE\" reverted."
+          }
+        },
+        "hasRole_default_admin_configured_signer": {
+          "supported": false,
+          "ok": false,
+          "error": {
+            "name": "Skipped",
+            "message": "DEFAULT_ADMIN_ROLE unavailable"
+          }
+        },
+        "hasRole_default_admin_expected_safe_admin": {
+          "supported": false,
+          "ok": false,
+          "error": {
+            "name": "Skipped",
+            "message": "DEFAULT_ADMIN_ROLE unavailable"
+          }
+        },
+        "isAdmin_configured_signer": {
+          "supported": false,
+          "ok": false,
+          "error": {
+            "name": "ContractFunctionExecutionError",
+            "message": "The contract function \"isAdmin\" reverted."
+          }
+        },
+        "isAdmin_expected_safe_admin": {
+          "supported": false,
+          "ok": false,
+          "error": {
+            "name": "ContractFunctionExecutionError",
+            "message": "The contract function \"isAdmin\" reverted."
+          }
+        }
+      },
+      "derived": {
+        "signer_matches_admin": false,
+        "signer_matches_owner": null,
+        "signer_has_default_admin_role": null,
+        "signer_is_admin": null,
+        "expected_safe_matches_admin": true,
+        "expected_safe_matches_owner": null,
+        "expected_safe_has_default_admin_role": null,
+        "expected_safe_is_admin": null
+      },
+      "verdict": {
+        "signer_authorized_by_detected_surface": false,
+        "expected_safe_authorized_by_detected_surface": true,
+        "authorization_model_detected": true
+      }
+    },
+    "preflight": {
+      "phase": "8.1.B",
+      "checked_at": "2026-03-10T01:24:18.654Z",
+      "chain_id": "84532",
+      "block_number": "38668785",
+      "inputs": {
+        "signer": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
+        "vesting": "0xEf444C538769d7626511A4C538d03fFc7e53262B",
+        "beneficiary": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+        "expected_safe_admin": "0x1eDc758579C66967C42066e8dDCB690a1651517e"
+      },
+      "probes": {
+        "admin": {
+          "supported": true,
+          "ok": true,
+          "value": "0x1eDc758579C66967C42066e8dDCB690a1651517e"
+        },
+        "owner": {
+          "supported": false,
+          "ok": false,
+          "error": {
+            "name": "ContractFunctionExecutionError",
+            "message": "The contract function \"owner\" reverted."
+          }
+        },
+        "DEFAULT_ADMIN_ROLE": {
+          "supported": false,
+          "ok": false,
+          "error": {
+            "name": "ContractFunctionExecutionError",
+            "message": "The contract function \"DEFAULT_ADMIN_ROLE\" reverted."
+          }
+        },
+        "hasRole_default_admin_signer": {
+          "supported": false,
+          "ok": false,
+          "error": {
+            "name": "Skipped",
+            "message": "DEFAULT_ADMIN_ROLE unavailable"
+          }
+        },
+        "hasRole_default_admin_expected_safe_admin": {
+          "supported": false,
+          "ok": false,
+          "error": {
+            "name": "Skipped",
+            "message": "DEFAULT_ADMIN_ROLE unavailable"
+          }
+        },
+        "isAdmin_signer": {
+          "supported": false,
+          "ok": false,
+          "error": {
+            "name": "ContractFunctionExecutionError",
+            "message": "The contract function \"isAdmin\" reverted."
+          }
+        },
+        "isAdmin_expected_safe_admin": {
+          "supported": false,
+          "ok": false,
+          "error": {
+            "name": "ContractFunctionExecutionError",
+            "message": "The contract function \"isAdmin\" reverted."
+          }
+        },
+        "grants_beneficiary": {
+          "supported": true,
+          "ok": true,
+          "value": [
+            "1000",
+            "30",
+            "1771644494",
+            "1771644494",
+            "31536000",
+            true
+          ]
+        }
+      },
+      "derived": {
+        "authorization": {
+          "signer_matches_admin": false,
+          "signer_matches_owner": false,
+          "signer_has_default_admin_role": false,
+          "signer_is_admin": false,
+          "expected_safe_matches_admin": true,
+          "expected_safe_matches_owner": false,
+          "expected_safe_has_default_admin_role": false,
+          "expected_safe_is_admin": false
+        },
+        "beneficiary_grant": {
+          "total": "1000",
+          "released": "30",
+          "start": 1771644494,
+          "cliff": 1771644494,
+          "duration": 31536000,
+          "exists": true
+        }
+      },
+      "verdict": {
+        "authorization": {
+          "ok": false,
+          "signer_authorized": false,
+          "expected_safe_authorized": true
+        },
+        "beneficiary_compatibility": {
+          "ok": false,
+          "beneficiary_compatible_for_create_grant": false
+        },
+        "overall": {
+          "ok": false,
+          "failure_reasons": [
+            "SIGNER_NOT_AUTHORIZED",
+            "BENEFICIARY_ALREADY_HAS_GRANT"
+          ]
+        }
+      }
+    },
+    "child_process": null
+  }
+}

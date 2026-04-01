@@ -1,0 +1,44 @@
+{
+  "phase": "8.3",
+  "generated_at": "2026-03-12T00:45:23.540Z",
+  "claim_tx_hash": "0xdd14b060b425d80e2e7af0c6596529af9aabf5e9b3d7da73647026d7c91aabca",
+  "block_number": "38713440",
+  "contracts": {
+    "token": "0x2791D08fC94C787e5772Daba3507A68e74BA4B10",
+    "vesting": "0xEf444C538769d7626511A4C538d03fFc7e53262B",
+    "expected_beneficiary": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996"
+  },
+  "phase_8_2_context": {
+    "beneficiary": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+    "caller": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996"
+  },
+  "transfer_events": [
+    {
+      "token": "0x2791D08fC94C787e5772Daba3507A68e74BA4B10",
+      "from": "0x0000000000000000000000000000000000000000",
+      "to": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+      "value": "3805175038052",
+      "log_index": 141
+    }
+  ],
+  "transfer_count": 1,
+  "matching_transfer": {
+    "token": "0x2791D08fC94C787e5772Daba3507A68e74BA4B10",
+    "from": "0x0000000000000000000000000000000000000000",
+    "to": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+    "value": "3805175038052",
+    "log_index": 141
+  },
+  "recipient_matches_expected_beneficiary": true,
+  "canonical_transfer_present": true,
+  "lineage_model": "mint_on_claim",
+  "amount_reconciliation": {
+    "expected_amount": "3805175038052",
+    "released_delta": "3805175038052",
+    "beneficiary_balance_delta": "3805175038052",
+    "transfer_value": "3805175038052",
+    "all_equal": true
+  },
+  "interpretation": "MINT_ON_CLAIM_CONFIRMED",
+  "status": "PASS_WITH_ARCHITECTURE_NOTE"
+}

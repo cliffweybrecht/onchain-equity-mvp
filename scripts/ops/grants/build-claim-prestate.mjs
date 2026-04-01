@@ -21,6 +21,7 @@ function parseArgs(argv) {
 }
 
 function stable(value) {
+  if (typeof value === 'bigint') return value.toString()
   if (Array.isArray(value)) return value.map(stable)
   if (value && typeof value === 'object') {
     return Object.keys(value).sort().reduce((acc, k) => {
@@ -36,21 +37,56 @@ function writeJson(filePath, value) {
   fs.writeFileSync(filePath, JSON.stringify(stable(value), null, 2) + '\n')
 }
 
-function computeVested(total, start, cliff, duration, nowTs) {
+function normalizeGrant(grant) {
+  if (!grant) throw new Error('Missing grant result')
+
+  const total = BigInt(grant.total ?? grant[0])
+  const released = BigInt(grant.released ?? grant[1])
+  const start = BigInt(grant.start ?? grant[2])
+  const cliff = BigInt(grant.cliff ?? grant[3])
+  const duration = BigInt(grant.duration ?? grant[4])
+  const exists = Boolean(grant.exists ?? grant[5])
+  const revoked = Boolean(grant.revoked ?? grant[6])
+  const revokedAt = BigInt(grant.revokedAt ?? grant[7])
+  const end = start + duration
+
+  return {
+    total,
+    released,
+    start,
+    cliff,
+    duration,
+    end,
+    exists,
+    revoked,
+    revokedAt
+  }
+}
+
+function effectiveTimeForGrant(grant, queryTime) {
+  const t = BigInt(queryTime)
+  if (grant.revoked && t > grant.revokedAt) {
+    return grant.revokedAt
+  }
+  return t
+}
+
+function computeVested(total, start, cliff, end, effectiveTime) {
   const totalBig = BigInt(total)
   const startBig = BigInt(start)
   const cliffBig = BigInt(cliff)
-  const durationBig = BigInt(duration)
-  const nowBig = BigInt(nowTs)
+  const endBig = BigInt(end)
+  const t = BigInt(effectiveTime)
 
-  if (nowBig < cliffBig) return 0n
-  if (durationBig === 0n) return totalBig
-  if (nowBig <= startBig) return 0n
+  if (t < cliffBig) return 0n
+  if (t <= startBig) return 0n
+  if (t >= endBig) return totalBig
 
-  const elapsed = nowBig - startBig
-  if (elapsed >= durationBig) return totalBig
+  const duration = endBig - startBig
+  if (duration === 0n) return totalBig
 
-  return (totalBig * elapsed) / durationBig
+  const elapsed = t - startBig
+  return (totalBig * elapsed) / duration
 }
 
 const args = parseArgs(process.argv)
@@ -76,7 +112,9 @@ const vestingAbi = [
       { name: 'start', type: 'uint64' },
       { name: 'cliff', type: 'uint64' },
       { name: 'duration', type: 'uint64' },
-      { name: 'exists', type: 'bool' }
+      { name: 'exists', type: 'bool' },
+      { name: 'revoked', type: 'bool' },
+      { name: 'revokedAt', type: 'uint64' }
     ]
   }
 ]
@@ -87,27 +125,30 @@ const client = createPublicClient({
 })
 
 const latestBlock = await client.getBlock({ blockTag: 'latest' })
-const grant = await client.readContract({
+const rawGrant = await client.readContract({
   address: vesting,
   abi: vestingAbi,
   functionName: 'grants',
   args: [beneficiary]
 })
 
-const total = BigInt(grant[0])
-const released = BigInt(grant[1])
-const start = Number(grant[2])
-const cliff = Number(grant[3])
-const duration = Number(grant[4])
-const exists = Boolean(grant[5])
-const currentTime = Number(latestBlock.timestamp)
+const grant = normalizeGrant(rawGrant)
+const currentTime = BigInt(latestBlock.timestamp)
 
-if (!exists) {
+if (!grant.exists) {
   throw new Error(`No grant exists for beneficiary ${beneficiary}`)
 }
 
-const expectedVested = computeVested(total, start, cliff, duration, currentTime)
-const expectedClaimable = expectedVested > released ? expectedVested - released : 0n
+const effectiveTime = effectiveTimeForGrant(grant, currentTime)
+const expectedVested = computeVested(
+  grant.total,
+  grant.start,
+  grant.cliff,
+  grant.end,
+  effectiveTime
+)
+const expectedClaimable =
+  expectedVested > grant.released ? expectedVested - grant.released : 0n
 
 const payload = {
   phase: '8.2',
@@ -119,25 +160,30 @@ const payload = {
   latest_block: {
     number: latestBlock.number.toString(),
     hash: latestBlock.hash,
-    timestamp: currentTime
+    timestamp: currentTime.toString()
   },
   grant_prestate: {
-    total: total.toString(),
-    released: released.toString(),
-    start,
-    cliff,
-    duration,
-    exists
+    total: grant.total.toString(),
+    released: grant.released.toString(),
+    start: grant.start.toString(),
+    cliff: grant.cliff.toString(),
+    duration: grant.duration.toString(),
+    end: grant.end.toString(),
+    exists: grant.exists,
+    revoked: grant.revoked,
+    revokedAt: grant.revokedAt.toString()
   },
   computed: {
+    effective_time: effectiveTime.toString(),
     expected_vested: expectedVested.toString(),
     expected_claimable: expectedClaimable.toString(),
-    formula: 'linear vesting; 0 before cliff; total after start+duration; otherwise total * (now-start) / duration'
+    formula: 'linear vesting with cliff; effective_time = revoked ? min(block_timestamp, revokedAt) : block_timestamp; 0 before cliff; total at/after end; otherwise total * (effective_time-start) / (end-start)'
   }
 }
 
 writeJson(outFile, payload)
 
 console.log(`Wrote ${outFile}`)
+console.log(`effective_time    = ${effectiveTime}`)
 console.log(`expected_vested   = ${expectedVested}`)
 console.log(`expected_claimable= ${expectedClaimable}`)

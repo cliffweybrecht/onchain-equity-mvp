@@ -1,0 +1,45 @@
+{
+  "phase": "8.3",
+  "purpose": "issuance model convergence",
+  "generated_at": "2026-03-19T00:00:00Z",
+  "network": "base-sepolia",
+  "token": "0x2791D08fC94C787e5772Daba3507A68e74BA4B10",
+  "vesting": "0xEf444C538769d7626511A4C538d03fFc7e53262B",
+  "claim_tx_hash": "0xdd14b060b425d80e2e7af0c6596529af9aabf5e9b3d7da73647026d7c91aabca",
+  "proofs": {
+    "token_admin_read": {
+      "token_admin": "0xEf444C538769d7626511A4C538d03fFc7e53262B",
+      "matches_vesting": true,
+      "artifact": "contracts/evidence/phase-8.3/token-admin-read.txt"
+    },
+    "claim_tx_receipt": {
+      "artifact": "contracts/evidence/phase-8.3/claim-tx-receipt.json",
+      "token_transfer_log_found": true,
+      "transfer_source": "0x0000000000000000000000000000000000000000",
+      "transfer_destination": "0xd3ed697274ec8bc9f638ce80fd789a49da4ad996",
+      "issuance_model_from_logs": "mint_on_claim"
+    },
+    "claim_tx_debug_trace": {
+      "artifact": "contracts/evidence/phase-8.3/claim-tx-debug-trace.json",
+      "trace_available": true,
+      "token_inner_call_found": true,
+      "token_inner_call_selector": "0x40c10f19",
+      "token_inner_call_function": "mint(address,uint256)",
+      "issuance_model_from_trace": "mint_on_claim"
+    },
+    "vesting_runtime_comparison": {
+      "deployed_runtime_artifact": "contracts/evidence/phase-8.3/deployed-vesting-runtime.txt",
+      "compiled_runtime_artifact": "contracts/evidence/phase-8.3/compiled-vesting-runtime.txt",
+      "diff_artifact": "contracts/evidence/phase-8.3/vesting-runtime-diff.txt",
+      "build_metadata_artifact": "contracts/evidence/phase-8.3/compiled-vesting-build-metadata.json",
+      "runtime_match": false,
+      "runtime_match_interpretation": "diff_requires_build_metadata_review"
+    }
+  },
+  "conclusion": {
+    "canonical_issuance_model": "mint_on_claim",
+    "drift_source": "repo_code_stale_vs_deployed",
+    "repo_and_chain_converged": false,
+    "phase_8_4_may_proceed_on_current_main": false
+  }
+}

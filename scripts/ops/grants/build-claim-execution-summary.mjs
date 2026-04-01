@@ -51,14 +51,16 @@ const hardChecks = {
   released_delta_positive: Boolean(post.checks.released_delta_positive),
   grant_released_event_detected: Boolean(post.checks.grant_released_event_detected),
   event_matches_released_delta: Boolean(post.checks.event_matches_released_delta),
+  mint_transfer_detected: Boolean(post.checks.mint_transfer_detected),
+  mint_transfer_matches_released_delta: Boolean(post.checks.mint_transfer_matches_released_delta),
   beneficiary_balance_delta_matches_released_delta: Boolean(
     post.checks.beneficiary_balance_delta_matches_released_delta
   )
 }
 
 const softChecks = {
-  payout_transfer_detected: Boolean(post.checks.payout_transfer_detected),
-  transfer_matches_released_delta: Boolean(post.checks.transfer_matches_released_delta)
+  prestate_revoked: Boolean(pre.grant_prestate.revoked),
+  poststate_revoked: Boolean(post.grant_poststate_at_claim_block.revoked)
 }
 
 const hardPass = Object.values(hardChecks).every(Boolean)
@@ -67,7 +69,7 @@ const overallStatus = hardPass ? 'PASS' : 'FAIL'
 const payload = {
   phase: '8.2',
   generated_at: new Date().toISOString(),
-  objective: 'Demonstrate deterministic vesting lifecycle payout: verified beneficiary with claimable grant -> release transaction -> released delta -> token payout delta',
+  objective: 'Demonstrate deterministic mint-on-claim vesting release: claimable grant state -> successful release transaction -> released delta -> Transfer(0x0 -> beneficiary, amount) -> beneficiary token balance delta',
   artifacts: {
     prestate: prePath,
     execution_receipt: receiptPath,
@@ -82,8 +84,15 @@ const payload = {
   },
   prestate_snapshot: {
     prestate_block_number: pre.latest_block.number,
+    effective_time: pre.computed.effective_time,
     expected_vested: pre.computed.expected_vested,
-    expected_claimable: pre.computed.expected_claimable
+    expected_claimable: pre.computed.expected_claimable,
+    revoked: pre.grant_prestate.revoked,
+    revokedAt: pre.grant_prestate.revokedAt
+  },
+  poststate_snapshot: {
+    revoked: post.grant_poststate_at_claim_block.revoked,
+    revokedAt: post.grant_poststate_at_claim_block.revokedAt
   },
   tx_bound_reconciliation: {
     payout_token: post.payout_token,
@@ -91,17 +100,17 @@ const payload = {
     released_after_at_claim_block: post.release_accounting.released_after,
     released_delta_for_tx: post.release_accounting.released_delta,
     grant_released_event_amount: post.grant_released_event_verification.amount_released_from_event,
-    payout_transfer_amount: post.transfer_verification.transfer_amount,
+    mint_transfer_amount: post.transfer_verification.mint_transfer_amount,
     beneficiary_balance_delta: post.payout_balance_verification.beneficiary_balance_delta
   },
   hard_checks: hardChecks,
   soft_checks: softChecks,
   notes: [
-    'The prestate artifact and the successful claim transaction occurred at different times.',
-    'Accordingly, payout proof is reconciled using block-bound deltas at the claim transaction block, not by comparing current cumulative released state to the earlier prestate snapshot.',
-    'Primary payout proof is established by agreement between grant released delta, GrantReleased event amount, and beneficiary payout-token balance delta.',
-    'A strict Transfer(from=vesting,to=beneficiary,value=delta) event match was not recovered from the claim receipt and is recorded as a soft-check inconsistency for follow-up.',
-    'EquityToken declares decimals = 0, while the grant quantity model used 18-decimal-style raw units. This phase proves raw-unit payout correctness and also surfaces a unit-model inconsistency for future cleanup.'
+    'This summary is issuance-model aligned to Phase 8.3.B mint-on-claim convergence.',
+    'Primary release proof is established by agreement between released delta, GrantReleased event amount, Transfer(0x0 -> beneficiary, amount), and beneficiary token balance delta.',
+    'Prestate expected claimable is derived from revocation-aware effective time semantics: effective_time = revoked ? min(block_timestamp, revokedAt) : block_timestamp.',
+    'If the grant is not revoked, revokedAt must remain 0 and effective_time equals the pinned block timestamp.',
+    'This summary is suitable as the control-path claim evidence base for subsequent Phase 8.4.C revocation verification.'
   ],
   status: overallStatus
 }

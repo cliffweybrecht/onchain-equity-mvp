@@ -3,7 +3,8 @@ import {
   http,
   getAddress,
   decodeEventLog,
-  parseAbiItem
+  parseAbiItem,
+  zeroAddress
 } from 'viem'
 import { baseSepolia } from 'viem/chains'
 import fs from 'fs'
@@ -27,6 +28,7 @@ function parseArgs(argv) {
 }
 
 function stable(value) {
+  if (typeof value === 'bigint') return value.toString()
   if (Array.isArray(value)) return value.map(stable)
   if (value && typeof value === 'object') {
     return Object.keys(value).sort().reduce((acc, k) => {
@@ -40,6 +42,32 @@ function stable(value) {
 function writeJson(filePath, value) {
   fs.mkdirSync(path.dirname(filePath), { recursive: true })
   fs.writeFileSync(filePath, JSON.stringify(stable(value), null, 2) + '\n')
+}
+
+function normalizeGrant(grant) {
+  if (!grant) throw new Error('Missing grant result')
+
+  const total = BigInt(grant.total ?? grant[0])
+  const released = BigInt(grant.released ?? grant[1])
+  const start = BigInt(grant.start ?? grant[2])
+  const cliff = BigInt(grant.cliff ?? grant[3])
+  const duration = BigInt(grant.duration ?? grant[4])
+  const exists = Boolean(grant.exists ?? grant[5])
+  const revoked = Boolean(grant.revoked ?? grant[6])
+  const revokedAt = BigInt(grant.revokedAt ?? grant[7])
+  const end = start + duration
+
+  return {
+    total,
+    released,
+    start,
+    cliff,
+    duration,
+    end,
+    exists,
+    revoked,
+    revokedAt
+  }
 }
 
 const args = parseArgs(process.argv)
@@ -70,7 +98,9 @@ const vestingAbi = [
       { name: 'start', type: 'uint64' },
       { name: 'cliff', type: 'uint64' },
       { name: 'duration', type: 'uint64' },
-      { name: 'exists', type: 'bool' }
+      { name: 'exists', type: 'bool' },
+      { name: 'revoked', type: 'bool' },
+      { name: 'revokedAt', type: 'uint64' }
     ]
   },
   {
@@ -113,7 +143,7 @@ const payoutToken = getAddress(await client.readContract({
   functionName: 'token'
 }))
 
-const grantBefore = await client.readContract({
+const rawGrantBefore = await client.readContract({
   address: vesting,
   abi: vestingAbi,
   functionName: 'grants',
@@ -121,13 +151,16 @@ const grantBefore = await client.readContract({
   blockNumber: claimBlock - 1n
 })
 
-const grantAfter = await client.readContract({
+const rawGrantAfter = await client.readContract({
   address: vesting,
   abi: vestingAbi,
   functionName: 'grants',
   args: [beneficiary],
   blockNumber: claimBlock
 })
+
+const grantBefore = normalizeGrant(rawGrantBefore)
+const grantAfter = normalizeGrant(rawGrantAfter)
 
 const balanceBefore = await client.readContract({
   address: payoutToken,
@@ -146,7 +179,7 @@ const balanceAfter = await client.readContract({
 })
 
 const grantReleasedLogs = []
-const matchingTransferLogs = []
+const mintToBeneficiaryTransferLogs = []
 const allPayoutTokenTransferLogs = []
 
 for (const log of txReceipt.logs) {
@@ -161,7 +194,7 @@ for (const log of txReceipt.logs) {
       grantReleasedLogs.push({
         employee: getAddress(decoded.args.employee),
         amountReleased: decoded.args.amountReleased.toString(),
-        log_index: log.logIndex
+        log_index: Number(log.logIndex)
       })
     } catch (_) {}
   }
@@ -179,23 +212,23 @@ for (const log of txReceipt.logs) {
         from: getAddress(decoded.args.from),
         to: getAddress(decoded.args.to),
         value: decoded.args.value.toString(),
-        log_index: log.logIndex
+        log_index: Number(log.logIndex)
       }
 
       allPayoutTokenTransferLogs.push(normalized)
 
       if (
-        normalized.from === vesting &&
+        normalized.from === zeroAddress &&
         normalized.to === beneficiary
       ) {
-        matchingTransferLogs.push(normalized)
+        mintToBeneficiaryTransferLogs.push(normalized)
       }
     } catch (_) {}
   }
 }
 
-const beforeReleased = BigInt(grantBefore[1])
-const afterReleased = BigInt(grantAfter[1])
+const beforeReleased = grantBefore.released
+const afterReleased = grantAfter.released
 const releasedDelta = afterReleased - beforeReleased
 
 const beneficiaryBalanceBefore = BigInt(balanceBefore)
@@ -205,8 +238,8 @@ const beneficiaryBalanceDelta = beneficiaryBalanceAfter - beneficiaryBalanceBefo
 const amountReleasedFromEvent =
   grantReleasedLogs.length > 0 ? BigInt(grantReleasedLogs[0].amountReleased) : null
 
-const transferAmount =
-  matchingTransferLogs.length > 0 ? BigInt(matchingTransferLogs[0].value) : null
+const mintTransferAmount =
+  mintToBeneficiaryTransferLogs.length > 0 ? BigInt(mintToBeneficiaryTransferLogs[0].value) : null
 
 const payload = {
   phase: '8.2',
@@ -220,20 +253,26 @@ const payload = {
     block_hash: txReceipt.blockHash
   },
   grant_prestate_at_claim_block: {
-    total: grantBefore[0].toString(),
-    released: grantBefore[1].toString(),
-    start: Number(grantBefore[2]),
-    cliff: Number(grantBefore[3]),
-    duration: Number(grantBefore[4]),
-    exists: Boolean(grantBefore[5])
+    total: grantBefore.total.toString(),
+    released: grantBefore.released.toString(),
+    start: grantBefore.start.toString(),
+    cliff: grantBefore.cliff.toString(),
+    duration: grantBefore.duration.toString(),
+    end: grantBefore.end.toString(),
+    exists: grantBefore.exists,
+    revoked: grantBefore.revoked,
+    revokedAt: grantBefore.revokedAt.toString()
   },
   grant_poststate_at_claim_block: {
-    total: grantAfter[0].toString(),
-    released: grantAfter[1].toString(),
-    start: Number(grantAfter[2]),
-    cliff: Number(grantAfter[3]),
-    duration: Number(grantAfter[4]),
-    exists: Boolean(grantAfter[5])
+    total: grantAfter.total.toString(),
+    released: grantAfter.released.toString(),
+    start: grantAfter.start.toString(),
+    cliff: grantAfter.cliff.toString(),
+    duration: grantAfter.duration.toString(),
+    end: grantAfter.end.toString(),
+    exists: grantAfter.exists,
+    revoked: grantAfter.revoked,
+    revokedAt: grantAfter.revokedAt.toString()
   },
   release_accounting: {
     released_before: beforeReleased.toString(),
@@ -251,19 +290,19 @@ const payload = {
   },
   transfer_verification: {
     all_payout_token_transfer_events: allPayoutTokenTransferLogs,
-    vesting_to_beneficiary_transfer_events: matchingTransferLogs,
-    transfer_amount: transferAmount?.toString?.() ?? null
+    mint_to_beneficiary_transfer_events: mintToBeneficiaryTransferLogs,
+    mint_transfer_amount: mintTransferAmount?.toString?.() ?? null
   },
   checks: {
-    grant_exists_before: Boolean(grantBefore[5]),
-    grant_exists_after: Boolean(grantAfter[5]),
+    grant_exists_before: grantBefore.exists,
+    grant_exists_after: grantAfter.exists,
     released_delta_positive: releasedDelta > 0n,
     grant_released_event_detected: grantReleasedLogs.length > 0,
-    payout_transfer_detected: matchingTransferLogs.length > 0,
+    mint_transfer_detected: mintToBeneficiaryTransferLogs.length > 0,
     event_matches_released_delta:
       amountReleasedFromEvent !== null && amountReleasedFromEvent === releasedDelta,
-    transfer_matches_released_delta:
-      transferAmount !== null && transferAmount === releasedDelta,
+    mint_transfer_matches_released_delta:
+      mintTransferAmount !== null && mintTransferAmount === releasedDelta,
     beneficiary_balance_delta_matches_released_delta:
       beneficiaryBalanceDelta === releasedDelta
   }
@@ -274,4 +313,4 @@ writeJson(outFile, payload)
 console.log(`Wrote ${outFile}`)
 console.log(`released delta = ${releasedDelta}`)
 console.log(`beneficiary balance delta = ${beneficiaryBalanceDelta}`)
-console.log(`matching payout transfers = ${matchingTransferLogs.length}`)
+console.log(`matching mint transfers = ${mintToBeneficiaryTransferLogs.length}`)

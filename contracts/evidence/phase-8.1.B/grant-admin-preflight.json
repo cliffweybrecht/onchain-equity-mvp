@@ -1,0 +1,117 @@
+{
+  "phase": "8.1.B",
+  "checked_at": "2026-03-10T01:24:18.654Z",
+  "chain_id": "84532",
+  "block_number": "38668785",
+  "inputs": {
+    "signer": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
+    "vesting": "0xEf444C538769d7626511A4C538d03fFc7e53262B",
+    "beneficiary": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+    "expected_safe_admin": "0x1eDc758579C66967C42066e8dDCB690a1651517e"
+  },
+  "probes": {
+    "admin": {
+      "supported": true,
+      "ok": true,
+      "value": "0x1eDc758579C66967C42066e8dDCB690a1651517e"
+    },
+    "owner": {
+      "supported": false,
+      "ok": false,
+      "error": {
+        "name": "ContractFunctionExecutionError",
+        "message": "The contract function \"owner\" reverted."
+      }
+    },
+    "DEFAULT_ADMIN_ROLE": {
+      "supported": false,
+      "ok": false,
+      "error": {
+        "name": "ContractFunctionExecutionError",
+        "message": "The contract function \"DEFAULT_ADMIN_ROLE\" reverted."
+      }
+    },
+    "hasRole_default_admin_signer": {
+      "supported": false,
+      "ok": false,
+      "error": {
+        "name": "Skipped",
+        "message": "DEFAULT_ADMIN_ROLE unavailable"
+      }
+    },
+    "hasRole_default_admin_expected_safe_admin": {
+      "supported": false,
+      "ok": false,
+      "error": {
+        "name": "Skipped",
+        "message": "DEFAULT_ADMIN_ROLE unavailable"
+      }
+    },
+    "isAdmin_signer": {
+      "supported": false,
+      "ok": false,
+      "error": {
+        "name": "ContractFunctionExecutionError",
+        "message": "The contract function \"isAdmin\" reverted."
+      }
+    },
+    "isAdmin_expected_safe_admin": {
+      "supported": false,
+      "ok": false,
+      "error": {
+        "name": "ContractFunctionExecutionError",
+        "message": "The contract function \"isAdmin\" reverted."
+      }
+    },
+    "grants_beneficiary": {
+      "supported": true,
+      "ok": true,
+      "value": [
+        "1000",
+        "30",
+        "1771644494",
+        "1771644494",
+        "31536000",
+        true
+      ]
+    }
+  },
+  "derived": {
+    "authorization": {
+      "signer_matches_admin": false,
+      "signer_matches_owner": false,
+      "signer_has_default_admin_role": false,
+      "signer_is_admin": false,
+      "expected_safe_matches_admin": true,
+      "expected_safe_matches_owner": false,
+      "expected_safe_has_default_admin_role": false,
+      "expected_safe_is_admin": false
+    },
+    "beneficiary_grant": {
+      "total": "1000",
+      "released": "30",
+      "start": 1771644494,
+      "cliff": 1771644494,
+      "duration": 31536000,
+      "exists": true
+    }
+  },
+  "verdict": {
+    "authorization": {
+      "ok": false,
+      "signer_authorized": false,
+      "expected_safe_authorized": true
+    },
+    "beneficiary_compatibility": {
+      "ok": false,
+      "beneficiary_compatible_for_create_grant": false
+    },
+    "overall": {
+      "ok": false,
+      "failure_reasons": [
+        "SIGNER_NOT_AUTHORIZED",
+        "BENEFICIARY_ALREADY_HAS_GRANT"
+      ]
+    }
+  }
+}

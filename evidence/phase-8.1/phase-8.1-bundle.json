@@ -1,0 +1,19 @@
+{
+  "schema": "phase-8.1-demo-bundle-v1",
+  "phase": "8.1.A",
+  "created_at": "2026-03-10T00:44:30.709Z",
+  "config_path": "scripts/demo/demo.config.json",
+  "files": {
+    "preflight": "evidence/phase-8.1/preflight.json",
+    "stdout": "evidence/phase-8.1/grant.stdout.log",
+    "stderr": "evidence/phase-8.1/grant.stderr.log",
+    "execution_summary": "evidence/phase-8.1/grant.execution.summary.json",
+    "bundle": "evidence/phase-8.1/phase-8.1-bundle.json"
+  },
+  "grant_artifacts": {
+    "manifest_id": "0x71abeffdfb86b2d3bfab001e55315613f53e78d1689a05cc69a3b61196d8c76a",
+    "manifest_path": "/home/cliff/onchain-equity-mvp/manifests/grants/0x71abeffdfb86b2d3bfab001e55315613f53e78d1689a05cc69a3b61196d8c76a.json",
+    "evidence_dir": "/home/cliff/onchain-equity-mvp/evidence/phase-8.1/grants/0x71abeffdfb86b2d3bfab001e55315613f53e78d1689a05cc69a3b61196d8c76a",
+    "tx_hash": null
+  }
+}

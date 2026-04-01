@@ -1,0 +1,18 @@
+{
+  "phase": "8.4.C",
+  "txHash": "0x865dbdc9c64ddc6b7850e1c9fd76a5e6c3affda32aa50e1232accf778bc95248",
+  "token": "0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95",
+  "vesting": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+  "beneficiary": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+  "mintTransfer": {
+    "emitter": "0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95",
+    "event": "Transfer(address,address,uint256)",
+    "from": "0x0000000000000000000000000000000000000000",
+    "to": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+    "value": 100
+  },
+  "regressionChecks": {
+    "observedTransferFromVestingToBeneficiary": false,
+    "observedMintFromZeroToBeneficiary": true
+  }
+}

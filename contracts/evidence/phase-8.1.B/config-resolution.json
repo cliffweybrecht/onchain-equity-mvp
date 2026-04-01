@@ -1,0 +1,18 @@
+{
+  "phase": "8.1.B",
+  "resolved_at": "2026-03-10T01:24:16.744Z",
+  "repo_root": "/home/cliff/onchain-equity-mvp",
+  "contracts_root": "/home/cliff/onchain-equity-mvp/contracts",
+  "sender": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
+  "beneficiary": "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+  "total": "1000000000000000000",
+  "start": "1770000000",
+  "cliff": "1770000000",
+  "duration": "31536000",
+  "vesting": "0xEf444C538769d7626511A4C538d03fFc7e53262B",
+  "identityRegistry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+  "token": "0x2791D08fC94C787e5772Daba3507A68e74BA4B10",
+  "expectedSafeAdmin": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+  "prior_evidence_source": "evidence/phase-6.1.E/admin-surface.json",
+  "canonical_rail": "contracts/scripts/ops/grants/create-grant.mjs"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "0xeb70e70d4475abc9d4eccab59f76b1b38ed342d0fb9cfa46d3240a43f0674fe2",
+  "payload": {
+    "chainId": 84532,
+    "chainName": "baseSepolia",
+    "createdAt": "2026-03-26T02:43:54.459Z",
+    "details": {
+      "cliff": 1770000000,
+      "duration": 31536000,
+      "notes": "",
+      "start": 1770000000,
+      "total": "1000000000000000000"
+    },
+    "employee": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+    "identityRegistry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+    "issuer": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
+    "op": "create",
+    "rpcHint": "https://base-sepolia.g.alchemy.com/v2/D8UzWsjHQlEUQjYm14ENA",
+    "vestingContract": "0xf87776c592d36a54abaab165764355ec0438f46d"
+  },
+  "schema": "grant-manifest-v1"
+}

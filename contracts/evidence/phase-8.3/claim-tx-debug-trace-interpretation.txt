@@ -1,0 +1,5 @@
+trace_available: true
+token_inner_call_found: true
+token_inner_call_selector: 0x40c10f19
+token_inner_call_function: mint(address,uint256)
+issuance_model_from_trace: mint_on_claim

@@ -1,0 +1,43 @@
+Phase 8.4.C release verification
+
+Stack
+- token:   0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95
+- vesting: 0x4739e9B845F4b4861236dfE0d8Da7AD985754f08
+- safe:    0x1eDc758579C66967C42066e8dDCB690a1651517e
+- beneficiary: 0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996
+
+Prestate
+- token.admin == vesting
+- vesting.admin == safe
+- vesting.token == token
+- decimals == 0
+- balanceOf(beneficiary) == 0
+- totalSupply == 0
+- grants.released == 0
+- grant not revoked
+- latest pinned timestamp was after full vesting end
+- expected releasable == 100
+
+Execution
+- release(address) succeeded
+- tx hash: 0x865dbdc9c64ddc6b7850e1c9fd76a5e6c3affda32aa50e1232accf778bc95248
+
+Receipt proof
+- token emitted Transfer(address,address,uint256)
+- from == 0x0000000000000000000000000000000000000000
+- to == beneficiary
+- value == 100
+
+Poststate
+- balanceOf(beneficiary) == 100
+- totalSupply == 100
+- grants.released == 100
+- grant timing fields unchanged
+- grant remains not revoked
+
+Conclusion
+- release() works on migrated stack
+- mint-on-claim is preserved
+- canonical ERC-20 mint event proven
+- poststate matches expected issuance exactly
+- no regression from escrow-transfer issuance model detected

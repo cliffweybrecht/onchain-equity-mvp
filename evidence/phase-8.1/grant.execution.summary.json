@@ -1,0 +1,53 @@
+{
+  "phase": "8.1.A",
+  "started_at": "2026-03-10T00:44:29.701Z",
+  "completed_at": "2026-03-10T00:44:30.709Z",
+  "child_process": {
+    "command": "node",
+    "args": [
+      "scripts/ops/grants/create-grant.mjs",
+      "--employee",
+      "0xf7e66Def3745C6642E8bF24c88FEb0501d313F72",
+      "--total",
+      "1000000000000000000",
+      "--start",
+      "1770000000",
+      "--cliff",
+      "1770000000",
+      "--duration",
+      "31536000",
+      "--vesting",
+      "0xEf444C538769d7626511A4C538d03fFc7e53262B",
+      "--registry",
+      "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+      "--notes",
+      "Phase 8.1.A deterministic demo grant",
+      "--out",
+      "manifests/grants",
+      "--evidence",
+      "evidence/phase-8.1/grants"
+    ],
+    "exit_code": 1,
+    "signal": null
+  },
+  "parsed_outputs": {
+    "manifest_path": "/home/cliff/onchain-equity-mvp/manifests/grants/0x71abeffdfb86b2d3bfab001e55315613f53e78d1689a05cc69a3b61196d8c76a.json",
+    "manifest_id": "0x71abeffdfb86b2d3bfab001e55315613f53e78d1689a05cc69a3b61196d8c76a",
+    "evidence_dir": "/home/cliff/onchain-equity-mvp/evidence/phase-8.1/grants/0x71abeffdfb86b2d3bfab001e55315613f53e78d1689a05cc69a3b61196d8c76a",
+    "tx_hash": null
+  },
+  "result": {
+    "success": false,
+    "error_type": "grant_execution_failed"
+  },
+  "post_grant_state": {
+    "ok": true,
+    "total": "1000",
+    "released": "30",
+    "start": 1771644494,
+    "cliff": 1771644494,
+    "duration": 31536000,
+    "exists": true,
+    "error": null
+  }
+}

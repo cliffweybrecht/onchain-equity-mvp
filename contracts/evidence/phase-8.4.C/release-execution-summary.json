@@ -1,0 +1,37 @@
+{
+  "phase": "8.4.C",
+  "purpose": "prove release on migrated mint-on-claim stack",
+  "network": "base-sepolia",
+  "token": "0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95",
+  "vesting": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+  "safe": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+  "beneficiary": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+  "block": {
+    "number": 39617342,
+    "timestamp": 1775002972
+  },
+  "invariants": {
+    "tokenAdmin": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+    "vestingAdmin": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+    "vestingToken": "0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95",
+    "decimals": 0
+  },
+  "grantPre": {
+    "total": 100,
+    "released": 0,
+    "start": 1775001525,
+    "cliff": 1775001525,
+    "duration": 60,
+    "exists": true,
+    "revoked": false,
+    "revokedAt": 0
+  },
+  "tokenStatePre": {
+    "beneficiaryBalance": 0,
+    "totalSupply": 0
+  },
+  "expected": {
+    "vested": 100,
+    "releasable": 100
+  }
+}
