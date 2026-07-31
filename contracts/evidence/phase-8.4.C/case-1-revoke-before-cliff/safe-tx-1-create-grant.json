@@ -1,0 +1,34 @@
+{
+  "phase": "8.4.C",
+  "case": "case-1-revoke-before-cliff",
+  "seq": 1,
+  "op": "createGrant",
+  "generated_at": "2026-04-02T02:40:36.000Z",
+  "safe": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+  "to": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+  "value": "0",
+  "function": "createGrant(address,uint256,uint64,uint64,uint64)",
+  "args": {
+    "employee": "0x7d5A7b3061880c36D69127a4eB8293880b1eD90A",
+    "total": "1000",
+    "start": "1775097636",
+    "cliff": "1806633636",
+    "duration": "63072000"
+  },
+  "data": "0x637096e60000000000000000000000007d5a7b3061880c36d69127a4eb8293880b1ed90a00000000000000000000000000000000000000000000000000000000000003e80000000000000000000000000000000000000000000000000000000069cdd724000000000000000000000000000000000000000000000000000000006baf0aa40000000000000000000000000000000000000000000000000000000003c26700",
+  "selector": "0x637096e6",
+  "selector_derivation": "keccak256(\"createGrant(address,uint256,uint64,uint64,uint64)\")[0:4]",
+  "calldata_layout": {
+    "selector_bytes_0_3": "637096e6",
+    "employee_bytes_4_35": "0000000000000000000000007d5a7b3061880c36d69127a4eb8293880b1ed90a",
+    "total_bytes_36_67": "00000000000000000000000000000000000000000000000000000000000003e8",
+    "total_decimal": "1000",
+    "start_bytes_68_99": "0000000000000000000000000000000000000000000000000000000069cdd724",
+    "start_decimal": "1775097636",
+    "cliff_bytes_100_131": "000000000000000000000000000000000000000000000000000000006baf0aa4",
+    "cliff_decimal": "1806633636",
+    "duration_bytes_132_163": "0000000000000000000000000000000000000000000000000000000003c26700",
+    "duration_decimal": "63072000"
+  },
+  "case_1_invariant": "cliff (1806633636) is ~1 year after block.timestamp at parameter design (~1775097636). revokeGrant called immediately after this tx confirms will produce revokedAt << cliff, guaranteeing vested=0."
+}

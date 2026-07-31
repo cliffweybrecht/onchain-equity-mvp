@@ -1,0 +1,31 @@
+{
+  "phase": "8.4.C",
+  "case": "break-test-B-revoke-then-release",
+  "seq": 1,
+  "op": "createGrant",
+  "generated_at": "2026-04-03T03:09:44.000Z",
+  "note": "Execute after setStatus confirms. Cliff is already in the past — MultiSend batch executed immediately after this mines will be during the active vesting window.",
+  "safe": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+  "to": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+  "value": "0",
+  "function": "createGrant(address,uint256,uint64,uint64,uint64)",
+  "selector": "0x637096e6",
+  "args": {
+    "employee": "0x2237d846D3EE2Baf268FF2a91C5971F5E594E1B1",
+    "total": "1000",
+    "start": "1759547342",
+    "cliff": "1767323342",
+    "duration": "31536000"
+  },
+  "data": "0x637096e60000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b100000000000000000000000000000000000000000000000000000000000003e80000000000000000000000000000000000000000000000000000000068e08fce00000000000000000000000000000000000000000000000000000000695736ce0000000000000000000000000000000000000000000000000000000001e13380",
+  "calldata_layout": {
+    "start_hex": "68e08fce",
+    "start_decimal": "1759547342",
+    "cliff_hex": "695736ce",
+    "cliff_decimal": "1767323342",
+    "duration_hex": "01e13380",
+    "duration_decimal": "31536000"
+  },
+  "timing_invariant": "cliff(1767323342=2026-01-02) is already in the past. MultiSend batch executed immediately after this mines will satisfy: cliff <= revokedAt < end(1791083342=2026-10-04)",
+  "expected_event": "GrantCreated(employee=0x2237d846D3EE2Baf268FF2a91C5971F5E594E1B1, total=1000, start=1759547342, cliff=1767323342, duration=31536000)"
+}

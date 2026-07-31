@@ -1,0 +1,127 @@
+{
+  "phase": "8.4.C",
+  "case": "break-test-B-revoke-then-release",
+  "snapshot_type": "post_set_verified",
+  "generated_at": "2026-04-03T15:28:40.000Z",
+  "tx": {
+    "hash": "0xbd7e9ff426b33efd760347cd2e16d0d8711c30b8ceab54836625fdb6fae6f113",
+    "status": "success",
+    "transaction_index": 22,
+    "block_number": "39730916",
+    "block_number_hex": "0x25e3ee4",
+    "block_hash": "0x769386d6d8722f8e64642740dcf2cb7d2e37030ba0912b01504ca5baaa0be225",
+    "block_timestamp": "1775230120",
+    "block_timestamp_iso": "2026-04-03T15:28:40.000Z",
+    "gas_used": "84555",
+    "from": "0x6c775411e11cab752af03c5bbb440618788e13be",
+    "to": "0x1edc758579c66967c42066e8ddcb690a1651517e"
+  },
+  "tx_input_analysis": {
+    "full_input": "0x6a7612020000000000000000000000009d6831ccb9d6f971cb648b538448d175650cfea40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000014000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001c00000000000000000000000000000000000000000000000000000000000000044278e07ce0000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000410000000000000000000000006c775411e11cab752af03c5bbb440618788e13be00000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000",
+    "outer_selector": "0x6a761202",
+    "outer_fn": "execTransaction(address,uint256,bytes,uint8,uint256,uint256,uint256,address,address,bytes)",
+    "setStatus_selector_in_data_field": "0x278e07ce",
+    "beneficiary_address_in_input": true,
+    "setStatus_selector_in_input": true,
+    "note": "Safe.execTransaction embeds setStatus calldata in its data field. Both the setStatus selector (0x278e07ce) and the beneficiary address appear verbatim in the tx input."
+  },
+  "status_updated_log": {
+    "log_index": 193,
+    "emitting_contract": "0x9d6831ccb9d6f971cb648b538448d175650cfea4",
+    "topic0": "0xb39e37bf87837f97805718e26da89735b231978986e8294bb6f186dcd80381cc",
+    "topic1_raw": "0x0000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1",
+    "data_raw": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001",
+    "abi_fragment": "event StatusUpdated(address indexed user, uint8 previousStatus, uint8 newStatus)",
+    "decoded": {
+      "user": "0x2237d846D3EE2Baf268FF2a91C5971F5E594E1B1",
+      "previousStatus": 0,
+      "newStatus": 1
+    }
+  },
+  "isVerified_read": {
+    "target": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+    "block_tag": "0x25e3ee4",
+    "calldata": "0xb9209e330000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1",
+    "calldata_breakdown": {
+      "selector": "0xb9209e33",
+      "selector_preimage": "isVerified(address)",
+      "selector_derivation": "keccak256(toBytes('isVerified(address)'))[0:4]",
+      "arg_address_padded": "0000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1"
+    },
+    "rpc_request": {
+      "method": "eth_call",
+      "params": [
+        {
+          "to": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+          "data": "0xb9209e330000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1"
+        },
+        "0x25e3ee4"
+      ]
+    },
+    "rpc_response": {
+      "result": "0x0000000000000000000000000000000000000000000000000000000000000001"
+    },
+    "decoded_value": true,
+    "assert_eq_true": true
+  },
+  "getStatus_read": {
+    "target": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+    "block_tag": "0x25e3ee4",
+    "calldata": "0x30ccebb50000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1",
+    "calldata_breakdown": {
+      "selector": "0x30ccebb5",
+      "selector_preimage": "getStatus(address)",
+      "selector_derivation": "keccak256(toBytes('getStatus(address)'))[0:4]",
+      "arg_address_padded": "0000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1"
+    },
+    "rpc_request": {
+      "method": "eth_call",
+      "params": [
+        {
+          "to": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+          "data": "0x30ccebb50000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1"
+        },
+        "0x25e3ee4"
+      ]
+    },
+    "rpc_response": {
+      "result": "0x0000000000000000000000000000000000000000000000000000000000000001"
+    },
+    "decoded_value": 1,
+    "assert_eq_1": true
+  },
+  "address_consistency": {
+    "subject_address": "0x2237d846D3EE2Baf268FF2a91C5971F5E594E1B1",
+    "surfaces": {
+      "tx_input_setStatus_arg": "present — 2237d846d3ee2baf268ff2a91c5971f5e594e1b1 found in execTransaction data field",
+      "StatusUpdated_topic1": "0x0000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1",
+      "StatusUpdated_decoded_user": "0x2237d846D3EE2Baf268FF2a91C5971F5E594E1B1",
+      "isVerified_calldata_arg": "0000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1",
+      "getStatus_calldata_arg": "0000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1"
+    },
+    "all_match": true
+  },
+  "chain_binding": {
+    "tx_hash": "0xbd7e9ff426b33efd760347cd2e16d0d8711c30b8ceab54836625fdb6fae6f113",
+    "receipt_status": "success",
+    "receipt_transaction_index": 22,
+    "receipt_block_number": "39730916",
+    "receipt_block_number_hex": "0x25e3ee4",
+    "receipt_block_hash": "0x769386d6d8722f8e64642740dcf2cb7d2e37030ba0912b01504ca5baaa0be225",
+    "block_hash_confirmed_by_eth_getBlockByNumber": "0x769386d6d8722f8e64642740dcf2cb7d2e37030ba0912b01504ca5baaa0be225",
+    "isVerified_rpc_block_tag": "0x25e3ee4",
+    "getStatus_rpc_block_tag": "0x25e3ee4",
+    "block_number_decimal_to_hex": "0x25e3ee4"
+  },
+  "assertions": {
+    "tx_status_success": true,
+    "block_hash_matches_receipt_and_getBlock": true,
+    "StatusUpdated_previousStatus_0": true,
+    "StatusUpdated_newStatus_1": true,
+    "isVerified_decoded_true": true,
+    "getStatus_decoded_1": true,
+    "address_consistent_across_all_surfaces": true,
+    "block_hex_matches_decimal_round_trip": true,
+    "reads_pinned_to_expected_block": true
+  }
+}

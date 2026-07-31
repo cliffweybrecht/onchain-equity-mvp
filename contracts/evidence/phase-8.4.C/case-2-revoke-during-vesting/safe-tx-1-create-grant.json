@@ -1,0 +1,31 @@
+{
+  "phase": "8.4.C",
+  "case": "case-2-revoke-during-vesting",
+  "seq": 1,
+  "op": "createGrant",
+  "generated_at": "2026-04-02T03:09:02.000Z",
+  "note": "Execute after setStatus confirms. Grant start and cliff are already in the past — revokeGrant called immediately after this tx mines will be during the active vesting window.",
+  "safe": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+  "to": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+  "value": "0",
+  "function": "createGrant(address,uint256,uint64,uint64,uint64)",
+  "args": {
+    "employee": "0x1A0E8fC547DC74d4caEcC506dc605534846B6A06",
+    "total": "1000",
+    "start": "1759547342",
+    "cliff": "1767323342",
+    "duration": "31536000"
+  },
+  "data": "0x637096e60000000000000000000000001a0e8fc547dc74d4caecc506dc605534846b6a0600000000000000000000000000000000000000000000000000000000000003e80000000000000000000000000000000000000000000000000000000068e08fce00000000000000000000000000000000000000000000000000000000695736ce0000000000000000000000000000000000000000000000000000000001e13380",
+  "selector": "0x637096e6",
+  "calldata_layout": {
+    "start_hex": "68e08fce",
+    "start_decimal": "1759547342",
+    "cliff_hex": "695736ce",
+    "cliff_decimal": "1767323342",
+    "duration_hex": "01e13380",
+    "duration_decimal": "31536000"
+  },
+  "case_2_invariant": "cliff(1767323342=2026-01-02) is already in the past. revokeGrant called after this tx confirms will produce cliff <= revokedAt < end(1791083342=2026-10-04), guaranteeing vested > 0.",
+  "expected_event": "GrantCreated(employee=0x1A0E8fC547DC74d4caEcC506dc605534846B6A06, total=1000, start=1759547342, cliff=1767323342, duration=31536000)"
+}

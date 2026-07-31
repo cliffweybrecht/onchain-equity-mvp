@@ -1,0 +1,98 @@
+{
+  "phase": "8.4.C",
+  "case": "case-2-revoke-during-vesting",
+  "purpose": "Prove that revoking during the vesting window produces a linear partial vested amount, claimable equals vested, and canceled equals total minus vested",
+  "status": "PROVEN",
+  "generated_at": "2026-04-03T02:08:38.000Z",
+  "chain_id": 84532,
+  "network": "base-sepolia",
+  "stack": {
+    "token": "0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95",
+    "vesting": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+    "safe": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+    "identity_registry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4"
+  },
+  "beneficiary": "0x1A0E8fC547DC74d4caEcC506dc605534846B6A06",
+  "transactions": {
+    "setStatus": {
+      "hash": "0xc685318b3583206ce78a3f7008a570351a56514acbb9fbbb18f0179fc4f1cf24",
+      "block": "39706525",
+      "timestamp": "1775181338",
+      "iso": "2026-04-03T01:55:38.000Z",
+      "status": "success",
+      "gas_used": "84555"
+    },
+    "createGrant": {
+      "hash": "0xa4f9a145903fee55e6b1e676cd66015d85a497a0b7b0b69f26305b7172ed0449",
+      "block": "39706773",
+      "timestamp": "1775181834",
+      "iso": "2026-04-03T02:03:54.000Z",
+      "status": "success",
+      "gas_used": "115495"
+    },
+    "revokeGrant": {
+      "hash": "0xa662b94fcfe94ed287717d30510bb5b4726e72f8148b52de8cb1e6544de046c0",
+      "block": "39706915",
+      "timestamp": "1775182118",
+      "iso": "2026-04-03T02:08:38.000Z",
+      "status": "success",
+      "gas_used": "97892"
+    }
+  },
+  "grant_params": {
+    "total": "1000",
+    "start": "1759547342",
+    "start_iso": "2025-10-04T03:09:02.000Z",
+    "cliff": "1767323342",
+    "cliff_iso": "2026-01-02T03:09:02.000Z",
+    "duration": "31536000",
+    "duration_human": "365 days",
+    "end": "1791083342",
+    "end_iso": "2026-10-04T03:09:02.000Z"
+  },
+  "revocation": {
+    "revokedAt": "1775182118",
+    "revokedAt_iso": "2026-04-03T02:08:38.000Z",
+    "elapsed_seconds": "15634776",
+    "elapsed_days": "180.96",
+    "vested": "495",
+    "released": "0",
+    "claimable": "495",
+    "canceled": "505"
+  },
+  "arithmetic": {
+    "formula": "floor(total * elapsed / duration)",
+    "substitution": "floor(1000 * 15634776 / 31536000)",
+    "intermediate": "floor(15634776000 / 31536000)",
+    "result": "495",
+    "claimable_derivation": "vested(495) - released(0) = 495",
+    "canceled_derivation": "total(1000) - vested(495) = 505"
+  },
+  "proofs": {
+    "setStatus_tx_succeeded": true,
+    "isVerified_true_before_grant": true,
+    "createGrant_tx_succeeded": true,
+    "grant_params_match_config": true,
+    "revokeGrant_tx_succeeded": true,
+    "cliff_lte_revokedAt": true,
+    "cliff_lte_revokedAt_proof": "1767323342 <= 1775182118",
+    "revokedAt_lt_end": true,
+    "revokedAt_lt_end_proof": "1775182118 < 1791083342",
+    "vested_gt_zero": true,
+    "vested_lt_total": true,
+    "vested_proof": "0 < 495 < 1000",
+    "claimable_eq_vested": true,
+    "claimable_proof": "495 == 495",
+    "canceled_eq_total_minus_vested": true,
+    "canceled_proof": "505 == 1000 - 495",
+    "formula_matches_event": true,
+    "formula_proof": "floor(1000 * 15634776 / 31536000) = 495 == event.vested",
+    "vestedAmount_read_eq_event_vested": true,
+    "vestedAmount_proof": "vestedAmount(beneficiary) = 495 == GrantRevoked.vested"
+  },
+  "conclusion": {
+    "hypothesis": "When revokeGrant is called after cliff but before end, vested is a linear fraction of total, claimable equals vested, canceled equals total minus vested",
+    "result": "CONFIRMED",
+    "evidence": "GrantRevoked event at block 39706915: revokedAt=1775182118, vested=495, claimable=495, canceled=505. Arithmetic verified: floor(1000 * 15634776 / 31536000) = 495. vestedAmount(beneficiary) on-chain read = 495. cliff(1767323342) <= revokedAt(1775182118) < end(1791083342)."
+  }
+}

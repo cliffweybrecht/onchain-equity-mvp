@@ -1,0 +1,52 @@
+{
+  "phase": "8.4.C",
+  "case": "break-test-A-release-then-revoke",
+  "snapshot_type": "post_create_grant",
+  "generated_at": "2026-04-03T14:53:58.000Z",
+  "tx": {
+    "hash": "0x5bdb3cb20a642524e58767a5a230a3be9ab0b2f31bc41a7802d6b0d4764a8929",
+    "status": "success",
+    "block_number": "39729875",
+    "block_hash": "0x09689af67993de6d7e57305edd967c82f4835e6d21fa5ff3b56a24f2e5c8f038",
+    "block_timestamp": "1775228038",
+    "block_timestamp_iso": "2026-04-03T14:53:58.000Z",
+    "gas_used": "115495",
+    "from": "0x6c775411e11cab752af03c5bbb440618788e13be",
+    "to": "0x1eDc758579C66967C42066e8dDCB690a1651517e"
+  },
+  "event": {
+    "name": "GrantCreated",
+    "topic0": "0x7752b86bc79c9e089812c7a3891b461c4b5132ff06469794e3f1d15538f67a29",
+    "args": {
+      "employee": "0x1d3854fd3c70540A38918aD9C54303d1e0E31e20",
+      "total": "1000",
+      "start": "1759547342",
+      "cliff": "1767323342",
+      "duration": "31536000"
+    }
+  },
+  "grant_poststate": {
+    "read_block": "39729875",
+    "total": "1000",
+    "released": "0",
+    "start": "1759547342",
+    "cliff": "1767323342",
+    "duration": "31536000",
+    "end": "1791083342",
+    "exists": true,
+    "revoked": false,
+    "revokedAt": "0"
+  },
+  "assertions": {
+    "tx_succeeded": true,
+    "grant_exists": true,
+    "total_matches": true,
+    "released_is_zero": true,
+    "start_matches": true,
+    "cliff_matches": true,
+    "duration_matches": true,
+    "revoked_is_false": true,
+    "revokedAt_is_zero": true,
+    "all_params_match": true
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "phase": "8.4.C",
+  "snapshot_type": "identity_prestate",
+  "generated_at": "2026-04-02T02:30:13.396Z",
+  "chain_id": 84532,
+  "block": {
+    "number": "39664362",
+    "hash": "0x8f5aa3b233ba0b8df87ad99e5fa3d248c453d392dae8c09f61c4257a792af5fd",
+    "timestamp": "1775097012",
+    "timestamp_iso": "2026-04-02T02:30:12.000Z"
+  },
+  "registry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+  "admin": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+  "user": "0x7d5A7b3061880c36D69127a4eB8293880b1eD90A",
+  "status": {
+    "raw": 0,
+    "label": "Unverified",
+    "isVerified": false
+  },
+  "expected_after_safe_tx": {
+    "raw": 1,
+    "label": "Verified",
+    "isVerified": true,
+    "safe_tx_function": "setStatus(address,uint8)",
+    "safe_tx_args": {
+      "user": "0x7d5A7b3061880c36D69127a4eB8293880b1eD90A",
+      "newStatus": 1
+    }
+  }
+}

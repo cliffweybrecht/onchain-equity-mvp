@@ -1,0 +1,34 @@
+{
+  "phase": "8.4.C",
+  "case": "case-2-revoke-during-vesting",
+  "seq": 2,
+  "op": "revokeGrant",
+  "generated_at": "2026-04-02T03:09:02.000Z",
+  "note": "Execute immediately after createGrant confirms. Cliff is already in the past; end is 2026-10-04. Any block mined before end qualifies as 'during vesting'.",
+  "safe": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+  "to": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+  "value": "0",
+  "function": "revokeGrant(address)",
+  "args": {
+    "employee": "0x1A0E8fC547DC74d4caEcC506dc605534846B6A06"
+  },
+  "data": "0x1817c5a70000000000000000000000001a0e8fc547dc74d4caecc506dc605534846b6a06",
+  "selector": "0x1817c5a7",
+  "expected_event": {
+    "name": "GrantRevoked",
+    "args": {
+      "employee": "0x1A0E8fC547DC74d4caEcC506dc605534846B6A06",
+      "revokedAt": "<block.timestamp>",
+      "total": "1000",
+      "released": "0",
+      "vested": "floor(1000 * (revokedAt - 1759547342) / 31536000)",
+      "claimable": "vested",
+      "canceled": "1000 - vested"
+    }
+  },
+  "verification_formula": "cliff(1767323342) <= revokedAt < end(1791083342); vested = floor(total * (revokedAt - start) / duration)",
+  "expected_ranges": {
+    "vested_min": "493",
+    "vested_note": "Increases by ~0.032 tokens/minute after anchor. Exact value from GrantRevoked event."
+  }
+}

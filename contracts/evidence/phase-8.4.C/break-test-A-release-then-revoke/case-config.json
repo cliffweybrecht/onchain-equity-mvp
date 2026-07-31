@@ -1,0 +1,83 @@
+{
+  "phase": "8.4.C",
+  "case": "break-test-A-release-then-revoke",
+  "generated_at": "2026-04-03T03:09:44.000Z",
+  "hypothesis": "When release(employee) and revokeGrant(employee) execute atomically in the same block (via Safe MultiSend) with release first, the GrantRevoked event must satisfy the conservation invariant: released + claimable + canceled = total",
+  "sub_hypothesis": "With release first: released = vested_at_T > 0, claimable = 0 (vested == released), canceled = total - vested_at_T",
+  "adversarial_question": "Does revokeGrant correctly observe the updated g.released written by the preceding release() sub-call within the same transaction?",
+  "stack": {
+    "chain_id": 84532,
+    "token": "0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95",
+    "vesting": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+    "safe": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+    "identity_registry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4"
+  },
+  "beneficiary": "0x1d3854fd3c70540A38918aD9C54303d1e0E31e20",
+  "beneficiary_prestate": {
+    "isVerified": false,
+    "grant_exists": false,
+    "confirmed_at_block": "39707000",
+    "scan_timestamp": "2026-04-03T03:09:44.000Z"
+  },
+  "grant_params": {
+    "total": "1000",
+    "start": "1759547342",
+    "start_iso": "2025-10-04T03:09:02.000Z",
+    "cliff": "1767323342",
+    "cliff_iso": "2026-01-02T03:09:02.000Z",
+    "duration": "31536000",
+    "duration_human": "365 days",
+    "end": "1791083342",
+    "end_iso": "2026-10-04T03:09:02.000Z"
+  },
+  "timing_proof": {
+    "cliff_is_in_past": true,
+    "end_is_in_future": true,
+    "assertion": "cliff(1767323342=2026-01-02) < now < end(1791083342=2026-10-04)",
+    "note": "Active vesting window guaranteed at time of MultiSend execution"
+  },
+  "execution_order": ["release(beneficiary)", "revokeGrant(beneficiary)"],
+  "execution_mechanism": "Safe MultiSend batch — both sub-calls execute within the same Ethereum tx, same block, same block.timestamp (T)",
+  "invariants": {
+    "conservation": "released + claimable + canceled = total",
+    "ordering_effect": "release() runs first: g.released is written to vested_at_T before revokeGrant() reads it",
+    "claimable_prediction": "claimable = 0 because vested_at_T == released_at_revokedAt (release already captured all vested tokens)",
+    "formula": "vested_at_T = floor(1000 * (T - 1759547342) / 31536000)"
+  },
+  "assumptions": {
+    "A2": "EVM storage writes in a preceding sub-call are visible to subsequent sub-calls within the same transaction. This test observes behavior consistent with A2 but cannot independently prove A2, which is an EVM axiom. A2 violation would be observationally indistinguishable from a contract bug reading stale storage."
+  },
+  "required_proofs": [
+    "setStatus tx confirmed: isVerified(beneficiary) == true",
+    "createGrant tx confirmed: grant.exists == true, params match",
+    "MultiSend tx confirmed: both sub-calls succeeded in same block",
+    "cliff(1767323342) <= revokedAt < end(1791083342)",
+    "GrantRevoked.vested == floor(1000 * (revokedAt - 1759547342) / 31536000)",
+    "GrantRevoked.released == GrantRevoked.vested (release ran first, captured all vested)",
+    "GrantRevoked.claimable == 0",
+    "GrantRevoked.canceled == 1000 - GrantRevoked.vested",
+    "conservation: GrantRevoked.released + GrantRevoked.claimable + GrantRevoked.canceled == 1000"
+  ],
+  "safe_transactions_required": [
+    {
+      "seq": 0,
+      "op": "setStatus",
+      "to": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+      "artifact": "safe-tx-0-set-verified.json",
+      "note": "Verify beneficiary — release() checks isVerified(), will revert if not verified"
+    },
+    {
+      "seq": 1,
+      "op": "createGrant",
+      "to": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+      "artifact": "safe-tx-1-create-grant.json"
+    },
+    {
+      "seq": 2,
+      "op": "multiSend([release, revokeGrant])",
+      "to": "MultiSend library",
+      "artifact": "safe-tx-2-multisend-release-revoke.json",
+      "note": "CRITICAL: release must be first sub-call. Use Safe Transaction Builder to batch these two calls."
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "phase": "8.4.C",
+  "case": "case-1-revoke-before-cliff",
+  "snapshot_type": "post_create_grant",
+  "captured_at": "2026-04-02T02:54:58.000Z",
+  "tx": {
+    "hash": "0xf2dfbf661641f16c5a81e7f199af289bbc1f67d24b0e4c6f010b4cd46a9ad19c",
+    "status": "success",
+    "block_number": "39665105",
+    "block_hash": "0x927df5d0a220b14daed096715f7047ff5ab8ec16e5513ccef2f548d615a31b90",
+    "block_timestamp": "1775098498",
+    "block_timestamp_iso": "2026-04-02T02:54:58.000Z",
+    "gas_used": "115483"
+  },
+  "event": {
+    "name": "GrantCreated",
+    "args": {
+      "employee": "0x7d5A7b3061880c36D69127a4eB8293880b1eD90A",
+      "total": "1000",
+      "start": "1775097636",
+      "cliff": "1806633636",
+      "duration": "63072000"
+    }
+  },
+  "grant_poststate": {
+    "total": "1000",
+    "released": "0",
+    "start": "1775097636",
+    "cliff": "1806633636",
+    "duration": "63072000",
+    "end": "1838169636",
+    "exists": true,
+    "revoked": false,
+    "revokedAt": "0"
+  },
+  "assertions": {
+    "grant_exists": true,
+    "params_match_config": true,
+    "not_yet_revoked": true,
+    "cliff_in_future": true,
+    "cliff_iso": "2027-04-02T02:40:36.000Z"
+  }
+}

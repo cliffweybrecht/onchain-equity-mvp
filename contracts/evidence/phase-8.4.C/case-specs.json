@@ -1,0 +1,93 @@
+{
+  "phase": "8.4.C",
+  "purpose": "Revocation semantics verification on migrated stack",
+  "generated_at": "2026-04-02T02:30:00.000Z",
+  "stack": {
+    "chain_id": 84532,
+    "token": "0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95",
+    "vesting": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+    "safe": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+    "identity_registry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4"
+  },
+  "beneficiary": "0x7d5A7b3061880c36D69127a4eB8293880b1eD90A",
+  "cases": [
+    {
+      "id": "case-1-revoke-before-cliff",
+      "title": "Revoke before cliff",
+      "safe_tx": "vesting.revokeGrant(beneficiary)",
+      "timing": "call revokeGrant before block.timestamp reaches cliff",
+      "expected": {
+        "grant.revoked": true,
+        "vested_at_revocation": 0,
+        "claimable": 0,
+        "canceled": "total",
+        "event": "GrantRevoked(employee, revokedAt, total, released=0, vested=0, claimable=0, canceled=total)"
+      },
+      "proof_required": ["revokedAt < cliff", "claimable == 0", "GrantRevoked event observed"]
+    },
+    {
+      "id": "case-2-revoke-during-vesting",
+      "title": "Revoke during vesting window",
+      "safe_tx": "vesting.revokeGrant(beneficiary)",
+      "timing": "call revokeGrant after cliff, before duration end",
+      "expected": {
+        "grant.revoked": true,
+        "vested_at_revocation": "total * (revokedAt - start) / duration (linear)",
+        "claimable": "vested_at_revocation - released",
+        "canceled": "total - vested_at_revocation",
+        "event": "GrantRevoked with partial vested"
+      },
+      "proof_required": ["cliff <= revokedAt < end", "vested > 0", "claimable > 0", "canceled > 0"]
+    },
+    {
+      "id": "case-3-revoke-after-full-vesting",
+      "title": "Revoke after full vesting",
+      "safe_tx": "vesting.revokeGrant(beneficiary)",
+      "timing": "call revokeGrant at or after start + duration",
+      "expected": {
+        "grant.revoked": true,
+        "vested_at_revocation": "total",
+        "claimable": "total - released",
+        "canceled": 0,
+        "event": "GrantRevoked with vested=total, canceled=0"
+      },
+      "proof_required": ["revokedAt >= end", "vested == total", "canceled == 0"]
+    },
+    {
+      "id": "case-4-release-after-revoke",
+      "title": "Release claimable amount after revocation",
+      "safe_tx": "vesting.release(beneficiary) — callable by anyone",
+      "timing": "call release() after revokeGrant has been confirmed",
+      "expected": {
+        "release_succeeds": true,
+        "tokens_minted": "claimable at time of revocation",
+        "grant.released_delta": "claimable",
+        "further_release_yields_zero": true
+      },
+      "proof_required": ["Transfer event from 0x0 to beneficiary", "balanceDelta == claimable", "second release() produces no tokens"]
+    },
+    {
+      "id": "case-5-double-revoke",
+      "title": "Double revoke reverts",
+      "safe_tx": "vesting.revokeGrant(beneficiary) — second call after case-1/2/3",
+      "timing": "call revokeGrant on already-revoked grant",
+      "expected": {
+        "revert": true,
+        "revert_reason": "GrantAlreadyRevoked()"
+      },
+      "proof_required": ["tx reverts", "revert selector matches GrantAlreadyRevoked()"]
+    },
+    {
+      "id": "case-6-non-admin-revoke",
+      "title": "Non-admin revoke reverts",
+      "safe_tx": "vesting.revokeGrant(beneficiary) — called from non-admin EOA",
+      "timing": "call from any address that is not vesting.admin()",
+      "expected": {
+        "revert": true,
+        "revert_reason": "NotAdmin()"
+      },
+      "proof_required": ["tx reverts", "revert selector matches NotAdmin()"]
+    }
+  ],
+  "sequencing_note": "Cases 1-4 each need a fresh grant because revokeGrant is irreversible on a given beneficiary slot. Either use a fresh beneficiary per case or deploy a fresh VestingContract per case. Case 5 reuses the same grant as the prior revocation case. Case 6 can be simulated (eth_call) without a funded grant."
+}

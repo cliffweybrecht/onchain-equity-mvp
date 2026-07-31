@@ -1,0 +1,19 @@
+{
+  "phase": "8.4.C",
+  "case": "case-2-revoke-during-vesting",
+  "seq": 0,
+  "op": "setStatus",
+  "generated_at": "2026-04-02T03:09:02.000Z",
+  "note": "Must execute before createGrant. VestingContract.release() checks isVerified(); grant creation itself does not, but this ensures the beneficiary is properly enrolled before any grant is issued.",
+  "safe": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+  "to": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+  "value": "0",
+  "function": "setStatus(address,uint8)",
+  "args": {
+    "user": "0x1A0E8fC547DC74d4caEcC506dc605534846B6A06",
+    "newStatus": 1
+  },
+  "data": "0x278e07ce0000000000000000000000001a0e8fc547dc74d4caecc506dc605534846b6a060000000000000000000000000000000000000000000000000000000000000001",
+  "selector": "0x278e07ce",
+  "expected_event": "StatusUpdated(user=0x1A0E8fC547DC74d4caEcC506dc605534846B6A06, previousStatus=0, newStatus=1)"
+}

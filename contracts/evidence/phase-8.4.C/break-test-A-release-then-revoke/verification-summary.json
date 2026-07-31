@@ -1,0 +1,108 @@
+{
+  "phase": "8.4.C",
+  "case": "break-test-A-release-then-revoke",
+  "purpose": "Prove that when release(employee) precedes revokeGrant(employee) atomically in the same Safe MultiSend transaction, revokeGrant correctly observes the updated g.released written by release(), producing claimable=0 and satisfying the conservation invariant.",
+  "status": "PROVEN",
+  "generated_at": "2026-04-03T15:18:44.000Z",
+  "chain_id": 84532,
+  "network": "base-sepolia",
+  "stack": {
+    "token": "0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95",
+    "vesting": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+    "safe": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+    "identity_registry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4"
+  },
+  "beneficiary": "0x1d3854fd3c70540A38918aD9C54303d1e0E31e20",
+  "transactions": {
+    "setStatus": {
+      "hash": "0x119b27f8570e820c04facd52b24b6252da2af0d7f558c55c09130e7f6cc2ae28",
+      "block": "39727583",
+      "timestamp": "1775223454",
+      "iso": "2026-04-03T13:37:34.000Z",
+      "status": "success",
+      "gas_used": "84555"
+    },
+    "createGrant": {
+      "hash": "0x5bdb3cb20a642524e58767a5a230a3be9ab0b2f31bc41a7802d6b0d4764a8929",
+      "block": "39729875",
+      "timestamp": "1775228038",
+      "iso": "2026-04-03T14:53:58.000Z",
+      "status": "success",
+      "gas_used": "115495"
+    },
+    "multiSend": {
+      "hash": "0xd4dbf63ccf5fd1ed58849823dc24d73ddb736151bd1358b0a4b0fa14548f2d5d",
+      "block": "39730618",
+      "timestamp": "1775229524",
+      "iso": "2026-04-03T15:18:44.000Z",
+      "status": "success",
+      "gas_used": "182961",
+      "sub_calls": [
+        { "index": 0, "function": "release(address)",     "selector": "0x19165587" },
+        { "index": 1, "function": "revokeGrant(address)", "selector": "0x1817c5a7" }
+      ]
+    }
+  },
+  "grant_params": {
+    "total": "1000",
+    "start": "1759547342",
+    "cliff": "1767323342",
+    "duration": "31536000",
+    "end": "1791083342"
+  },
+  "result": {
+    "revokedAt": "1775229524",
+    "elapsed_seconds": "15682182",
+    "elapsed_days": "181.51",
+    "vested": "497",
+    "released": "497",
+    "claimable": "0",
+    "canceled": "503"
+  },
+  "arithmetic": {
+    "formula": "floor(total * elapsed / duration)",
+    "substitution": "floor(1000 * 15682182 / 31536000)",
+    "result": "497",
+    "claimable_derivation": "vested(497) - released(497) = 0",
+    "canceled_derivation": "total(1000) - vested(497) = 503",
+    "conservation": "497 + 0 + 503 = 1000"
+  },
+  "proofs": {
+    "setStatus_tx_succeeded": true,
+    "isVerified_true_before_grant": true,
+    "createGrant_tx_succeeded": true,
+    "grant_params_match_config": true,
+    "multiSend_tx_succeeded": true,
+    "both_subcalls_in_same_block": true,
+    "GrantReleased_emitted": true,
+    "GrantReleased_amount_eq_vested": true,
+    "GrantRevoked_emitted": true,
+    "cliff_lte_revokedAt": true,
+    "cliff_lte_revokedAt_proof": "1767323342 <= 1775229524",
+    "revokedAt_lt_end": true,
+    "revokedAt_lt_end_proof": "1775229524 < 1791083342",
+    "released_eq_vested": true,
+    "released_proof": "497 == 497 (revokeGrant read updated g.released written by preceding release())",
+    "claimable_eq_zero": true,
+    "claimable_proof": "0 == vested(497) - released(497)",
+    "canceled_eq_total_minus_vested": true,
+    "canceled_proof": "503 == 1000 - 497",
+    "conservation": true,
+    "conservation_proof": "497 + 0 + 503 = 1000",
+    "formula_matches_event": true,
+    "formula_proof": "floor(1000 * 15682182 / 31536000) = 497 == GrantRevoked.vested",
+    "formula_freeze": true,
+    "formula_freeze_proof": "vestedAmount(beneficiary) at block 39730623 = 497 == GrantRevoked.vested"
+  },
+  "a2_observation": {
+    "assumption": "A2 — intra-tx storage writes visible to subsequent sub-calls",
+    "result": "CONSISTENT",
+    "evidence": "GrantRevoked.released = 497 (not 0). revokeGrant read g.released = 497 written by release() in the preceding sub-call of the same transaction.",
+    "note": "This result is consistent with A2. A2 is an EVM invariant and cannot be independently proven by this test."
+  },
+  "conclusion": {
+    "hypothesis": "When release() precedes revokeGrant() atomically, revokeGrant observes updated g.released, producing claimable=0 and conservation holds.",
+    "result": "CONFIRMED",
+    "evidence": "MultiSend tx at block 39730618: GrantReleased(497) emitted first, GrantRevoked(released=497, vested=497, claimable=0, canceled=503) emitted second. Conservation: 497+0+503=1000. Formula: floor(1000*15682182/31536000)=497. Formula freeze confirmed at block 39730623."
+  }
+}

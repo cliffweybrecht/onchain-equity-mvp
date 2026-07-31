@@ -1,0 +1,354 @@
+{
+  "phase": "8.4.C",
+  "case": "break-test-B-revoke-then-release",
+  "snapshot_type": "post_multisend",
+  "generated_at": "2026-07-31T03:11:04.000Z",
+
+  "chain": {
+    "chain_id": 84532,
+    "network": "base-sepolia",
+    "rpc": "https://sepolia.base.org"
+  },
+
+  "stack": {
+    "safe":              "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+    "vesting":           "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+    "token":             "0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95",
+    "identity_registry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+    "multisend":         "0x9641d764fc13c8B624c04430C7356C1C7C8102e2"
+  },
+
+  "beneficiary": "0x2237d846D3EE2Baf268FF2a91C5971F5E594E1B1",
+
+  "tx": {
+    "hash":               "0xf391190e00b9d805220809428bf90907ab16d0004627702870ea6211ee711c41",
+    "status":             "success",
+    "receipt_status_raw": "0x1",
+    "block_number":       "44849588",
+    "block_number_hex":   "0x2ac59b4",
+    "block_hash":         "0x5607127b0b80020325c7288cbb21b90af625a1121db08f9c0a1b9470035dcfa8",
+    "block_timestamp":    "1785467464",
+    "block_timestamp_iso": "2026-07-31T03:11:04.000Z",
+    "gas_used":           "328627",
+    "transaction_index":  37
+  },
+
+  "submitter": {
+    "relay_submitter_eoa": "0xb01caea8c6c47bbf4f4b4c5080ca642043359c2e",
+    "relay_contract":      "0xdb9b1e94b5b69df7e401ddbede43491141047db3",
+    "note": "Tx was submitted via a relay. receipt.from is the relay EOA, not the Safe owner. Safe execution is proven by ExecutionSuccess event emitted by Safe at log_index=91. Safe owner 0x6c775411e11cab752af03c5bbb440618788e13be is verified as signer via SafeMultiSigTransaction log at log_index=86 and Safe nonce transition 23->24."
+  },
+
+  "safe_execution": {
+    "safe_address":   "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+    "nonce_used":     23,
+    "nonce_pre_tx":   23,
+    "nonce_post_tx":  24,
+    "safe_nonce_provenance": "eth_getStorageAt(Safe, slot=0x5) at block 0x2ac59b3 = 23; at block 0x2ac59b4 = 24",
+    "safe_tx_hash":   "0x006bec58b900ca2f378e1df4d19e369ffe630d813804231e7907473345aed01d",
+    "safe_tx_hash_source": "ExecutionSuccess log topic1 (log_index=91)",
+    "inner_call_to":  "0x9641d764fc13c8B624c04430C7356C1C7C8102e2",
+    "inner_call_op":  "DELEGATECALL (operation=1)",
+    "multisend_packed_bytes": "004739e9b845f4b4861236dfe0d8da7ad985754f08000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000241817c5a70000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1004739e9b845f4b4861236dfe0d8da7ad985754f0800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000024191655870000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1",
+    "multisend_packed_bytes_len": 242,
+    "provenance": "safe-tx-2-multisend-revoke-release.json field multisend_packed_bytes; confirmed present verbatim in SafeMultiSigTransaction log data at log_index=86"
+  },
+
+  "sub_calls_in_same_tx": {
+    "sc0_revokeGrant": {
+      "index":       0,
+      "selector":    "0x1817c5a7",
+      "function":    "revokeGrant(address)",
+      "beneficiary": "0x2237d846D3EE2Baf268FF2a91C5971F5E594E1B1",
+      "succeeded":   true,
+      "evidence":    "GrantRevoked event emitted by VestingContract at log_index=87"
+    },
+    "sc1_release": {
+      "index":       1,
+      "selector":    "0x19165587",
+      "function":    "release(address)",
+      "beneficiary": "0x2237d846D3EE2Baf268FF2a91C5971F5E594E1B1",
+      "succeeded":   true,
+      "evidence":    "GrantReleased event emitted by VestingContract at log_index=90"
+    },
+    "ordering_proof": "GrantRevoked log_index=87 < GrantReleased log_index=90 within the same tx. GrantRevoked.released=0 proves release() had not yet updated g.released when revokeGrant ran — confirming revokeGrant executed first.",
+    "same_block":     true,
+    "same_timestamp": true,
+    "block_timestamp": "1785467464"
+  },
+
+  "events": {
+    "GrantRevoked": {
+      "log_index":       87,
+      "log_index_hex":   "0x57",
+      "emitter":         "0x4739e9b845f4b4861236dfe0d8da7ad985754f08",
+      "topic0":          "0xad9d5e0a2e04a5d167be70382c1bbc81c73cc3d576d1e154a79627bf39e0c4fa",
+      "topic0_preimage": "GrantRevoked(address,uint64,uint256,uint256,uint256,uint256,uint256)",
+      "topic1_raw":      "0x0000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1",
+      "data_raw":        "0x000000000000000000000000000000000000000000000000000000006a6c124800000000000000000000000000000000000000000000000000000000000003e800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000335000000000000000000000000000000000000000000000000000000000000033500000000000000000000000000000000000000000000000000000000000000b3",
+      "data_layout":     "6 x 32-byte ABI words: [revokedAt][total][released][vested][claimable][canceled]",
+      "decoded": {
+        "employee":  "0x2237d846D3EE2Baf268FF2a91C5971F5E594E1B1",
+        "revokedAt": "1785467464",
+        "total":     "1000",
+        "released":  "0",
+        "vested":    "821",
+        "claimable": "821",
+        "canceled":  "179"
+      }
+    },
+    "Mint": {
+      "log_index":       88,
+      "log_index_hex":   "0x58",
+      "emitter":         "0x73b8e67b2bcf9e482af3b0dec0548f0e84017c95",
+      "topic0":          "0x0f6798a560793a54c3bcfe86a93cde1e73087d944c0ea20544137d4121396885",
+      "topic0_preimage": "Mint(address,uint256)",
+      "topic1_raw":      "0x0000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1",
+      "data_raw":        "0x0000000000000000000000000000000000000000000000000000000000000335",
+      "decoded": {
+        "to":     "0x2237d846D3EE2Baf268FF2a91C5971F5E594E1B1",
+        "amount": "821"
+      }
+    },
+    "Transfer": {
+      "log_index":       89,
+      "log_index_hex":   "0x59",
+      "emitter":         "0x73b8e67b2bcf9e482af3b0dec0548f0e84017c95",
+      "topic0":          "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+      "topic0_preimage": "Transfer(address,address,uint256)",
+      "topic1_raw":      "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "topic2_raw":      "0x0000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1",
+      "data_raw":        "0x0000000000000000000000000000000000000000000000000000000000000335",
+      "decoded": {
+        "from":  "0x0000000000000000000000000000000000000000",
+        "to":    "0x2237d846D3EE2Baf268FF2a91C5971F5E594E1B1",
+        "value": "821"
+      }
+    },
+    "GrantReleased": {
+      "log_index":       90,
+      "log_index_hex":   "0x5a",
+      "emitter":         "0x4739e9b845f4b4861236dfe0d8da7ad985754f08",
+      "topic0":          "0x0d35302f827a91d56c49cdeaf0312fce55b9b7158edbcf3d8fbad456e341c770",
+      "topic0_preimage": "GrantReleased(address,uint256)",
+      "topic1_raw":      "0x0000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1",
+      "data_raw":        "0x0000000000000000000000000000000000000000000000000000000000000335",
+      "decoded": {
+        "employee":       "0x2237d846D3EE2Baf268FF2a91C5971F5E594E1B1",
+        "amountReleased": "821"
+      }
+    },
+    "ExecutionSuccess": {
+      "log_index":       91,
+      "log_index_hex":   "0x5b",
+      "emitter":         "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+      "topic0":          "0x442e715f626346e8c54381002da614f62bee8d27386535b2521ec8540898556e",
+      "topic0_preimage": "ExecutionSuccess(bytes32,uint256)",
+      "topic1_raw":      "0x006bec58b900ca2f378e1df4d19e369ffe630d813804231e7907473345aed01d",
+      "data_raw":        "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "decoded": {
+        "txHash":  "0x006bec58b900ca2f378e1df4d19e369ffe630d813804231e7907473345aed01d",
+        "payment": "0"
+      }
+    }
+  },
+
+  "grant_poststate": {
+    "read_block":     "44849588",
+    "read_block_hex": "0x2ac59b4",
+    "rpc_request": {
+      "method": "eth_call",
+      "params": [
+        {
+          "to":   "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+          "data": "0xb869cea30000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1"
+        },
+        "0x2ac59b4"
+      ]
+    },
+    "rpc_response": {
+      "result": "0x00000000000000000000000000000000000000000000000000000000000003e800000000000000000000000000000000000000000000000000000000000003350000000000000000000000000000000000000000000000000000000068e08fce00000000000000000000000000000000000000000000000000000000695736ce0000000000000000000000000000000000000000000000000000000001e1338000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000006a6c1248"
+    },
+    "return_layout": "8 x 32-byte ABI words: [total][released][start][cliff][duration][exists][revoked][revokedAt]",
+    "raw_slots": {
+      "slot_0_total":     "00000000000000000000000000000000000000000000000000000000000003e8",
+      "slot_1_released":  "0000000000000000000000000000000000000000000000000000000000000335",
+      "slot_2_start":     "0000000000000000000000000000000000000000000000000000000068e08fce",
+      "slot_3_cliff":     "00000000000000000000000000000000000000000000000000000000695736ce",
+      "slot_4_duration":  "0000000000000000000000000000000000000000000000000000000001e13380",
+      "slot_5_exists":    "0000000000000000000000000000000000000000000000000000000000000001",
+      "slot_6_revoked":   "0000000000000000000000000000000000000000000000000000000000000001",
+      "slot_7_revokedAt": "000000000000000000000000000000000000000000000000000000006a6c1248"
+    },
+    "decoded": {
+      "total":     "1000",
+      "released":  "821",
+      "start":     "1759547342",
+      "cliff":     "1767323342",
+      "duration":  "31536000",
+      "end":       "1791083342",
+      "exists":    true,
+      "revoked":   true,
+      "revokedAt": "1785467464"
+    }
+  },
+
+  "token_poststate": {
+    "read_block":     "44849588",
+    "read_block_hex": "0x2ac59b4",
+    "beneficiary_balance": {
+      "rpc_request": {
+        "method": "eth_call",
+        "params": [
+          {
+            "to":   "0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95",
+            "data": "0x70a082310000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1"
+          },
+          "0x2ac59b4"
+        ]
+      },
+      "rpc_response": { "result": "0x0000000000000000000000000000000000000000000000000000000000000335" },
+      "decoded": "821"
+    },
+    "total_supply": {
+      "rpc_request": {
+        "method": "eth_call",
+        "params": [
+          {
+            "to":   "0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95",
+            "data": "0x18160ddd"
+          },
+          "0x2ac59b4"
+        ]
+      },
+      "rpc_response": { "result": "0x000000000000000000000000000000000000000000000000000000000000058a" },
+      "decoded": "1418"
+    }
+  },
+
+  "pre_tx_reads": {
+    "read_block":     "44849587",
+    "read_block_hex": "0x2ac59b3",
+    "beneficiary_balance_pre": "0",
+    "total_supply_pre":        "597",
+    "grant_revoked_pre":       false,
+    "grant_released_pre":      "0"
+  },
+
+  "deltas": {
+    "beneficiary_balance_delta":  "821",
+    "total_supply_delta":         "821",
+    "delta_consistent_with_mint": true
+  },
+
+  "formula_verification": {
+    "revokedAt":    "1785467464",
+    "start":        "1759547342",
+    "elapsed":      "25920122",
+    "elapsed_days": "300.0014",
+    "duration":     "31536000",
+    "formula":      "floor(total x elapsed / duration)",
+    "substitution": "floor(1000 x 25920122 / 31536000)",
+    "result":       "821",
+    "claimable_derivation": "vested(821) - released_before(0) = 821",
+    "canceled_derivation":  "total(1000) - vested(821) = 179",
+    "conservation":         "0 + 821 + 179 = 1000",
+    "conservation_holds":   true
+  },
+
+  "formula_freeze": {
+    "description": "After revocation, _effectiveTime caps queryTime at revokedAt for any future block T_later where T_later > revokedAt. vestedAmount stays frozen at 821 in perpetuity.",
+    "vestedAmount_at_tx_block": {
+      "rpc_request": {
+        "method": "eth_call",
+        "params": [
+          {
+            "to":   "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+            "data": "0x384711cc0000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1"
+          },
+          "0x2ac59b4"
+        ]
+      },
+      "rpc_response": { "result": "0x0000000000000000000000000000000000000000000000000000000000000335" },
+      "decoded": "821",
+      "equals_event_vested": true
+    },
+    "vestedAmount_at_latest": {
+      "rpc_request": {
+        "method": "eth_call",
+        "params": [
+          {
+            "to":   "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+            "data": "0x384711cc0000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1"
+          },
+          "latest"
+        ]
+      },
+      "rpc_response": { "result": "0x0000000000000000000000000000000000000000000000000000000000000335" },
+      "decoded": "821",
+      "equals_event_vested": true
+    }
+  },
+
+  "nothing_to_release_check": {
+    "description": "After release() minted 821 tokens, g.released=821 == vestedAmount(821). Any subsequent release(beneficiary) call sees unreleased=0 and reverts NothingToRelease.",
+    "rpc_request": {
+      "method": "eth_call",
+      "params": [
+        {
+          "to":   "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+          "data": "0x191655870000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1"
+        },
+        "latest"
+      ]
+    },
+    "result":                   "REVERTS",
+    "revert_data":              "0xb10205ed",
+    "revert_selector_preimage": "NothingToRelease()",
+    "revert_selector_derivation": "cast sig 'NothingToRelease()' = 0xb10205ed",
+    "revert_confirmed":         true
+  },
+
+  "effective_time_proof": {
+    "observation": "revokeGrant(employee) sets g.revokedAt = T = block.timestamp = 1785467464. Subsequent release(employee) in same tx calls _effectiveTime(g, T): condition is g.revoked && queryTime > g.revokedAt, i.e. true && 1785467464 > 1785467464, which is FALSE (strict >). Cap does not apply. _effectiveTime returns T. vestedAmount = floor(1000 * (1785467464 - 1759547342) / 31536000) = 821. unreleased = 821 - 0 = 821 > 0. release() proceeds and mints 821.",
+    "revokedAt_equals_block_timestamp": true,
+    "same_tx_same_timestamp": true
+  },
+
+  "chain_binding": {
+    "tx_hash":                          "0xf391190e00b9d805220809428bf90907ab16d0004627702870ea6211ee711c41",
+    "receipt_status":                   "success",
+    "receipt_block_number":             "44849588",
+    "receipt_block_number_hex":         "0x2ac59b4",
+    "receipt_block_hash":               "0x5607127b0b80020325c7288cbb21b90af625a1121db08f9c0a1b9470035dcfa8",
+    "block_hash_confirmed_by_getBlock": "0x5607127b0b80020325c7288cbb21b90af625a1121db08f9c0a1b9470035dcfa8",
+    "block_hex_matches_decimal_round_trip": true,
+    "reads_pinned_to_receipt_block":    true
+  },
+
+  "proofs": {
+    "tx_status_success":                true,
+    "safe_execution_success":           true,
+    "safe_nonce_incremented":           true,
+    "GrantRevoked_emitted":             true,
+    "GrantReleased_emitted":            true,
+    "Mint_emitted":                     true,
+    "Transfer_from_zero_emitted":       true,
+    "revokeGrant_before_release":       true,
+    "released_was_zero_at_revoke":      true,
+    "vested_eq_821":                    true,
+    "claimable_eq_821":                 true,
+    "canceled_eq_179":                  true,
+    "amountReleased_eq_821":            true,
+    "balance_delta_eq_821":             true,
+    "total_supply_delta_eq_821":        true,
+    "post_grant_revoked":               true,
+    "post_grant_revokedAt_eq_block_ts": true,
+    "post_grant_released_eq_821":       true,
+    "vestedAmount_frozen_at_821":       true,
+    "later_release_reverts":            true,
+    "conservation":                     true,
+    "formula_matches_event":            true,
+    "block_hash_confirmed":             true
+  }
+}

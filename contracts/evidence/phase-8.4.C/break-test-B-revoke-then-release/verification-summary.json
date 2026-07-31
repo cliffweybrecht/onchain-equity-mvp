@@ -1,0 +1,285 @@
+{
+  "phase": "8.4.C",
+  "case": "break-test-B-revoke-then-release",
+  "purpose": "Prove that when revokeGrant(employee) precedes release(employee) atomically in the same Safe MultiSend transaction, the _effectiveTime boundary condition (strict >) allows release() to observe the same vested amount as revokeGrant(), mint it to the beneficiary, and satisfy the conservation invariant.",
+  "status": "PROVEN",
+  "generated_at": "2026-07-31T03:11:04.000Z",
+  "chain_id": 84532,
+  "network": "base-sepolia",
+
+  "stack": {
+    "safe":              "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+    "vesting":           "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+    "token":             "0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95",
+    "identity_registry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4"
+  },
+
+  "beneficiary": "0x2237d846D3EE2Baf268FF2a91C5971F5E594E1B1",
+
+  "transactions": {
+    "setStatus": {
+      "hash":      "0xbd7e9ff426b33efd760347cd2e16d0d8711c30b8ceab54836625fdb6fae6f113",
+      "block":     "39730916",
+      "timestamp": "1775230120",
+      "iso":       "2026-04-03T15:28:40.000Z",
+      "status":    "success",
+      "gas_used":  "84555"
+    },
+    "createGrant": {
+      "hash":      "0x526ef76ffe729df5b5a736cac3b568e9c48fe902062720cb3a0b8173bb292fa6",
+      "block":     "39773087",
+      "timestamp": "1775314462",
+      "iso":       "2026-04-04T14:54:22.000Z",
+      "status":    "success",
+      "gas_used":  "115495"
+    },
+    "multiSend": {
+      "hash":      "0xf391190e00b9d805220809428bf90907ab16d0004627702870ea6211ee711c41",
+      "block":     "44849588",
+      "block_hex": "0x2ac59b4",
+      "timestamp": "1785467464",
+      "iso":       "2026-07-31T03:11:04.000Z",
+      "status":    "success",
+      "gas_used":  "328627",
+      "sub_calls": [
+        { "index": 0, "function": "revokeGrant(address)", "selector": "0x1817c5a7" },
+        { "index": 1, "function": "release(address)",     "selector": "0x19165587" }
+      ]
+    }
+  },
+
+  "grant_params": {
+    "total":    "1000",
+    "start":    "1759547342",
+    "cliff":    "1767323342",
+    "duration": "31536000",
+    "end":      "1791083342"
+  },
+
+  "result": {
+    "revokedAt":       "1785467464",
+    "elapsed_seconds": "25920122",
+    "elapsed_days":    "300.0014",
+    "vested":          "821",
+    "released_before": "0",
+    "claimable":       "821",
+    "canceled":        "179",
+    "released_after":  "821"
+  },
+
+  "checks": {
+    "receipt_status_success": {
+      "value":  "0x1",
+      "pass":   true,
+      "source": "eth_getTransactionReceipt.status"
+    },
+    "exactly_one_GrantRevoked_event": {
+      "count_in_tx": 1,
+      "log_index":   87,
+      "emitter":     "0x4739e9b845f4b4861236dfe0d8da7ad985754f08",
+      "pass":        true
+    },
+    "exactly_one_GrantReleased_event": {
+      "count_in_tx": 1,
+      "log_index":   90,
+      "emitter":     "0x4739e9b845f4b4861236dfe0d8da7ad985754f08",
+      "pass":        true
+    },
+    "exactly_one_Mint_event": {
+      "count_in_tx": 1,
+      "log_index":   88,
+      "emitter":     "0x73b8e67b2bcf9e482af3b0dec0548f0e84017c95",
+      "pass":        true
+    },
+    "exactly_one_Transfer_zero_to_beneficiary_821": {
+      "count_in_tx": 1,
+      "log_index":   89,
+      "emitter":     "0x73b8e67b2bcf9e482af3b0dec0548f0e84017c95",
+      "from":        "0x0000000000000000000000000000000000000000",
+      "to":          "0x2237d846D3EE2Baf268FF2a91C5971F5E594E1B1",
+      "value":       "821",
+      "pass":        true
+    },
+    "GrantRevoked_released_eq_0": {
+      "expected": "0",
+      "actual":   "0",
+      "pass":     true,
+      "note":     "released=0 confirms revokeGrant ran before release() updated g.released"
+    },
+    "GrantRevoked_vested_eq_821": {
+      "expected": "821",
+      "actual":   "821",
+      "pass":     true
+    },
+    "GrantRevoked_claimable_eq_821": {
+      "expected": "821",
+      "actual":   "821",
+      "pass":     true
+    },
+    "GrantRevoked_canceled_eq_179": {
+      "expected": "179",
+      "actual":   "179",
+      "pass":     true
+    },
+    "GrantReleased_amountReleased_eq_821": {
+      "expected": "821",
+      "actual":   "821",
+      "pass":     true
+    },
+    "beneficiary_balance_delta_eq_821": {
+      "pre_tx_balance":  "0",
+      "post_tx_balance": "821",
+      "delta":           "821",
+      "expected_delta":  "821",
+      "pass":            true,
+      "pre_block":       "0x2ac59b3",
+      "post_block":      "0x2ac59b4"
+    },
+    "totalSupply_delta_eq_821": {
+      "pre_tx_totalSupply":  "597",
+      "post_tx_totalSupply": "1418",
+      "delta":               "821",
+      "expected_delta":      "821",
+      "pass":                true
+    },
+    "post_grant_revoked_true": {
+      "actual": true,
+      "pass":   true,
+      "source": "grants(beneficiary).revoked at block 0x2ac59b4"
+    },
+    "post_grant_revokedAt_eq_block_timestamp": {
+      "expected": "1785467464",
+      "actual":   "1785467464",
+      "block_timestamp": "1785467464",
+      "pass":     true
+    },
+    "post_grant_released_eq_821": {
+      "expected": "821",
+      "actual":   "821",
+      "pass":     true,
+      "source":   "grants(beneficiary).released at block 0x2ac59b4"
+    },
+    "vestedAmount_after_execution_eq_821": {
+      "at_tx_block": "821",
+      "at_latest":   "821",
+      "pass":        true,
+      "note":        "_effectiveTime caps at revokedAt=1785467464; formula frozen forever"
+    },
+    "later_release_reverts_NothingToRelease": {
+      "eth_call_result":   "REVERTS",
+      "revert_data":       "0xb10205ed",
+      "selector_preimage": "NothingToRelease()",
+      "pass":              true
+    },
+    "conservation_0_plus_821_plus_179_eq_1000": {
+      "released_before": "0",
+      "claimable":       "821",
+      "canceled":        "179",
+      "sum":             "1000",
+      "total":           "1000",
+      "pass":            true
+    },
+    "formula_floor_1000_times_elapsed_div_duration_eq_821": {
+      "revokedAt":    "1785467464",
+      "start":        "1759547342",
+      "elapsed":      "25920122",
+      "duration":     "31536000",
+      "formula":      "floor(1000 * 25920122 / 31536000)",
+      "result":       "821",
+      "expected":     "821",
+      "pass":         true
+    },
+    "multisend_order_revokeGrant_then_release": {
+      "sc0_function":      "revokeGrant(address)",
+      "sc0_selector":      "0x1817c5a7",
+      "sc0_log_index":     87,
+      "sc1_function":      "release(address)",
+      "sc1_selector":      "0x19165587",
+      "sc1_log_index":     90,
+      "ordering_evidence": "GrantRevoked at log_index=87 < GrantReleased at log_index=90",
+      "pass":              true
+    },
+    "safe_ExecutionSuccess_emitted": {
+      "log_index":    91,
+      "emitter":      "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+      "safe_tx_hash": "0x006bec58b900ca2f378e1df4d19e369ffe630d813804231e7907473345aed01d",
+      "payment":      "0",
+      "pass":         true
+    },
+    "block_hash_confirmed": {
+      "receipt_block_hash":   "0x5607127b0b80020325c7288cbb21b90af625a1121db08f9c0a1b9470035dcfa8",
+      "getBlock_block_hash":  "0x5607127b0b80020325c7288cbb21b90af625a1121db08f9c0a1b9470035dcfa8",
+      "pass":                 true
+    }
+  },
+
+  "arithmetic": {
+    "formula":      "floor(total * elapsed / duration)",
+    "substitution": "floor(1000 * 25920122 / 31536000)",
+    "result":       "821",
+    "claimable_derivation": "vested(821) - released_before(0) = 821",
+    "canceled_derivation":  "total(1000) - vested(821) = 179",
+    "conservation":         "0 + 821 + 179 = 1000"
+  },
+
+  "effective_time_analysis": {
+    "hypothesis": "revokeGrant sets revokedAt=T. release in same tx calls _effectiveTime(g, T) where T=block.timestamp. Condition: g.revoked && T > T = FALSE (strict >). Cap does not apply. release computes same vested as revokeGrant.",
+    "result": "CONFIRMED",
+    "evidence": "GrantRevoked.vested=821 matches GrantReleased.amountReleased=821. release() succeeded within same tx as revokeGrant()."
+  },
+
+  "a2_observation": {
+    "assumption": "A2 -- intra-tx SSTORE writes visible to subsequent SLOADs in the same transaction",
+    "result": "CONSISTENT",
+    "evidence": "release() in sc1 read g.revoked=true (written by revokeGrant in sc0), correctly saw an already-revoked grant, and proceeded with _effectiveTime returning T (not capped). This is consistent with A2. A2 is an EVM invariant and is not independently provable by this test.",
+    "note": "Compare to Test A: there, A2 was exercised by revokeGrant reading g.released=497 written by release(). Here, release() reads g.revoked=true written by revokeGrant() — same EVM invariant, inverse sub-call order."
+  },
+
+  "proofs": {
+    "setStatus_tx_succeeded":                    true,
+    "isVerified_true_before_grant":              true,
+    "createGrant_tx_succeeded":                  true,
+    "grant_params_match_config":                 true,
+    "multiSend_tx_succeeded":                    true,
+    "safe_ExecutionSuccess_emitted":             true,
+    "safe_nonce_incremented_23_to_24":           true,
+    "both_subcalls_in_same_block":               true,
+    "GrantRevoked_emitted":                      true,
+    "GrantReleased_emitted":                     true,
+    "Mint_emitted":                              true,
+    "Transfer_from_zero_emitted":                true,
+    "GrantRevoked_released_eq_0":                true,
+    "GrantRevoked_vested_eq_821":                true,
+    "GrantRevoked_claimable_eq_821":             true,
+    "GrantRevoked_canceled_eq_179":              true,
+    "GrantReleased_amountReleased_eq_821":       true,
+    "revokeGrant_before_release":                true,
+    "revokeGrant_before_release_proof":          "log_index 87 (GrantRevoked) < 90 (GrantReleased)",
+    "cliff_lte_revokedAt":                       true,
+    "cliff_lte_revokedAt_proof":                 "1767323342 <= 1785467464",
+    "revokedAt_lt_end":                          true,
+    "revokedAt_lt_end_proof":                    "1785467464 < 1791083342",
+    "beneficiary_balance_delta_eq_821":          true,
+    "totalSupply_delta_eq_821":                  true,
+    "post_grant_revoked_true":                   true,
+    "post_grant_revokedAt_eq_block_ts":          true,
+    "post_grant_released_eq_821":                true,
+    "vestedAmount_frozen_at_821":                true,
+    "vestedAmount_frozen_proof":                 "vestedAmount(beneficiary) at tx block = 821; at latest = 821",
+    "later_release_reverts_NothingToRelease":    true,
+    "later_release_reverts_proof":               "eth_call release(beneficiary) at latest = REVERTS (0xb10205ed = NothingToRelease())",
+    "conservation":                              true,
+    "conservation_proof":                        "0 + 821 + 179 = 1000",
+    "formula_matches_event":                     true,
+    "formula_proof":                             "floor(1000 * 25920122 / 31536000) = 821 == GrantRevoked.vested",
+    "block_hash_confirmed":                      true,
+    "effective_time_boundary_confirmed":         true,
+    "effective_time_proof":                      "g.revoked && T > T = false; _effectiveTime returns T (not capped); release proceeds"
+  },
+
+  "conclusion": {
+    "hypothesis": "When revokeGrant() precedes release() atomically in the same tx, the strict > boundary in _effectiveTime allows release() to see vested=821 (same as revokeGrant), mint 821 tokens, and conserve total=1000.",
+    "result": "CONFIRMED",
+    "evidence": "MultiSend tx 0xf391190e...c41 at block 44849588 (2026-07-31T03:11:04Z): GrantRevoked(released=0, vested=821, claimable=821, canceled=179) emitted first (log 87), then Mint(821) + Transfer(address(0)->beneficiary, 821) + GrantReleased(821) (logs 88-90). Conservation: 0+821+179=1000. Formula: floor(1000*25920122/31536000)=821. Post-state: grant.revoked=true, grant.released=821, balanceOf(beneficiary)=821. Formula frozen: vestedAmount=821 in any future block. Subsequent release() reverts NothingToRelease (0xb10205ed)."
+  }
+}

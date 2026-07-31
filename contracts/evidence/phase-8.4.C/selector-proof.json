@@ -1,0 +1,43 @@
+{
+  "phase": "8.4.C",
+  "artifact": "selector-proof",
+  "generated_at": "2026-04-03T03:09:44.000Z",
+  "description": "ABI function selectors derived from keccak256(canonical_signature). Selector = first 4 bytes of keccak256 digest.",
+  "derivations": {
+    "setStatus(address,uint8)": {
+      "canonical_signature": "setStatus(address,uint8)",
+      "keccak256_full": "0x278e07ced09c66cc8268544f69b825bd0d706a695b1a7adee1c66ef55845fc45",
+      "selector_hex": "0x278e07ce",
+      "selector_bytes": "27 8e 07 ce",
+      "used_in": ["safe-tx-0-set-verified.json (both test cases)"]
+    },
+    "createGrant(address,uint256,uint64,uint64,uint64)": {
+      "canonical_signature": "createGrant(address,uint256,uint64,uint64,uint64)",
+      "keccak256_full": "0x637096e64d7c200bb942662975924a69ea46be68eab46738579be042d10cc1c9",
+      "selector_hex": "0x637096e6",
+      "selector_bytes": "63 70 96 e6",
+      "used_in": ["safe-tx-1-create-grant.json (both test cases)"]
+    },
+    "release(address)": {
+      "canonical_signature": "release(address)",
+      "keccak256_full": "0x19165587d81f9d3d0d57225d38f5bb5163beb87e4b5fafa3a2f80c53398d9874",
+      "selector_hex": "0x19165587",
+      "selector_bytes": "19 16 55 87",
+      "used_in": [
+        "break-test-A: sub-call 0 (release first)",
+        "break-test-B: sub-call 1 (release second)"
+      ]
+    },
+    "revokeGrant(address)": {
+      "canonical_signature": "revokeGrant(address)",
+      "keccak256_full": "0x1817c5a7a8ff505115874264a151ac166990b97a14275c2cc57ed9673409f3de",
+      "selector_hex": "0x1817c5a7",
+      "selector_bytes": "18 17 c5 a7",
+      "used_in": [
+        "break-test-A: sub-call 1 (revokeGrant second)",
+        "break-test-B: sub-call 0 (revokeGrant first)"
+      ]
+    }
+  },
+  "verification_note": "These selectors were computed via keccak256(toBytes(signature)) using viem@2.x in Node.js. Each selector is the first 4 bytes (8 hex chars) of the full 32-byte keccak256 digest shown above. The full digests are included to allow independent verification."
+}

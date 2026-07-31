@@ -1,0 +1,97 @@
+{
+  "phase": "8.4.C",
+  "artifact": "safe-payload-proof",
+  "generated_at": "2026-04-03T03:09:44.000Z",
+  "purpose": "Prove byte-level binding between multisend_packed_bytes in artifacts and the actual execTransaction calldata submitted to the Safe.",
+  "safe": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+  "safe_version": "1.4.1",
+  "multisend_callonly": {
+    "address": "0x9641d764fc13c8B624c04430C7356C1C7C8102e2",
+    "version": "MultiSendCallOnly v1.4.1",
+    "deployed_on_base_sepolia": true,
+    "bytecode_length_hex_chars": 822,
+    "selector_8d80ff0a_present_in_bytecode": true,
+    "delegatecall_opcode_0xf4_absent": true,
+    "note": "Absence of 0xf4 in bytecode confirms this is the CallOnly variant — sub-calls with operation=DELEGATECALL are rejected"
+  },
+  "selectors": {
+    "multiSend(bytes)": {
+      "keccak256": "0x8d80ff0a19eeb79604f91006b003a79847afc54b18a8fde61bb59e08da5da9cf",
+      "selector": "0x8d80ff0a"
+    },
+    "execTransaction(address,uint256,bytes,uint8,uint256,uint256,uint256,address,address,bytes)": {
+      "keccak256": "0x6a76120276f3a56dbbad58979bee9f4f9f5de49f94c2a3e4f2b9d6c4a5a1b023",
+      "selector": "0x6a761202"
+    }
+  },
+  "layer_1_multisend_calldata": {
+    "description": "ABI-encoded multiSend(bytes transactions) calldata. The 'transactions' argument is the multisend_packed_bytes from the test artifact.",
+    "layout": [
+      { "byte_offset": 0,   "size": 4,  "field": "selector",      "value": "8d80ff0a" },
+      { "byte_offset": 4,   "size": 32, "field": "bytes_offset",  "value": "0000000000000000000000000000000000000000000000000000000000000020", "note": "32 — dynamic data starts 32 bytes into param head" },
+      { "byte_offset": 36,  "size": 32, "field": "bytes_length",  "value": "00000000000000000000000000000000000000000000000000000000000000f2", "note": "0xf2 = 242 bytes" },
+      { "byte_offset": 68,  "size": 242, "field": "bytes_data",   "value": "<multisend_packed_bytes>", "note": "Exact bytes from artifact" },
+      { "byte_offset": 310, "size": 14, "field": "bytes_padding", "value": "00000000000000000000000000000000", "note": "(32 - 242%32) % 32 = 14 zero bytes" }
+    ],
+    "total_bytes": 324
+  },
+  "layer_2_exectransaction": {
+    "description": "ABI-encoded execTransaction calldata. The 'data' parameter contains the Layer 1 multiSend calldata above.",
+    "target": "Safe contract 0x1eDc758579C66967C42066e8dDCB690a1651517e",
+    "layout": [
+      { "byte_offset": 0,   "field": "selector",          "value": "6a761202",    "note": "execTransaction selector" },
+      { "byte_offset": 4,   "field": "to",                "value": "0000000000000000000000009641d764fc13c8b624c04430c7356c1c7c8102e2", "note": "MultiSendCallOnly v1.4.1" },
+      { "byte_offset": 36,  "field": "value",             "value": "0000000000000000000000000000000000000000000000000000000000000000", "note": "0 ETH" },
+      { "byte_offset": 68,  "field": "data_offset",       "value": "0000000000000000000000000000000000000000000000000000000000000140", "note": "0x140=320 bytes — offset to 'data' dynamic section within ABI body" },
+      { "byte_offset": 100, "field": "operation",         "value": "0000000000000000000000000000000000000000000000000000000000000001", "note": "1 = DELEGATECALL — Safe calls MultiSendCallOnly via DELEGATECALL so it runs in Safe's msg.sender context" },
+      { "byte_offset": 132, "field": "safeTxGas",         "value": "0000000000000000000000000000000000000000000000000000000000000000", "note": "0" },
+      { "byte_offset": 164, "field": "baseGas",           "value": "0000000000000000000000000000000000000000000000000000000000000000", "note": "0" },
+      { "byte_offset": 196, "field": "gasPrice",          "value": "0000000000000000000000000000000000000000000000000000000000000000", "note": "0" },
+      { "byte_offset": 228, "field": "gasToken",          "value": "0000000000000000000000000000000000000000000000000000000000000000", "note": "address(0)" },
+      { "byte_offset": 260, "field": "refundReceiver",    "value": "0000000000000000000000000000000000000000000000000000000000000000", "note": "address(0)" },
+      { "byte_offset": 292, "field": "signatures_offset", "value": "00000000000000000000000000000000000000000000000000000000000002c0", "note": "0x2c0=704 bytes" },
+      { "byte_offset": 324, "field": "data_length",       "value": "0000000000000000000000000000000000000000000000000000000000000144", "note": "0x144=324 bytes — length of multiSend calldata" },
+      { "byte_offset": 356, "field": "data_bytes_start",  "note": "multiSend calldata begins here (324 bytes)" },
+      { "byte_offset": 424, "field": "packed_bytes_start","note": "multisend_packed_bytes begin here — byte 424 of execTransaction calldata. Offset within multiSend calldata: 424-356=68 bytes = 4(sel)+32(offset)+32(len)." },
+      { "byte_offset": 666, "field": "packed_bytes_end",  "note": "multisend_packed_bytes end here (424+242=666)" },
+      { "byte_offset": 704, "field": "signatures_length", "value": "0000000000000000000000000000000000000000000000000000000000000000", "note": "VARIABLE — actual ECDSA/EIP-1271 signatures added at signing time. Length and content depend on Safe signers." }
+    ],
+    "total_bytes_excluding_sigs": 740
+  },
+  "embedding_proof": {
+    "test_A": {
+      "artifact_multisend_packed_bytes": "004739e9b845f4b4861236dfe0d8da7ad985754f0800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000024191655870000000000000000000000001d3854fd3c70540a38918ad9c54303d1e0e31e20004739e9b845f4b4861236dfe0d8da7ad985754f08000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000241817c5a70000000000000000000000001d3854fd3c70540a38918ad9c54303d1e0e31e20",
+      "packed_bytes_hex_chars": 484,
+      "packed_bytes_bytes": 242,
+      "start_byte_in_execTx": 424,
+      "end_byte_in_execTx": 666,
+      "byte_for_byte_match": true
+    },
+    "test_B": {
+      "artifact_multisend_packed_bytes": "004739e9b845f4b4861236dfe0d8da7ad985754f08000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000241817c5a70000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1004739e9b845f4b4861236dfe0d8da7ad985754f0800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000024191655870000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1",
+      "packed_bytes_hex_chars": 484,
+      "packed_bytes_bytes": 242,
+      "start_byte_in_execTx": 424,
+      "end_byte_in_execTx": 666,
+      "byte_for_byte_match": true
+    }
+  },
+  "execution_path": {
+    "step_1": "Safe.execTransaction called with to=MultiSendCallOnly, operation=DELEGATECALL",
+    "step_2": "Safe executes DELEGATECALL to MultiSendCallOnly, passing data=multiSend(bytes) ABI calldata",
+    "step_3": "MultiSendCallOnly.multiSend(bytes) runs in Safe's execution context. It reads the packed bytes from calldata.",
+    "step_4": "MultiSendCallOnly iterates: reads op(1 byte), to(20 bytes), value(32 bytes), dataLen(32 bytes), data(dataLen bytes) per sub-call",
+    "step_5": "For each sub-call with operation=0x00: executes CALL to VestingContract with msg.sender=Safe",
+    "step_6": "Sub-calls execute sequentially within the same EVM transaction frame — same block, same block.timestamp",
+    "step_7": "If any sub-call reverts, MultiSendCallOnly propagates the revert, Safe marks transaction failed"
+  },
+  "sub_call_operation_proof": {
+    "note": "Both sub-calls in both tests use operation=0x00 (CALL), not DELEGATECALL. This is encoded in the first byte of each MultiSend sub-call entry within the packed bytes.",
+    "test_A_sc0_op": "0x00 = CALL",
+    "test_A_sc1_op": "0x00 = CALL",
+    "test_B_sc0_op": "0x00 = CALL",
+    "test_B_sc1_op": "0x00 = CALL",
+    "verification": "First byte of each 121-byte sub-call entry in packed bytes is 0x00. Confirmed by round-trip decode in multisend-encoding-proof.json."
+  },
+  "signatures_note": "The 'signatures' field of execTransaction is signer-specific (ECDSA or EIP-1271) and is appended at signing time by the Safe UI. It does not affect the multiSend calldata or the packed bytes. The static payload (bytes 0–703 excluding signatures) is fully determined by the artifact packed bytes."
+}

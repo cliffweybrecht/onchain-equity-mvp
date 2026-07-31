@@ -1,0 +1,97 @@
+{
+  "phase": "8.4.C",
+  "case": "break-test-A-release-then-revoke",
+  "snapshot_type": "post_multisend",
+  "generated_at": "2026-04-03T15:18:44.000Z",
+  "tx": {
+    "hash": "0xd4dbf63ccf5fd1ed58849823dc24d73ddb736151bd1358b0a4b0fa14548f2d5d",
+    "status": "success",
+    "block_number": "39730618",
+    "block_hash": "0xe6860db617b4cb87dff0c642538bb86622a5ae346580ccf41be13d0647663929",
+    "block_timestamp": "1775229524",
+    "block_timestamp_iso": "2026-04-03T15:18:44.000Z",
+    "gas_used": "182961"
+  },
+  "sub_calls_in_same_tx": {
+    "sc0_release": {
+      "selector": "0x19165587",
+      "function": "release(address)",
+      "beneficiary": "0x1d3854fd3c70540A38918aD9C54303d1e0E31e20",
+      "succeeded": true,
+      "evidence": "GrantReleased event emitted by VestingContract in this tx"
+    },
+    "sc1_revokeGrant": {
+      "selector": "0x1817c5a7",
+      "function": "revokeGrant(address)",
+      "beneficiary": "0x1d3854fd3c70540A38918aD9C54303d1e0E31e20",
+      "succeeded": true,
+      "evidence": "GrantRevoked event emitted by VestingContract in this tx"
+    },
+    "same_block": true,
+    "same_timestamp": true,
+    "block_timestamp": "1775229524"
+  },
+  "events": {
+    "GrantReleased": {
+      "topic0": "0x0d35302f827a91d56c49cdeaf0312fce55b9b7158edbcf3d8fbad456e341c770",
+      "emitter": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+      "args": {
+        "employee": "0x1d3854fd3c70540A38918aD9C54303d1e0E31e20",
+        "amountReleased": "497"
+      }
+    },
+    "GrantRevoked": {
+      "topic0": "0xad9d5e0a2e04a5d167be70382c1bbc81c73cc3d576d1e154a79627bf39e0c4fa",
+      "emitter": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+      "args": {
+        "employee": "0x1d3854fd3c70540A38918aD9C54303d1e0E31e20",
+        "revokedAt": "1775229524",
+        "total": "1000",
+        "released": "497",
+        "vested": "497",
+        "claimable": "0",
+        "canceled": "503"
+      }
+    }
+  },
+  "arithmetic": {
+    "revokedAt": "1775229524",
+    "start": "1759547342",
+    "elapsed_seconds": "15682182",
+    "elapsed_days": "181.5067",
+    "duration": "31536000",
+    "formula": "floor(total * elapsed / duration)",
+    "substitution": "floor(1000 * 15682182 / 31536000)",
+    "result": "497",
+    "claimable_derivation": "vested(497) - released(497) = 0",
+    "canceled_derivation": "total(1000) - vested(497) = 503"
+  },
+  "grant_poststate": {
+    "read_block": "39730618",
+    "revoked": true,
+    "revokedAt": "1775229524",
+    "released": "497"
+  },
+  "formula_freeze": {
+    "read_block": "39730623",
+    "vestedAmount": "497",
+    "equals_event_vested": true,
+    "proof": "5 blocks after revocation, _effectiveTime caps queryTime at revokedAt=1775229524; floor(1000 * 15682182 / 31536000) = 497"
+  },
+  "proofs": {
+    "tx_succeeded": true,
+    "both_subcalls_succeeded": true,
+    "GrantReleased_emitted": true,
+    "GrantRevoked_emitted": true,
+    "released_eq_vested": true,
+    "claimable_eq_zero": true,
+    "canceled_eq_total_minus_vested": true,
+    "conservation": true,
+    "conservation_proof": "497 + 0 + 503 = 1000",
+    "formula_matches_event": true,
+    "formula_proof": "floor(1000 * 15682182 / 31536000) = 497 == GrantRevoked.vested",
+    "GrantReleased_amount_eq_vested": true,
+    "formula_freeze": true,
+    "formula_freeze_proof": "vestedAmount(beneficiary) at block 39730623 = 497 == GrantRevoked.vested"
+  }
+}

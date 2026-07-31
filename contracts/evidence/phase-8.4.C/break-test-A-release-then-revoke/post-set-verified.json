@@ -1,0 +1,42 @@
+{
+  "phase": "8.4.C",
+  "case": "break-test-A-release-then-revoke",
+  "snapshot_type": "post_set_verified",
+  "generated_at": "2026-04-03T13:37:34.000Z",
+  "tx": {
+    "hash": "0x119b27f8570e820c04facd52b24b6252da2af0d7f558c55c09130e7f6cc2ae28",
+    "status": "success",
+    "block_number": "39727583",
+    "block_hash": "0xc6937b3b018f5d4ad790b0d6b910478f7cde60825ff5a4932d38f545efbeb8b8",
+    "block_timestamp": "1775223454",
+    "block_timestamp_iso": "2026-04-03T13:37:34.000Z",
+    "gas_used": "84555",
+    "from": "0x6c775411e11cab752af03c5bbb440618788e13be",
+    "to": "0x1eDc758579C66967C42066e8dDCB690a1651517e"
+  },
+  "event": {
+    "name": "StatusUpdated",
+    "topic0": "0xb39e37bf87837f97805718e26da89735b231978986e8294bb6f186dcd80381cc",
+    "emitted_by": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+    "args": {
+      "user": "0x1d3854fd3c70540A38918aD9C54303d1e0E31e20",
+      "previousStatus": 0,
+      "newStatus": 1
+    }
+  },
+  "registry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+  "beneficiary": "0x1d3854fd3c70540A38918aD9C54303d1e0E31e20",
+  "poststate": {
+    "read_block": "39727583",
+    "status_raw": 1,
+    "status_label": "Verified",
+    "isVerified": true
+  },
+  "assertions": {
+    "tx_succeeded": true,
+    "event_previousStatus_was_0": true,
+    "event_newStatus_is_1": true,
+    "status_is_1": true,
+    "isVerified_true": true
+  }
+}

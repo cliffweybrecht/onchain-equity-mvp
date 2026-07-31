@@ -1,0 +1,56 @@
+{
+  "phase": "8.4.C",
+  "generated_at": "2026-04-02T02:29:07.814Z",
+  "selected_beneficiary": null,
+  "candidate_count": 8,
+  "results": [
+    {
+      "address": "0xd3eD697274ec8Bc9f638CE80fD789a49dA4aD996",
+      "isVerified": true,
+      "exists": true,
+      "verifiedFresh": false
+    },
+    {
+      "address": "0x1A0E8fC547DC74d4caEcC506dc605534846B6A06",
+      "isVerified": false,
+      "exists": false,
+      "verifiedFresh": false
+    },
+    {
+      "address": "0x1d3854fd3c70540A38918aD9C54303d1e0E31e20",
+      "isVerified": false,
+      "exists": false,
+      "verifiedFresh": false
+    },
+    {
+      "address": "0x2237d846D3EE2Baf268FF2a91C5971F5E594E1B1",
+      "isVerified": false,
+      "exists": false,
+      "verifiedFresh": false
+    },
+    {
+      "address": "0x23C472877e532f34f946BA3D2348D77541487b1A",
+      "isVerified": false,
+      "exists": false,
+      "verifiedFresh": false
+    },
+    {
+      "address": "0x2626c09eF40176300A0bcf1ddb56Cf4A3d530485",
+      "isVerified": false,
+      "exists": false,
+      "verifiedFresh": false
+    },
+    {
+      "address": "0x304A2C79Bf45F970ff06128B5dd8DFD40423157C",
+      "isVerified": false,
+      "exists": false,
+      "verifiedFresh": false
+    },
+    {
+      "address": "0x7d5A7b3061880c36D69127a4eB8293880b1eD90A",
+      "isVerified": false,
+      "exists": false,
+      "verifiedFresh": false
+    }
+  ]
+}

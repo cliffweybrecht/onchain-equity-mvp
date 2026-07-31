@@ -1,0 +1,44 @@
+{
+  "phase": "8.4.C",
+  "artifact": "safe-multisend-execution-proof",
+  "generated_at": "2026-04-03T03:09:44.000Z",
+  "purpose": "Prove that the Safe Transaction Builder batch executes all sub-calls within a single Ethereum transaction with a deterministic same-block timestamp, and document A2 (intra-tx storage visibility).",
+  "safe_address": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+  "execution_path": {
+    "step_1": "User submits Safe execTransaction on-chain. This is one Ethereum transaction.",
+    "step_2": "Safe calls its internal MultiSend library via DELEGATECALL. The Safe itself is the msg.sender for every sub-call.",
+    "step_3": "MultiSend iterates through sub-calls sequentially. Each sub-call with operation=0x00 is a CALL to the target contract with msg.sender = Safe.",
+    "step_4": "All sub-calls execute within the single execTransaction EVM call frame. They share: block number, block.timestamp, tx.origin, and the same EVM state (including storage modifications from prior sub-calls).",
+    "step_5": "If any sub-call reverts, the entire execTransaction reverts — the batch is atomic."
+  },
+  "delegatecall_note": "The Safe itself calls MultiSend via DELEGATECALL, meaning MultiSend runs in the Safe's storage context. However, each sub-call from MultiSend to VestingContract has operation=0x00 (CALL), so VestingContract receives a normal CALL with msg.sender=Safe — not delegatecall. VestingContract reads and writes its own storage normally.",
+  "same_block_timestamp": {
+    "claim": "block.timestamp is identical for all sub-calls in a batch.",
+    "proof": "block.timestamp is set once per block at the EVM level. All code executing within a single Ethereum transaction (including all sub-calls from MultiSend) uses the same block.timestamp value. There is no mechanism by which block.timestamp changes between sub-calls within one transaction.",
+    "consequence_for_test_A": "release() and revokeGrant() both see the same block.timestamp T. revokeGrant() sets revokedAt=T. release() would also use T if called before revoke — but since release runs first, g.revoked=false when release executes, so _effectiveTime returns T regardless.",
+    "consequence_for_test_B": "revokeGrant() sets revokedAt=T. release() sees the same T. _effectiveTime condition: g.revoked=true AND queryTime > revokedAt ↔ T > T ↔ false. Cap does NOT apply. release() computes vested_at_T identically to revokeGrant()."
+  },
+  "storage_visibility_A2": {
+    "assumption": "A2",
+    "statement": "Within a single Ethereum transaction, storage writes made by a preceding sub-call are visible to subsequent sub-calls.",
+    "basis": "This follows from the EVM specification: SSTORE writes are committed to the executing account's storage immediately and are visible to all subsequent operations in the same transaction via SLOAD. The EVM does not isolate storage writes between calls within the same transaction.",
+    "what_tests_observe": {
+      "test_A": "release() (sub-call 0) writes g.released = vested_at_T via SSTORE. revokeGrant() (sub-call 1) reads g.released via SLOAD and must observe vested_at_T. If GrantRevoked.released == vested_at_T, this is consistent with A2.",
+      "test_B": "revokeGrant() (sub-call 0) writes g.revoked=true and g.revokedAt=T via SSTORE. release() (sub-call 1) reads g.revoked and g.revokedAt via _effectiveTime SLOAD. If release() succeeds (does not revert NothingToRelease due to cap), this is consistent with A2."
+    },
+    "what_tests_cannot_prove": "These tests cannot independently prove A2. A2 is an EVM invariant. A failure of A2 would be observationally indistinguishable from a contract bug reading from the wrong storage slot. A2 holds by EVM specification and is not subject to contract-level proof.",
+    "A2_violation_failure_mode": {
+      "test_A": "If A2 were violated: revokeGrant would read g.released=0 (pre-release value), so GrantRevoked.released=0 and GrantRevoked.claimable=vested_at_T>0.",
+      "test_B": "If A2 were violated: release would read g.revoked=false and g.revokedAt=0, so _effectiveTime returns block.timestamp=T and vested_at_T>0, unreleased>0 — release succeeds. Paradoxically, test B would still succeed if A2 were violated (release sees no revocation, which is also fine). The interesting failure mode is if release reads g.revoked=true but g.revokedAt=T and the > boundary causes different behavior — which it does NOT since the condition is strict >."
+    }
+  },
+  "reentrancy_analysis": {
+    "claim": "No reentrancy path exists in this test.",
+    "basis": [
+      "release() follows CEI: writes g.released = vested (SSTORE) before calling token.mint() (external call).",
+      "token.mint() calls EquityToken.mint(to, amount) which is onlyAdmin. Admin = VestingContract. No ERC-777 hooks, no receive() fallback that could call back into VestingContract.",
+      "revokeGrant() makes no external calls — it only writes storage and emits an event.",
+      "Therefore: no reentrancy is possible in either sub-call ordering."
+    ]
+  }
+}

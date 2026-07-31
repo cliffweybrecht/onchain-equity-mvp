@@ -1,0 +1,78 @@
+{
+  "phase": "8.4.C",
+  "case": "case-1-revoke-before-cliff",
+  "purpose": "Prove that revoking before cliff produces vested=0, claimable=0, canceled=total",
+  "status": "PROVEN",
+  "generated_at": "2026-04-02T03:07:44.000Z",
+  "chain_id": 84532,
+  "network": "base-sepolia",
+  "stack": {
+    "token": "0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95",
+    "vesting": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+    "safe": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+    "identity_registry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4"
+  },
+  "beneficiary": "0x7d5A7b3061880c36D69127a4eB8293880b1eD90A",
+  "transactions": {
+    "createGrant": {
+      "hash": "0xf2dfbf661641f16c5a81e7f199af289bbc1f67d24b0e4c6f010b4cd46a9ad19c",
+      "block": "39665105",
+      "timestamp": "1775098498",
+      "iso": "2026-04-02T02:54:58.000Z",
+      "status": "success",
+      "gas_used": "115483"
+    },
+    "revokeGrant": {
+      "hash": "0xeb0b879fd2e522a8d4331e553a663f592f94a3f75319f28b42578e036c4fc249",
+      "block": "39665218",
+      "timestamp": "1775098724",
+      "iso": "2026-04-02T02:58:44.000Z",
+      "status": "success",
+      "gas_used": "97163"
+    }
+  },
+  "grant_params": {
+    "total": "1000",
+    "start": "1775097636",
+    "start_iso": "2026-04-02T02:40:36.000Z",
+    "cliff": "1806633636",
+    "cliff_iso": "2027-04-02T02:40:36.000Z",
+    "duration": "63072000",
+    "duration_human": "730 days",
+    "end": "1838169636",
+    "end_iso": "2028-04-01T02:40:36.000Z"
+  },
+  "revocation": {
+    "revokedAt": "1775098724",
+    "revokedAt_iso": "2026-04-02T02:58:44.000Z",
+    "cliff": "1806633636",
+    "cliff_iso": "2027-04-02T02:40:36.000Z",
+    "margin_before_cliff_seconds": "31534912",
+    "margin_before_cliff_days": "365.0",
+    "vested": "0",
+    "released": "0",
+    "claimable": "0",
+    "canceled": "1000"
+  },
+  "proofs": {
+    "createGrant_tx_succeeded": true,
+    "revokeGrant_tx_succeeded": true,
+    "revokedAt_lt_cliff": true,
+    "revokedAt_proof": "1775098724 < 1806633636",
+    "vested_is_zero": true,
+    "vested_formula": "_vestedAmountAt: effectiveTime=revokedAt(1775098724) < cliff(1806633636) => return 0",
+    "claimable_is_zero": true,
+    "canceled_equals_total": true,
+    "canceled_check": "1000 == 1000",
+    "vestedAmount_read_zero": true,
+    "token_balance_zero": true,
+    "release_reverts_nothing_to_release": true,
+    "grant_params_match_config": true,
+    "event_args_match_expected": true
+  },
+  "conclusion": {
+    "hypothesis": "When revokeGrant is called before cliff, vested=0 and the full grant is canceled",
+    "result": "CONFIRMED",
+    "evidence": "GrantRevoked event observed at block 39665218: vested=0, claimable=0, canceled=1000. revokedAt=1775098724, cliff=1806633636. revokedAt < cliff by 365 days."
+  }
+}

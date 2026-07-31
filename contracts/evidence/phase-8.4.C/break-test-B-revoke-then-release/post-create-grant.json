@@ -1,0 +1,147 @@
+{
+  "phase": "8.4.C",
+  "case": "break-test-B-revoke-then-release",
+  "snapshot_type": "post_create_grant",
+  "generated_at": "2026-04-04T14:54:22.000Z",
+  "tx": {
+    "hash": "0x526ef76ffe729df5b5a736cac3b568e9c48fe902062720cb3a0b8173bb292fa6",
+    "status": "success",
+    "transaction_index": 13,
+    "from": "0x6c775411e11cab752af03c5bbb440618788e13be",
+    "to": "0x1edc758579c66967c42066e8ddcb690a1651517e",
+    "block_number": "39773087",
+    "block_number_hex": "0x25ee39f",
+    "block_hash": "0x0d428563e84dcab6d855c0921b5fb4f35af82639171d5d428d81f3e97ac600e1",
+    "block_timestamp": "1775314462",
+    "block_timestamp_iso": "2026-04-04T14:54:22.000Z",
+    "gas_used": "115495"
+  },
+  "selector_derivations": {
+    "grants_selector": {
+      "preimage": "grants(address)",
+      "value": "0xb869cea3",
+      "method": "toFunctionSelector()"
+    },
+    "grant_created_topic0": {
+      "preimage": "GrantCreated(address,uint256,uint64,uint64,uint64)",
+      "value": "0x7752b86bc79c9e089812c7a3891b461c4b5132ff06469794e3f1d15538f67a29",
+      "method": "toEventSelector()"
+    }
+  },
+  "grant_created_log": {
+    "log_index": 193,
+    "emitting_contract": "0x4739e9b845f4b4861236dfe0d8da7ad985754f08",
+    "topic0": "0x7752b86bc79c9e089812c7a3891b461c4b5132ff06469794e3f1d15538f67a29",
+    "topic1_raw": "0x0000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1",
+    "data_raw": "0x00000000000000000000000000000000000000000000000000000000000003e80000000000000000000000000000000000000000000000000000000068e08fce00000000000000000000000000000000000000000000000000000000695736ce0000000000000000000000000000000000000000000000000000000001e13380",
+    "abi_fragment": "event GrantCreated(address indexed employee, uint256 total, uint64 start, uint64 cliff, uint64 duration)",
+    "data_layout": "4 × 32-byte ABI words: [total][start][cliff][duration]",
+    "decoded": {
+      "employee": "0x2237d846d3ee2baf268ff2a91c5971f5e594e1b1",
+      "total": "1000",
+      "start": "1759547342",
+      "cliff": "1767323342",
+      "duration": "31536000"
+    }
+  },
+  "grants_read": {
+    "target": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+    "block_tag": "0x25ee39f",
+    "calldata": "0xb869cea30000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1",
+    "calldata_breakdown": {
+      "selector": "0xb869cea3",
+      "selector_preimage": "grants(address)",
+      "arg_address_padded": "0000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1"
+    },
+    "rpc_request": {
+      "method": "eth_call",
+      "params": [
+        {
+          "to": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+          "data": "0xb869cea30000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1"
+        },
+        "0x25ee39f"
+      ]
+    },
+    "rpc_response": {
+      "result": "0x00000000000000000000000000000000000000000000000000000000000003e800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000068e08fce00000000000000000000000000000000000000000000000000000000695736ce0000000000000000000000000000000000000000000000000000000001e13380000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "return_layout": "8 × 32-byte ABI words: [total][released][start][cliff][duration][exists][revoked][revokedAt]",
+    "raw_slots": {
+      "slot_0_total": "00000000000000000000000000000000000000000000000000000000000003e8",
+      "slot_1_released": "0000000000000000000000000000000000000000000000000000000000000000",
+      "slot_2_start": "0000000000000000000000000000000000000000000000000000000068e08fce",
+      "slot_3_cliff": "00000000000000000000000000000000000000000000000000000000695736ce",
+      "slot_4_duration": "0000000000000000000000000000000000000000000000000000000001e13380",
+      "slot_5_exists": "0000000000000000000000000000000000000000000000000000000000000001",
+      "slot_6_revoked": "0000000000000000000000000000000000000000000000000000000000000000",
+      "slot_7_revokedAt": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "decoded": {
+      "total": "1000",
+      "released": "0",
+      "start": "1759547342",
+      "cliff": "1767323342",
+      "duration": "31536000",
+      "end": "1791083342",
+      "exists": true,
+      "revoked": false,
+      "revokedAt": "0"
+    }
+  },
+  "address_consistency": {
+    "subject": "0x2237d846D3EE2Baf268FF2a91C5971F5E594E1B1",
+    "note": "tx.to is the Safe (outer execTransaction call). VestingContract execution is proven by GrantCreated log emitter.",
+    "surfaces": {
+      "tx_to_safe": "0x1edc758579c66967c42066e8ddcb690a1651517e",
+      "grant_created_log_emitter": "0x4739e9b845f4b4861236dfe0d8da7ad985754f08",
+      "expected_vesting": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+      "grant_created_topic1_raw": "0x0000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b1",
+      "grant_created_topic1_employee": "0x2237d846d3ee2baf268ff2a91c5971f5e594e1b1",
+      "grants_read_arg": "0x2237d846d3ee2baf268ff2a91c5971f5e594e1b1"
+    },
+    "checks": {
+      "grant_created_emitter_is_vesting": true,
+      "topic1_employee_match": true,
+      "grants_arg_match": true,
+      "all_match": true
+    }
+  },
+  "chain_binding": {
+    "tx_hash": "0x526ef76ffe729df5b5a736cac3b568e9c48fe902062720cb3a0b8173bb292fa6",
+    "receipt_status": "success",
+    "receipt_transaction_index": 13,
+    "receipt_block_number": "39773087",
+    "receipt_block_number_hex": "0x25ee39f",
+    "receipt_block_hash": "0x0d428563e84dcab6d855c0921b5fb4f35af82639171d5d428d81f3e97ac600e1",
+    "block_hash_confirmed_by_getBlock": "0x0d428563e84dcab6d855c0921b5fb4f35af82639171d5d428d81f3e97ac600e1",
+    "grants_read_block_tag": "0x25ee39f",
+    "block_number_decimal_to_hex": "0x25ee39f"
+  },
+  "assertions": {
+    "tx_status_success": true,
+    "grant_created_emitter_is_vesting_contract": true,
+    "block_hash_matches_receipt_and_getBlock": true,
+    "block_hex_matches_decimal_round_trip": true,
+    "grants_read_pinned_to_receipt_block": true,
+    "grant_created_log_exists": true,
+    "grant_created_employee_matches": true,
+    "grant_created_total_eq_1000": true,
+    "grant_created_start_eq_1759547342": true,
+    "grant_created_cliff_eq_1767323342": true,
+    "grant_created_duration_eq_31536000": true,
+    "grant_exists_true": true,
+    "grant_revoked_false": true,
+    "grant_total_eq_1000": true,
+    "grant_released_eq_0": true,
+    "grant_start_eq_1759547342": true,
+    "grant_cliff_eq_1767323342": true,
+    "grant_duration_eq_31536000": true,
+    "grant_revokedAt_eq_0": true,
+    "address_consistent_across_all_surfaces": true,
+    "log_total_matches_storage_total": true,
+    "log_start_matches_storage_start": true,
+    "log_cliff_matches_storage_cliff": true,
+    "log_duration_matches_storage_duration": true
+  }
+}

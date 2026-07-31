@@ -1,0 +1,40 @@
+{
+  "phase": "8.4.C",
+  "case": "case-2-revoke-during-vesting",
+  "snapshot_type": "post_revoke_grant",
+  "generated_at": "2026-04-03T02:08:38.000Z",
+  "tx": {
+    "hash": "0xa662b94fcfe94ed287717d30510bb5b4726e72f8148b52de8cb1e6544de046c0",
+    "status": "success",
+    "block_number": "39706915",
+    "block_hash": "0x60121c377d7ed9b9315e4201993f8d990534723f12bfd8021b0bf879b1fd84de",
+    "block_timestamp": "1775182118",
+    "block_timestamp_iso": "2026-04-03T02:08:38.000Z",
+    "gas_used": "97892"
+  },
+  "event": {
+    "name": "GrantRevoked",
+    "topic0": "0xad9d5e0a2e04a5d167be70382c1bbc81c73cc3d576d1e154a79627bf39e0c4fa",
+    "args": {
+      "employee": "0x1A0E8fC547DC74d4caEcC506dc605534846B6A06",
+      "revokedAt": "1775182118",
+      "total": "1000",
+      "released": "0",
+      "vested": "495",
+      "claimable": "495",
+      "canceled": "505"
+    }
+  },
+  "grant_poststate": {
+    "total": "1000",
+    "released": "0",
+    "start": "1759547342",
+    "cliff": "1767323342",
+    "duration": "31536000",
+    "end": "1791083342",
+    "exists": true,
+    "revoked": true,
+    "revokedAt": "1775182118"
+  },
+  "vestedAmount_read": "495"
+}

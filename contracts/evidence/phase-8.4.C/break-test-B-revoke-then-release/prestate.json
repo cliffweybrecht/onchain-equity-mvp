@@ -1,0 +1,47 @@
+{
+  "phase": "8.4.C",
+  "case": "break-test-B-revoke-then-release",
+  "snapshot_type": "prestate",
+  "generated_at": "2026-04-03T15:23:20.000Z",
+  "read_block": "39730756",
+  "read_block_timestamp": "1775229800",
+  "read_block_iso": "2026-04-03T15:23:20.000Z",
+  "stack": {
+    "chain_id": 84532,
+    "network": "base-sepolia",
+    "vesting": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+    "identity_registry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+    "token": "0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95"
+  },
+  "beneficiary": "0x2237d846D3EE2Baf268FF2a91C5971F5E594E1B1",
+  "raw_reads": {
+    "isVerified": {
+      "call": "IdentityRegistry.isVerified(0x2237d846D3EE2Baf268FF2a91C5971F5E594E1B1)",
+      "block": "39730756",
+      "raw_value": false
+    },
+    "grants": {
+      "call": "VestingContract.grants(0x2237d846D3EE2Baf268FF2a91C5971F5E594E1B1)",
+      "block": "39730756",
+      "raw_total": "0",
+      "raw_released": "0",
+      "raw_start": "0",
+      "raw_cliff": "0",
+      "raw_duration": "0",
+      "raw_exists": false,
+      "raw_revoked": false,
+      "raw_revokedAt": "0"
+    },
+    "balanceOf": {
+      "call": "EquityToken.balanceOf(0x2237d846D3EE2Baf268FF2a91C5971F5E594E1B1)",
+      "block": "39730756",
+      "raw_value": "0"
+    }
+  },
+  "assertions": {
+    "isVerified_eq_false": true,
+    "grant_exists_eq_false": true,
+    "token_balanceOf_eq_zero": true,
+    "all_pass": true
+  }
+}

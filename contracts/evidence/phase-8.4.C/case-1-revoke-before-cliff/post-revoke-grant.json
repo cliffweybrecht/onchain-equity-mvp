@@ -1,0 +1,42 @@
+{
+  "phase": "8.4.C",
+  "case": "case-1-revoke-before-cliff",
+  "snapshot_type": "post_revoke_grant",
+  "captured_at": "2026-04-02T02:58:44.000Z",
+  "tx": {
+    "hash": "0xeb0b879fd2e522a8d4331e553a663f592f94a3f75319f28b42578e036c4fc249",
+    "status": "success",
+    "block_number": "39665218",
+    "block_hash": "0x611b31a100b54a39a76e36c9ba0a13975625710f60e9cf4c02f6db0af1a29d92",
+    "block_timestamp": "1775098724",
+    "block_timestamp_iso": "2026-04-02T02:58:44.000Z",
+    "gas_used": "97163"
+  },
+  "event": {
+    "name": "GrantRevoked",
+    "args": {
+      "employee": "0x7d5A7b3061880c36D69127a4eB8293880b1eD90A",
+      "revokedAt": "1775098724",
+      "total": "1000",
+      "released": "0",
+      "vested": "0",
+      "claimable": "0",
+      "canceled": "1000"
+    }
+  },
+  "grant_poststate": {
+    "total": "1000",
+    "released": "0",
+    "start": "1775097636",
+    "cliff": "1806633636",
+    "duration": "63072000",
+    "end": "1838169636",
+    "exists": true,
+    "revoked": true,
+    "revokedAt": "1775098724"
+  },
+  "derived": {
+    "vestedAmount_read": "0",
+    "token_balance": "0"
+  }
+}

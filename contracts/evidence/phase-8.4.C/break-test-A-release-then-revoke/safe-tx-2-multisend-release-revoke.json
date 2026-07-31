@@ -1,0 +1,57 @@
+{
+  "phase": "8.4.C",
+  "case": "break-test-A-release-then-revoke",
+  "seq": 2,
+  "op": "multiSend([release, revokeGrant])",
+  "generated_at": "2026-04-03T03:09:44.000Z",
+  "note": "CRITICAL ORDERING: release must be sub-call index 0, revokeGrant must be sub-call index 1. Both execute within the same Ethereum transaction — same block, same block.timestamp.",
+  "execution_mechanism": {
+    "method": "Safe Transaction Builder batch",
+    "instruction": "In Safe UI: New Transaction → Transaction Builder → add sub-call 0 (release) → add sub-call 1 (revokeGrant) → Create Batch → Execute",
+    "why_same_block": "Safe executes the batch as a single execTransaction call, which delegates to MultiSend. All sub-calls occur within one Ethereum tx and share block.timestamp."
+  },
+  "sub_calls": [
+    {
+      "index": 0,
+      "op": "release(beneficiary)",
+      "to": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+      "value": "0",
+      "function": "release(address)",
+      "selector": "0x19165587",
+      "args": {
+        "employee": "0x1d3854fd3c70540A38918aD9C54303d1e0E31e20"
+      },
+      "data": "0x191655870000000000000000000000001d3854fd3c70540a38918ad9c54303d1e0e31e20"
+    },
+    {
+      "index": 1,
+      "op": "revokeGrant(beneficiary)",
+      "to": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+      "value": "0",
+      "function": "revokeGrant(address)",
+      "selector": "0x1817c5a7",
+      "args": {
+        "employee": "0x1d3854fd3c70540A38918aD9C54303d1e0E31e20"
+      },
+      "data": "0x1817c5a70000000000000000000000001d3854fd3c70540a38918ad9c54303d1e0e31e20"
+    }
+  ],
+  "multisend_packed_bytes": "004739e9b845f4b4861236dfe0d8da7ad985754f0800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000024191655870000000000000000000000001d3854fd3c70540a38918ad9c54303d1e0e31e20004739e9b845f4b4861236dfe0d8da7ad985754f08000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000241817c5a70000000000000000000000001d3854fd3c70540a38918ad9c54303d1e0e31e20",
+  "multisend_packed_bytes_len_hex_chars": 484,
+  "multisend_packed_bytes_len_bytes": 242,
+  "expected_outcome": {
+    "release_effect": "g.released written to vested_at_T = floor(1000 * (T - 1759547342) / 31536000). Tokens minted to beneficiary.",
+    "revokeGrant_reads_updated_released": "revokeGrant reads g.released from storage, observing the value written by release() in the same tx (A2 assumption).",
+    "GrantRevoked_event": {
+      "released": "vested_at_T (captured by release before revoke)",
+      "vested": "vested_at_T (same formula, same T)",
+      "claimable": "0 (vested == released — nothing left to claim)",
+      "canceled": "1000 - vested_at_T"
+    },
+    "conservation_check": "released(vested_at_T) + claimable(0) + canceled(1000 - vested_at_T) = 1000"
+  },
+  "failure_condition": {
+    "if_claimable_neq_zero": "revokeGrant read stale g.released (pre-release value of 0) instead of updated value — would indicate A2 violation or storage isolation bug",
+    "numeric_contradiction": "If claimable > 0, then released + claimable + canceled would still equal 1000 (conservation holds) but claimable should be 0 when release preceded revokeGrant in same tx"
+  }
+}

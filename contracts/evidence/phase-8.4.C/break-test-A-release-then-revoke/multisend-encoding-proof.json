@@ -1,0 +1,68 @@
+{
+  "phase": "8.4.C",
+  "case": "break-test-A-release-then-revoke",
+  "artifact": "multisend-encoding-proof",
+  "generated_at": "2026-04-03T03:09:44.000Z",
+  "encoding_schema": {
+    "description": "Safe MultiSend packed encoding. Each sub-call is concatenated without padding.",
+    "per_subcall_layout": [
+      { "field": "operation",   "size_bytes": 1,  "size_hex": 2,  "type": "uint8",   "notes": "0x00=CALL, 0x01=DELEGATECALL" },
+      { "field": "to",          "size_bytes": 20, "size_hex": 40, "type": "address"  },
+      { "field": "value",       "size_bytes": 32, "size_hex": 64, "type": "uint256"  },
+      { "field": "dataLength",  "size_bytes": 32, "size_hex": 64, "type": "uint256", "notes": "byte length of the data field" },
+      { "field": "data",        "size_bytes": "dataLength", "size_hex": "dataLength*2", "type": "bytes" }
+    ],
+    "fixed_overhead_per_subcall_bytes": 85,
+    "data_size_bytes": 36,
+    "total_per_subcall_bytes": 121,
+    "total_two_subcalls_bytes": 242,
+    "total_two_subcalls_hex_chars": 484
+  },
+  "selectors_used": {
+    "release(address)":    { "selector": "0x19165587", "source": "selector-proof.json" },
+    "revokeGrant(address)": { "selector": "0x1817c5a7",  "source": "selector-proof.json" }
+  },
+  "packed_bytes": "004739e9b845f4b4861236dfe0d8da7ad985754f0800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000024191655870000000000000000000000001d3854fd3c70540a38918ad9c54303d1e0e31e20004739e9b845f4b4861236dfe0d8da7ad985754f08000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000241817c5a70000000000000000000000001d3854fd3c70540a38918ad9c54303d1e0e31e20",
+  "packed_bytes_hex_chars": 484,
+  "packed_bytes_bytes": 242,
+  "decode": {
+    "subcall_0": {
+      "byte_range": "0–120",
+      "operation_hex":  "00",
+      "operation_value": "CALL",
+      "to_hex":         "4739e9b845f4b4861236dfe0d8da7ad985754f08",
+      "to_checksummed": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+      "value_hex":      "0000000000000000000000000000000000000000000000000000000000000000",
+      "value_decimal":  "0",
+      "dataLength_hex": "0000000000000000000000000000000000000000000000000000000000000024",
+      "dataLength_decimal": 36,
+      "data_hex":       "191655870000000000000000000000001d3854fd3c70540a38918ad9c54303d1e0e31e20",
+      "selector":       "0x19165587",
+      "selector_fn":    "release(address)",
+      "arg_padding_hex": "000000000000000000000000",
+      "arg_address":    "0x1d3854fd3c70540A38918aD9C54303d1e0E31e20"
+    },
+    "subcall_1": {
+      "byte_range": "121–241",
+      "operation_hex":  "00",
+      "operation_value": "CALL",
+      "to_hex":         "4739e9b845f4b4861236dfe0d8da7ad985754f08",
+      "to_checksummed": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+      "value_hex":      "0000000000000000000000000000000000000000000000000000000000000000",
+      "value_decimal":  "0",
+      "dataLength_hex": "0000000000000000000000000000000000000000000000000000000000000024",
+      "dataLength_decimal": 36,
+      "data_hex":       "1817c5a70000000000000000000000001d3854fd3c70540a38918ad9c54303d1e0e31e20",
+      "selector":       "0x1817c5a7",
+      "selector_fn":    "revokeGrant(address)",
+      "arg_padding_hex": "000000000000000000000000",
+      "arg_address":    "0x1d3854fd3c70540A38918aD9C54303d1e0E31e20"
+    }
+  },
+  "reencode_proof": {
+    "subcall_0_reencoded": "004739e9b845f4b4861236dfe0d8da7ad985754f0800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000024191655870000000000000000000000001d3854fd3c70540a38918ad9c54303d1e0e31e20",
+    "subcall_1_reencoded": "004739e9b845f4b4861236dfe0d8da7ad985754f08000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000241817c5a70000000000000000000000001d3854fd3c70540a38918ad9c54303d1e0e31e20",
+    "concat_reencoded": "004739e9b845f4b4861236dfe0d8da7ad985754f0800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000024191655870000000000000000000000001d3854fd3c70540a38918ad9c54303d1e0e31e20004739e9b845f4b4861236dfe0d8da7ad985754f08000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000241817c5a70000000000000000000000001d3854fd3c70540a38918ad9c54303d1e0e31e20",
+    "byte_for_byte_match": true
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "phase": "8.4.C",
+  "case": "break-test-B-revoke-then-release",
+  "seq": 0,
+  "op": "setStatus",
+  "generated_at": "2026-04-03T03:09:44.000Z",
+  "note": "Must execute before createGrant. release() calls isVerified() — beneficiary must be verified or release() reverts.",
+  "safe": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+  "to": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+  "value": "0",
+  "function": "setStatus(address,uint8)",
+  "selector": "0x278e07ce",
+  "args": {
+    "user": "0x2237d846D3EE2Baf268FF2a91C5971F5E594E1B1",
+    "newStatus": 1
+  },
+  "data": "0x278e07ce0000000000000000000000002237d846d3ee2baf268ff2a91c5971f5e594e1b10000000000000000000000000000000000000000000000000000000000000001",
+  "expected_event": "StatusUpdated(user=0x2237d846D3EE2Baf268FF2a91C5971F5E594E1B1, previousStatus=0, newStatus=1)"
+}

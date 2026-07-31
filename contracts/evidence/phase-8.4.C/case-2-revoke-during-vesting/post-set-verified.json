@@ -1,0 +1,38 @@
+{
+  "phase": "8.4.C",
+  "case": "case-2-revoke-during-vesting",
+  "snapshot_type": "post_set_verified",
+  "generated_at": "2026-04-03T01:55:38.000Z",
+  "tx": {
+    "hash": "0xc685318b3583206ce78a3f7008a570351a56514acbb9fbbb18f0179fc4f1cf24",
+    "status": "success",
+    "block_number": "39706525",
+    "block_hash": "0xaee6cae044347e7260d01f1b603e66d1514fe74aaa5846c48055fe0f449b2325",
+    "block_timestamp": "1775181338",
+    "block_timestamp_iso": "2026-04-03T01:55:38.000Z",
+    "gas_used": "84555"
+  },
+  "event": {
+    "name": "StatusUpdated",
+    "signature_topic": "0xb39e37bf87837f97805718e26da89735b231978986e8294bb6f186dcd80381cc",
+    "args": {
+      "user": "0x1A0E8fC547DC74d4caEcC506dc605534846B6A06",
+      "previousStatus": 0,
+      "newStatus": 1
+    }
+  },
+  "registry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+  "beneficiary": "0x1A0E8fC547DC74d4caEcC506dc605534846B6A06",
+  "poststate": {
+    "status_raw": 1,
+    "status_label": "Verified",
+    "isVerified": true
+  },
+  "assertions": {
+    "tx_succeeded": true,
+    "status_is_1": true,
+    "isVerified_true": true,
+    "event_previousStatus_was_0": true,
+    "event_newStatus_is_1": true
+  }
+}

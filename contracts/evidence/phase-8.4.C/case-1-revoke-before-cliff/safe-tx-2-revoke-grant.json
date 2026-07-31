@@ -1,0 +1,40 @@
+{
+  "phase": "8.4.C",
+  "case": "case-1-revoke-before-cliff",
+  "seq": 2,
+  "op": "revokeGrant",
+  "generated_at": "2026-04-02T02:40:36.000Z",
+  "note": "Execute immediately after safe-tx-1-create-grant confirms. No waiting required — cliff is 1 year away.",
+  "safe": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+  "to": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+  "value": "0",
+  "function": "revokeGrant(address)",
+  "args": {
+    "employee": "0x7d5A7b3061880c36D69127a4eB8293880b1eD90A"
+  },
+  "data": "0x1817c5a70000000000000000000000007d5a7b3061880c36d69127a4eb8293880b1ed90a",
+  "selector": "0x1817c5a7",
+  "selector_derivation": "keccak256(\"revokeGrant(address)\")[0:4]",
+  "calldata_layout": {
+    "selector_bytes_0_3": "1817c5a7",
+    "employee_bytes_4_35": "0000000000000000000000007d5a7b3061880c36d69127a4eb8293880b1ed90a"
+  },
+  "expected_revert_if_preconditions_fail": [
+    "GrantDoesNotExist() — if createGrant has not yet confirmed",
+    "GrantAlreadyRevoked() — if called twice",
+    "NotAdmin() — if caller is not vesting.admin (Safe)"
+  ],
+  "expected_event_on_success": {
+    "name": "GrantRevoked",
+    "args": {
+      "employee": "0x7d5A7b3061880c36D69127a4eB8293880b1eD90A",
+      "revokedAt": "<block.timestamp of this tx>",
+      "total": "1000",
+      "released": "0",
+      "vested": "0",
+      "claimable": "0",
+      "canceled": "1000"
+    },
+    "proof": "revokedAt < cliff (1806633636) => _vestedAmountAt returns 0"
+  }
+}

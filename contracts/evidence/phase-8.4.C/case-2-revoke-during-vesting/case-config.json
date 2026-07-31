@@ -1,0 +1,84 @@
+{
+  "phase": "8.4.C",
+  "case": "case-2-revoke-during-vesting",
+  "generated_at": "2026-04-02T03:09:02.000Z",
+  "hypothesis": "When revokeGrant is called after cliff but before end, vested is a linear fraction of total, claimable equals vested, canceled equals total minus vested",
+  "stack": {
+    "chain_id": 84532,
+    "token": "0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95",
+    "vesting": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+    "safe": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+    "identity_registry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4"
+  },
+  "beneficiary": "0x1A0E8fC547DC74d4caEcC506dc605534846B6A06",
+  "beneficiary_prestate": {
+    "status_raw": 0,
+    "status_label": "Unverified",
+    "isVerified": false,
+    "grant_exists": false,
+    "confirmed_at_block": "39665527"
+  },
+  "grant_params": {
+    "total": "1000",
+    "start": "1759547342",
+    "start_iso": "2025-10-04T03:09:02.000Z",
+    "cliff": "1767323342",
+    "cliff_iso": "2026-01-02T03:09:02.000Z",
+    "duration": "31536000",
+    "duration_human": "365 days",
+    "end": "1791083342",
+    "end_iso": "2026-10-04T03:09:02.000Z"
+  },
+  "timing_proof": {
+    "cliff_is_in_past": true,
+    "cliff_iso": "2026-01-02T03:09:02.000Z",
+    "end_is_in_future": true,
+    "end_iso": "2026-10-04T03:09:02.000Z",
+    "anchor_timestamp": "1775099342",
+    "anchor_iso": "2026-04-02T03:09:02.000Z",
+    "assertion": "cliff(1767323342) < anchor(1775099342) < end(1791083342)"
+  },
+  "vested_estimate": {
+    "elapsed_at_anchor_seconds": "15552000",
+    "elapsed_at_anchor_days": "180",
+    "formula": "floor(total * elapsed / duration) = floor(1000 * elapsed / 31536000)",
+    "lower_bound_vested": "493",
+    "note": "Exact value confirmed from GrantRevoked event revokedAt. revokedAt will be slightly after anchor.",
+    "claimable": "vested (released=0 at time of revoke)",
+    "canceled": "1000 - vested"
+  },
+  "required_proofs": [
+    "setStatus tx confirmed: isVerified(beneficiary)==true",
+    "createGrant tx confirmed: grant.exists==true, params match",
+    "revokeGrant tx confirmed: grant.revoked==true",
+    "cliff(1767323342) <= revokedAt < end(1791083342)",
+    "GrantRevoked.vested == floor(1000 * (revokedAt - 1759547342) / 31536000)",
+    "GrantRevoked.vested > 0",
+    "GrantRevoked.claimable == vested (since released==0)",
+    "GrantRevoked.canceled == 1000 - vested",
+    "GrantRevoked.canceled > 0 (not yet fully vested at revocation)",
+    "vestedAmount(beneficiary) == GrantRevoked.vested after revoke (capped at revokedAt)"
+  ],
+  "safe_transactions_required": [
+    {
+      "seq": 0,
+      "op": "setStatus",
+      "to": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+      "artifact": "safe-tx-0-set-verified.json",
+      "note": "Verify Case 2 beneficiary in IdentityRegistry before grant creation"
+    },
+    {
+      "seq": 1,
+      "op": "createGrant",
+      "to": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+      "artifact": "safe-tx-1-create-grant.json"
+    },
+    {
+      "seq": 2,
+      "op": "revokeGrant",
+      "to": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+      "artifact": "safe-tx-2-revoke-grant.json",
+      "note": "Execute immediately after createGrant confirms — cliff is already in the past"
+    }
+  ]
+}

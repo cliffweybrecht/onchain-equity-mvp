@@ -1,0 +1,34 @@
+{
+  "phase": "8.4.C",
+  "case": "break-test-A-release-then-revoke",
+  "snapshot_type": "prestate",
+  "generated_at": "2026-04-03T03:09:44.000Z",
+  "read_block": "39709110",
+  "stack": {
+    "chain_id": 84532,
+    "network": "base-sepolia",
+    "vesting": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08",
+    "identity_registry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+    "token": "0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95"
+  },
+  "beneficiary": "0x1d3854fd3c70540A38918aD9C54303d1e0E31e20",
+  "identity": {
+    "status_raw": 0,
+    "status_label": "Unverified",
+    "isVerified": false
+  },
+  "grant": {
+    "exists": false,
+    "total": "0",
+    "released": "0",
+    "revoked": false
+  },
+  "token_balance": "0",
+  "assertions": {
+    "isVerified_false": true,
+    "grant_exists_false": true,
+    "grant_released_zero": true,
+    "token_balance_zero": true,
+    "safe_to_proceed": true
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "phase": "8.4.C",
+  "artifact": "vesting-formula-proof",
+  "generated_at": "2026-04-03T03:09:44.000Z",
+  "purpose": "Document the exact deterministic vesting formula used by VestingContract. No numeric estimates of V appear in this document — V is always expressed as the output of the formula applied to the actual revokedAt timestamp from the on-chain transaction.",
+  "grant_params": {
+    "total": "1000",
+    "start": "1759547342",
+    "start_iso": "2025-10-04T03:09:02.000Z",
+    "cliff": "1767323342",
+    "cliff_iso": "2026-01-02T03:09:02.000Z",
+    "duration": "31536000",
+    "duration_human": "365 days",
+    "end": "1791083342",
+    "end_iso": "2026-10-04T03:09:02.000Z"
+  },
+  "contract_formula": {
+    "source": "VestingContract.sol _vestedAmountAt(), lines 117-136",
+    "effective_time": "_effectiveTime(g, queryTime): if g.revoked && queryTime > g.revokedAt → return g.revokedAt, else return queryTime",
+    "effective_time_boundary": "STRICT > (not >=). When queryTime == revokedAt, the cap does NOT apply.",
+    "linear_formula": "floor(total * elapsed / duration) where elapsed = effectiveTime - start",
+    "pre_cliff_case": "effectiveTime < cliff → vested = 0",
+    "post_duration_case": "elapsed >= duration → vested = total",
+    "active_window_formula": "vested = floor(total * (effectiveTime - start) / duration)"
+  },
+  "determinism_proof": {
+    "inputs_are_immutable_after_createGrant": [
+      "total = 1000 (set at createGrant, never modified)",
+      "start = 1759547342 (set at createGrant, never modified)",
+      "duration = 31536000 (set at createGrant, never modified)"
+    ],
+    "revokedAt_is_block_timestamp_of_revoke_tx": "revokedAt = uint64(block.timestamp) set by revokeGrant() at execution time. This value is recorded in the GrantRevoked event and in g.revokedAt storage.",
+    "formula_is_deterministic_once_revokedAt_is_known": "V = floor(1000 * (revokedAt - 1759547342) / 31536000). Given revokedAt from the on-chain event, V is uniquely determined. EVM integer division is deterministic.",
+    "later_block_vestedAmount_equals_V": "For any later block with timestamp T_later > revokedAt: _effectiveTime returns revokedAt (cap applies since T_later > revokedAt strictly). vestedAmount = floor(1000 * (revokedAt - 1759547342) / 31536000) = V. Frozen at V."
+  },
+  "active_window_proof": {
+    "cliff": "1767323342",
+    "end": "1791083342",
+    "current_time_approx_block": "39709110",
+    "current_time_bound": "Block 39709110 is well after cliff (1767323342) and before end (1791083342). Any MultiSend execution at current chain time will satisfy cliff <= revokedAt < end.",
+    "proof": "cliff(1767323342) < block.timestamp(at block ~39709110) < end(1791083342)",
+    "consequence": "0 < V < 1000 is guaranteed at execution time"
+  },
+  "no_estimates": "This artifact intentionally omits any numeric prediction of V. V is defined as floor(1000 * (revokedAt - 1759547342) / 31536000) where revokedAt is the block.timestamp of the MultiSend transaction. V will be read from the GrantRevoked event after execution and verified against this formula."
+}

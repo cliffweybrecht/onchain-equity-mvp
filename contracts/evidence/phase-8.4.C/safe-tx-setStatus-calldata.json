@@ -1,0 +1,25 @@
+{
+  "phase": "8.4.C",
+  "generated_at": "2026-04-02T02:25:24.805Z",
+  "purpose": "Safe execution payload to verify fresh beneficiary in IdentityRegistry before Phase 8.4.C revocation test grants",
+  "safe_admin": "0x1eDc758579C66967C42066e8dDCB690a1651517e",
+  "to": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
+  "value": "0",
+  "function": "setStatus(address,uint8)",
+  "args": {
+    "user": "0x7d5A7b3061880c36D69127a4eB8293880b1eD90A",
+    "newStatus": 1
+  },
+  "data": "0x278e07ce0000000000000000000000007d5a7b3061880c36d69127a4eb8293880b1ed90a0000000000000000000000000000000000000000000000000000000000000001",
+  "proof": {
+    "function_exists_in_source": true,
+    "function_exists_in_abi": true,
+    "setVerified_does_not_exist": true,
+    "correct_function": "setStatus(address,uint8)",
+    "incorrect_function_attempted": "setVerified(address,bool)",
+    "why_setVerified_failed": "GS013/fallback() in simulation because setVerified(address,bool) is not in the IdentityRegistry ABI — selector 0x8c2a993e routes to fallback",
+    "selector": "0x278e07ce",
+    "selector_derivation": "keccak256(\"setStatus(address,uint8)\")[0:4]",
+    "status_code_1_means": "Verified (mapping value 1 satisfies isVerified() returning true)"
+  }
+}
