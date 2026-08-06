@@ -2,50 +2,56 @@
 
 <!-- One sentence. What does this PR accomplish? -->
 
-## Motivation
+## Architectural Rationale
 
-<!-- Why is this change needed? What problem does it solve? -->
+<!-- Why is this the right approach? What alternatives were considered and rejected? How does this fit the current milestone? -->
 
 ## Scope
 
 <!-- List every file changed. For each file, one line explaining what changed and why. -->
 
-## Classification
+## Out of Scope
 
-<!-- Check one -->
-- [ ] canonical — modifies the active canonical stack (Phase 8.4.C or successor)
-- [ ] parallel experiment — non-canonical exploration (must be labeled in source)
-- [ ] chore — repository hygiene, tooling, documentation
-- [ ] evidence — new or updated chain-grounded proof artifacts
+<!-- Explicitly list related work that was intentionally deferred. This prevents scope creep and informs future PRs. -->
 
-## Verification
+## Acceptance Criteria
 
-<!-- Exact commands a reviewer can run to confirm this works. Must be runnable. -->
+<!-- Numbered list of verifiable statements that must be true for this PR to be mergeable. Each criterion must be testable — either by running a command or by inspecting a specific artifact field or contract address. -->
+
+## Verification Performed
+
+<!-- Exact commands run and their complete output. Must be reproducible by any reviewer. -->
 
 ```sh
-# Example:
-npm run compile   # exits 0
-npm test          # exits 0
+npm ci
+npm run clean
+npm run compile
+npm test
 ```
 
-## Trust Boundary Change
+## Security and Trust-Boundary Impact
 
-<!-- If this PR changes admin authority, Safe configuration, or access control: describe what changed, from whom, to whom, and the transaction hash. Write N/A if not applicable. -->
+<!-- Does this PR change who holds admin authority, modify the Safe configuration, alter access control paths, or affect key material? If yes: state what changed, from whom to whom, and the transaction hash (or note that one is pending). Write "None" if not applicable. -->
 
-## Evidence Artifacts
+## Generated or Canonical Artifacts Affected
 
-<!-- If this PR modifies a Solidity contract: reference the chain-grounded artifact proving the new behavior. Include the transaction hash and the artifact file path. Write N/A if not applicable. -->
+<!-- Does this PR add, modify, or delete any artifact in contracts/evidence/, manifests/, or evidence/? If yes, explain why and how the artifact was regenerated. Canonical evidence must never be silently modified. Write "None" if not applicable. -->
 
-## Breaking Changes
+## Rollback Plan
 
-<!-- Does this change break any existing script, artifact format, or operational procedure? If yes, describe the impact and migration path. Write N/A if not applicable. -->
+<!-- How is this PR reversed if problems are discovered post-merge? For documentation-only PRs, this is a revert commit. For contract changes, state whether a new deployment is required. -->
+
+## Future Work Unlocked
+
+<!-- What PRs or milestones does this PR unblock? What decisions does it leave open intentionally? -->
+
+---
 
 ## Checklist
 
-- [ ] Branch name follows the convention in `CONTRIBUTING.md`
-- [ ] Commit message follows `<type>(<scope>): <summary>` format
-- [ ] One objective only — no bundled unrelated changes
-- [ ] Verification section is runnable (not "trust me")
-- [ ] Parallel experiment code is labeled in source if applicable
-- [ ] No speculative abstractions or dead code added
-- [ ] `npm run compile` and `npm test` pass locally
+- [ ] This PR has exactly one objective
+- [ ] No unrelated work is included
+- [ ] This PR belongs to the current milestone (or explicitly states why it does not)
+- [ ] Documentation matches actual behavior — nothing is claimed that is not implemented
+- [ ] No secrets, private keys, or credentials are committed
+- [ ] Canonical evidence artifacts were not silently modified

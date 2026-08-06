@@ -4,7 +4,7 @@
 
 ## One Objective Per PR
 
-Each pull request must accomplish exactly one clearly stated objective. Do not bundle unrelated changes. A PR that fixes a script bug and also refactors a contract is two PRs.
+Each pull request must accomplish exactly one clearly stated objective. Do not bundle unrelated changes.
 
 **Wrong:** "fix script + clean up docs"  
 **Right:** "fix release amount calculation in build-post-create-grant.mjs"
@@ -20,57 +20,48 @@ Each pull request must accomplish exactly one clearly stated objective. Do not b
 | `fix/` | Defect correction in a canonical component |
 | `evidence/` | New or updated chain-grounded proof artifacts |
 | `docs/` | Documentation-only changes |
-| `experiment/` | Non-canonical explorations (must be labeled) |
+| `experiment/` | Non-canonical explorations (must be labeled in source) |
 
 ---
 
-## Measurable Acceptance Criteria
+## Acceptance Criteria
 
-Every PR description must include a **Verification** section listing the exact commands a reviewer can run to confirm the change works. If a change cannot be verified by running a command, it must reference a specific transaction hash, block number, or artifact field that proves the claim.
+Every PR description must include an **Acceptance Criteria** section listing verifiable statements that must be true before the PR is merged. Each criterion must be checkable by running a command or inspecting a specific artifact field, contract address, or transaction hash.
 
-Examples of acceptable verification:
-
-```
-npm run compile   # exits 0
-npm test          # exits 0, 3 tests passed
-node scripts/ops/phase-8.4.C/verify-foo.mjs --tx-hash 0x...   # PASS
-```
-
-Examples of unacceptable verification:
-
-```
-"Works on my machine"
-"Trust me"
-"Visually inspected"
-```
+Use the PR template at `.github/pull_request_template.md`. Do not omit required sections.
 
 ---
 
-## Contract Changes Require Evidence
+## Contract Change Lifecycle
 
-Any PR that modifies a Solidity source file must include or reference a chain-grounded evidence artifact proving the modified contract behaves correctly on Base Sepolia. The artifact must:
+Modifying a Solidity source file and merging the PR does not make that change canonical.
 
-- Reference a transaction hash from a successful deployment
-- Include a decoded event log or storage read confirming the behavior under test
-- Pass all assertion fields (`true` throughout)
+The lifecycle for contract changes is:
 
-Evidence artifacts go in `contracts/evidence/phase-X/` where `X` is the current phase.
+1. **Source PR** — modify source, add or update local tests, perform trust-boundary analysis (see below), merge.
+2. **Testnet deployment** — deploy the modified contract to Base Sepolia, record the deployment transaction hash.
+3. **Evidence PR** — run evidence scripts against the deployed contract, produce chain-grounded artifacts in `contracts/evidence/phase-X/`, merge.
+4. **Canonical declaration** — update `deployments/base-sepolia.json` and any affected documentation to reflect the new canonical addresses.
+
+A source PR that passes local compilation and tests is a necessary but not sufficient condition for canonical status.
 
 ---
 
-## Trust Boundary Disclosure
+## Trust-Boundary Analysis
 
-If a PR changes who holds admin authority, changes the Safe configuration, transfers ownership, or modifies any access control path, the PR description must include a **Trust Boundary Change** section that explicitly states:
+Any PR that changes who holds admin authority, modifies the Safe configuration, transfers ownership, or alters any access control path must include a **Security and Trust-Boundary Impact** section in the PR description stating:
 
 - What authority is being changed
 - From whom to whom
-- The transaction hash that executed the change (or that the change is pending)
+- Whether a transaction hash exists (or is pending) to prove the change on-chain
+
+This applies to Solidity changes, script changes, and configuration changes that affect admin routing.
 
 ---
 
 ## Experiment Labeling
 
-Code that is not part of the canonical stack must be labeled. In source files, add a top-of-file comment:
+Code that is not part of the canonical stack must be labeled. In Solidity source files, add a top-of-file comment:
 
 ```solidity
 // PARALLEL EXPERIMENT — not part of the canonical Phase 8.4.C stack.
@@ -81,24 +72,9 @@ In documentation, use the term "parallel experiment" as defined in `docs/TERMINO
 
 ---
 
-## No Speculative Abstractions
+## Canonical Evidence Integrity
 
-Do not introduce helpers, utilities, base contracts, or interfaces unless they are used immediately by code in the same PR. Do not add configuration options, feature flags, or error handling for scenarios that cannot currently occur. Three similar lines of code is better than a premature abstraction.
-
----
-
-## PR Template
-
-All PRs must use the template at `.github/pull_request_template.md`. Do not omit fields. If a field does not apply, write `N/A` with a brief explanation.
-
----
-
-## Review Requirements
-
-- At least one approving review before merge
-- All CI checks must pass (compile, test)
-- No unresolved review comments
-- PR description must be complete per the template
+Canonical evidence artifacts in `contracts/evidence/` must never be silently modified. If an artifact must be corrected, open a dedicated PR explaining what was wrong, what the correction is, and include the original artifact in the PR for comparison.
 
 ---
 
@@ -112,4 +88,10 @@ All PRs must use the template at `.github/pull_request_template.md`. Do not omit
 
 Types: `feat`, `fix`, `chore`, `docs`, `evidence`, `test`, `refactor`
 
-Keep the summary line under 72 characters. The body is optional but encouraged for non-obvious changes.
+Keep the summary line under 72 characters.
+
+---
+
+## Milestone Awareness
+
+Each PR should state which milestone it belongs to (see the Roadmap in `README.md`). PRs that do not belong to the current active milestone must explicitly justify why they are being merged out of sequence.
