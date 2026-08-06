@@ -1,284 +1,170 @@
-# Rail — On-Chain Equity Infrastructure (MVP)
+# Rail — Programmable Ownership Infrastructure
 
-Rail is infrastructure for issuing and managing equity-like instruments on-chain with identity gating, programmable compliance policies, deterministic vesting, and verifiable governance artifacts.
+Rail is programmable ownership infrastructure built from reusable capabilities: **Identity**, **Authorization**, **Governance**, **Ownership lifecycle**, **Settlement**, **Evidence**, **Auditability**, and **Compliance hooks**. These capabilities compose into ownership primitives. **Equity is the first implemented ownership primitive.**
 
-This repository contains the MVP implementation of the Rail protocol and its operational tooling.
-
-The system demonstrates how equity issuance infrastructure can be built with:
-
-• programmable compliance  
-• deterministic vesting logic  
-• cryptographically verifiable governance artifacts  
-• reproducible audit artifacts  
-• append-only transparency logs  
-
-The MVP is currently deployed and tested on Base Sepolia.
-
+This repository does not currently support RSUs, options, warrants, SAFEs, convertible notes, fund interests, or any other instrument beyond the equity primitive described here.
 
 ---
 
-# Architecture Overview
+## Canonical Release
 
-Rail separates the system into several independent layers to minimize risk and clearly define trust boundaries.
+| Property | Value |
+|---|---|
+| Phase | 8.4.C |
+| Reference commit | `5c2e293905748fdd325d4b860fddaaf99980200d` |
+| Network | Base Sepolia (chain ID 84532) |
+| Status | Experimental testnet implementation — not production-ready |
 
-## 1. Equity Token Layer
+Canonical contract addresses for Phase 8.4.C:
 
-The equity token represents the underlying equity-like asset and enforces policy checks on transfers.
+| Contract | Address |
+|---|---|
+| EquityToken | `0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95` |
+| VestingContract | `0x4739e9B845F4b4861236dfE0d8Da7AD985754f08` |
+| IdentityRegistry | `0x9d6831cCB9D6f971Cb648B538448d175650cfEa4` |
+| Safe (governance) | `0x1eDc758579C66967C42066e8dDCB690a1651517e` |
 
-Responsibilities:
-
-• token issuance  
-• transfer logic  
-• policy enforcement hooks  
-
-
----
-
-## 2. Identity Registry
-
-The Identity Registry maintains the set of verified participants that are allowed to interact with the system.
-
-Responsibilities:
-
-• identity verification status  
-• transfer eligibility checks  
-• compliance gating  
-
+Note: `deployments/base-sepolia.json` currently records the Phase 8.4.B.A stack. Updating it to reflect Phase 8.4.C is tracked as a pending task (Milestone 2).
 
 ---
 
-## 3. Compliance Policy Layer
+## Roadmap
 
-Policies enforce transfer restrictions and system-level controls.
-
-Examples include:
-
-• identity verification requirements  
-• emergency freeze controls  
-• modular compliance checks  
-
-
----
-
-## 4. Vesting System
-
-The vesting contract manages grant creation and deterministic release of tokens over time.
-
-Responsibilities:
-
-• vesting grant creation  
-• cliff + linear vesting schedules  
-• beneficiary release functions  
-
+| # | Milestone | Status |
+|---|---|---|
+| 1 | Repository Hygiene | In progress |
+| 2 | Canonical Deployment Manifest | Not started |
+| 3 | Reproducible Local Setup | Not started |
+| 4 | Evidence Automation | Not started |
+| 5 | Continuous Integration | Not started |
+| 6 | Contract Verification & Bytecode Provenance | Not started |
+| 7 | Protocol Hardening | Not started |
+| 8 | Architecture Decision Records | Not started |
+| 9 | Canonical Protocol v1 | Not started |
+| 10 | Developer Platform | Not started |
+| 11 | Enterprise Product | Not started |
+| 12 | Ecosystem Expansion | Not started |
 
 ---
 
-## 5. Governance Layer
+## Implementation Scope
 
-Administrative authority is controlled through a multisig governance model.
+### Implemented and proven in canonical Phase 8.4.C
 
-Responsibilities:
+- **Mint-on-claim vesting** — The VestingContract mints tokens directly to the beneficiary at claim time. No pre-funded token pool is required.
+- **Cliff + linear vesting schedule** — `floor(total * elapsed / duration)` with a cliff gating period before which no tokens vest.
+- **Grant revocation** — Admin (Safe) can revoke any grant at any time. Vested-but-unreleased tokens remain claimable; unvested tokens are canceled. Revocation is irreversible per grant slot.
+- **Identity gating** — `createGrant` requires `IdentityRegistry.isVerified(employee) == true`.
+- **Conservation invariant** — `released_before + claimable + canceled = total` is proven for every revocation case in the evidence package.
+- **Atomic revoke + release** — A single Safe MultiSend transaction can execute `revokeGrant` followed by `release` in the same block. The `_effectiveTime` strict `>` boundary condition is proven to handle this correctly (Break Test B).
+- **Atomic release + revoke** — `release` followed by `revokeGrant` in the same MultiSend is proven to correctly observe the updated `g.released` value (Break Test A).
+- **Governance via Safe** — All admin operations require a Safe transaction signed by the owner EOA.
+- **Chain-grounded evidence** — Phase 8.4.C produces JSON artifacts referencing block hashes, transaction receipts, event logs, and storage reads that can be independently verified.
 
-• controlled minting and grant creation  
-• policy management  
-• system upgrades and emergency controls  
+### Present in the repository but not part of the canonical Phase 8.4.C deployment
 
+- **Compliance policy contracts** — `contracts/policies/` and `contracts/policy/` contain `EmergencyFreezePolicyV1`, `EmergencyFreezePolicyV2`, `CompositePolicy` variants, `MinAmountPolicyV1`, and `ComplianceGatedPolicyV1`. These exist and are Solidity-compilable but are not deployed or connected in the Phase 8.4.C stack.
+- **EquityTokenV2** — `contracts/EquityTokenV2.sol` is a parallel experiment that adds policy enforcement hooks to the token. It is not part of the canonical Phase 8.4.C stack.
+- **Transparency log infrastructure** — Schemas (`schemas/`), manifests (`manifests/`), and verification scripts (`scripts/audit/`) for an append-only transparency log exist and were used in prior phases. They are not active in Phase 8.4.C.
+- **Audit packet system** — Scripts for building and verifying grant audit packets exist in `scripts/`. Operational in prior phases; not formally integrated into Phase 8.4.C evidence generation.
+- **Historical evidence** — `evidence/` contains artifacts from phases 3.9 through 8.1. `contracts/evidence/` contains phase-by-phase artifacts up through 8.4.C.
 
----
+### Not yet implemented
 
-## 6. Transparency Log
-
-Rail includes an append-only transparency log used to record governance artifacts and audit outputs.
-
-Features include:
-
-• append-only log entries  
-• Merkle root commitments  
-• checkpoint artifacts  
-• consistency proofs between checkpoints  
-
-
----
-
-## 7. Deterministic Audit Artifacts
-
-The system produces reproducible audit artifacts that allow external verification.
-
-Artifacts include:
-
-• grant audit packets  
-• transparency manifests  
-• checkpoint proofs  
-• consistency verification logs  
-
+- Transfer restriction enforcement in the canonical stack
+- Emergency pause / freeze in the canonical stack
+- Continuous integration (Milestone 5)
+- External security audit
 
 ---
 
-# Repository Structure
+## Settlement Architecture Note
 
+Phase 8.4.C settlement uses **mint-on-claim**: the VestingContract holds the `admin` role on EquityToken and mints tokens directly to the beneficiary when `release(employee)` is called.
 
-contracts/ Solidity smart contracts
-
-scripts/ Operational scripts for building artifacts and verifying system state
-
-schemas/ JSON schemas used to validate audit artifacts
-
-manifests/ Canonical manifest files for audit artifacts
-
-evidence/ Reproducible audit evidence generated by scripts
-
-deployments/ Deployment artifacts
-
-docs/ Protocol documentation and reference material
-
-test/ Test suite
-
-archived-tests/ Historical tests retained for reference
-
-
-The repository is structured so that system artifacts can be reproduced deterministically.
-
+Mint-on-claim is an accepted MVP implementation. It is not a permanent architectural commitment. Settlement will be revisited during **Milestone 9 — Canonical Protocol v1**. The open architecture question is generalized ownership settlement — not simply switching from mint-on-claim to escrow.
 
 ---
 
-# Key Components
+## Repository Structure
 
-## Smart Contracts
+See [`docs/REPOSITORY.md`](docs/REPOSITORY.md) for the canonical repository structure, directory classifications, editability rules, and governance boundaries.
 
-Located in:
+---
 
+## Development
 
-contracts/
+Install dependencies (uses the lockfile; does not update it):
 
+```sh
+npm ci
+```
 
-Core modules include:
+Compile contracts:
 
-• equity token  
-• identity registry  
-• compliance policy layer  
-• vesting system  
+```sh
+npm run compile
+```
 
+Run tests:
+
+```sh
+npm test
+```
+
+Clean build artifacts:
+
+```sh
+npm run clean
+```
+
+The repository has no pinned Node.js version requirement. Node.js 22 is the current development environment. The package uses ES module syntax (`"type": "module"` in `package.json`).
+
+Network-dependent operational scripts (in `scripts/ops/`) require a `BASE_SEPOLIA_RPC_URL` environment variable. Set it in a `.env` file (which is gitignored). Optionally set `PRIVATE_KEY` for scripts that submit transactions.
 
 ---
 
 ## Operational Scripts
 
-Located in:
+Scripts in `scripts/ops/` produce or verify chain-grounded evidence artifacts. Each script documents its required arguments in its header comment.
 
+Convenience aliases defined in `package.json`:
 
-scripts/
-
-
-Scripts are used to:
-
-• generate audit artifacts  
-• build transparency log entries  
-• produce checkpoint proofs  
-• verify system state  
-
-
----
-
-## Schemas
-
-Located in:
-
-
-schemas/
-
-
-JSON schemas define the structure of audit artifacts and ensure deterministic validation.
-
+```sh
+npm run sign:audit-packet
+npm run verify:audit-packet-signature
+npm run build:transparency-checkpoint-finalization
+npm run verify:transparency-checkpoint-finalization
+```
 
 ---
 
 ## Evidence
 
-Located in:
+Phase 8.4.C evidence is in `contracts/evidence/phase-8.4.C/`. It proves:
 
+- **Baseline release** — Tokens vest and release correctly under normal operation.
+- **Case 1: Revoke before cliff** — Revocation before the cliff cancels the full grant; claimable is zero.
+- **Case 2: Revoke during vesting** — Revocation during the vesting window produces a partial claimable amount. Conservation invariant holds.
+- **Break Test A: Release then revoke** — `release` then `revokeGrant` in the same MultiSend. Revoke correctly observes the `g.released` value written by `release`.
+- **Break Test B: Revoke then release** — `revokeGrant` then `release` in the same MultiSend. The `_effectiveTime` strict `>` boundary allows `release` to observe the same `vested` as `revokeGrant` and mint the correct amount.
 
-evidence/
-
-
-Evidence bundles produced during development phases include:
-
-• artifact build logs  
-• verification outputs  
-• deterministic reproduction tests  
-
+See [`docs/EVIDENCE_INDEX.md`](docs/EVIDENCE_INDEX.md) for a full artifact index.
 
 ---
 
-# Development Setup
+## Security
 
-Install dependencies:
-
-
-npm install
-
-
-Compile contracts:
-
-
-npx hardhat compile
-
-
-Run tests:
-
-
-npx hardhat test
-
-
-Clean build artifacts:
-
-
-npx hardhat clean
-
-
+See [SECURITY.md](SECURITY.md) for the responsible disclosure policy and maturity disclosure.
 
 ---
 
-# Transparency Log
+## Contributing
 
-Rail uses an append-only transparency log to record governance artifacts and audit outputs.
-
-Each update produces:
-
-• a Merkle root of log entries  
-• a checkpoint artifact  
-• a consistency proof linking the previous checkpoint  
-
-This allows independent verifiers to confirm the log history has not been modified.
-
+See [CONTRIBUTING.md](CONTRIBUTING.md) for PR discipline, branch conventions, and contribution lifecycle.
 
 ---
 
-# Project Status
-
-Rail is currently an experimental MVP.
-
-The repository focuses on demonstrating:
-
-• identity-gated equity issuance  
-• programmable compliance policies  
-• deterministic vesting infrastructure  
-• reproducible governance artifacts  
-• append-only transparency logging  
-
-Future work includes production hardening, external audits, and expanded protocol tooling.
-
-
----
-
-# Security Notice
-
-This project is experimental software and has **not undergone a full external security audit**.
-
-The contracts and scripts are provided for research and development purposes only.
-
-
----
-
-# License
+## License
 
 MIT
