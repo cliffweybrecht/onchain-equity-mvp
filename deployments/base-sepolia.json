@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "deployment-manifest-v1",
+  "schemaVersion": 1,
 
   "network": {
     "name": "base-sepolia",
@@ -12,9 +12,9 @@
   },
 
   "contracts": {
-    "IdentityRegistry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
-    "EquityToken":       "0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95",
-    "VestingContract":   "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08"
+    "IdentityRegistry": { "address": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4" },
+    "EquityToken":       { "address": "0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95" },
+    "VestingContract":   { "address": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08" }
   },
 
   "governance": {
