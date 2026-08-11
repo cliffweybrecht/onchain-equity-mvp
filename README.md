@@ -24,7 +24,7 @@ Canonical contract addresses for Phase 8.4.C:
 | IdentityRegistry | `0x9d6831cCB9D6f971Cb648B538448d175650cfEa4` |
 | Safe (governance) | `0x1eDc758579C66967C42066e8dDCB690a1651517e` |
 
-Note: `deployments/base-sepolia.json` currently records the Phase 8.4.B.A stack. Updating it to reflect Phase 8.4.C is tracked as a pending task (Milestone 2).
+`deployments/base-sepolia.json` is the authoritative machine-readable record of the current canonical deployment. Run `npm run validate:deployment` to verify it against its schema.
 
 ---
 

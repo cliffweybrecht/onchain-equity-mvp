@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Rail Canonical Deployment Manifest v1",
+  "description": "Machine-readable description of the current canonical Rail deployment on a specific network. One file per network. Historical deployments are preserved as immutable snapshots in deployments/history/.",
+  "type": "object",
+  "required": ["schemaVersion", "network", "release", "contracts", "governance"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "deployment-manifest-v1",
+      "description": "Schema identifier. Increment the version suffix when making breaking changes to this schema."
+    },
+    "network": {
+      "type": "object",
+      "required": ["name", "chainId"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Human-readable network name.",
+          "minLength": 1
+        },
+        "chainId": {
+          "type": "integer",
+          "description": "EIP-155 chain ID. Canonical Base Sepolia value is 84532.",
+          "minimum": 1
+        }
+      }
+    },
+    "release": {
+      "type": "object",
+      "required": ["phase", "referenceCommit"],
+      "additionalProperties": false,
+      "properties": {
+        "phase": {
+          "type": "string",
+          "description": "Rail phase identifier (e.g. 8.4.C).",
+          "minLength": 1
+        },
+        "referenceCommit": {
+          "type": "string",
+          "description": "Full 40-character git commit SHA that defines the canonical release. All evidence artifacts are chain-grounded against this commit.",
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      }
+    },
+    "contracts": {
+      "type": "object",
+      "description": "Canonical on-chain contract addresses for this deployment. Contains only current canonical contracts — no legacy or deprecated entries.",
+      "required": ["IdentityRegistry", "EquityToken", "VestingContract"],
+      "additionalProperties": false,
+      "properties": {
+        "IdentityRegistry": {
+          "type": "string",
+          "description": "IdentityRegistry contract address.",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        },
+        "EquityToken": {
+          "type": "string",
+          "description": "EquityToken contract address.",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        },
+        "VestingContract": {
+          "type": "string",
+          "description": "VestingContract address. This contract holds the EquityToken admin role.",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        }
+      }
+    },
+    "governance": {
+      "type": "object",
+      "description": "Governance infrastructure. Distinct from protocol contracts — the Safe is not a token or vesting contract but the admin authority over them.",
+      "required": ["safe"],
+      "additionalProperties": false,
+      "properties": {
+        "safe": {
+          "type": "string",
+          "description": "Gnosis Safe address that holds admin authority over VestingContract and IdentityRegistry.",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        }
+      }
+    }
+  }
+}

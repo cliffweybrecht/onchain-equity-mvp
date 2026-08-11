@@ -43,7 +43,8 @@ Canonical reference for directory purposes, classifications, editability rules, 
 | `schemas/` | JSON schemas for transparency log and audit packets | source | Yes | Used by `scripts/audit/`; changes require corresponding script and test updates |
 | `manifests/` | Transparency log manifests (root-level, prior phases) | historical artifact | No | Do not modify; tracked for audit continuity |
 | `evidence/` | Historical evidence artifacts (phases 3.9–8.1) | historical artifact | No | Gitignore controls a subset; do not modify any tracked artifact |
-| `deployments/` | Deployment records (`base-sepolia.json` is tracked) | deployment state | With governance evidence | Address updates require a chain-grounded evidence artifact and a corresponding PR; currently records Phase 8.4.B.A (stale — pending Milestone 2) |
+| `deployments/base-sepolia.json` | **Authoritative** current canonical deployment state for Base Sepolia | deployment state | With governance evidence | Single source of truth for current canonical addresses; validated by `npm run validate:deployment`; address changes require chain-grounded evidence |
+| `deployments/history/base-sepolia/` | Immutable historical deployment snapshots (e.g. `8.4.B.A.json`) | historical artifact | No | Preserved for audit continuity; do not modify existing snapshots |
 | `test/` | Test suite | source | Yes | |
 | `archived/` | Legacy contracts from prior phases | historical artifact | No | Gitignored locally; retained for reference; do not commit changes |
 | `archived-tests/` | Historical test files from prior phases | historical artifact | No | Retained for audit continuity |

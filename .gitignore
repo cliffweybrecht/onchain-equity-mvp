@@ -30,9 +30,12 @@ Thumbs.db
 # backups
 *.bak
 
-# deployments (keep base-sepolia.json tracked)
+# deployments (keep base-sepolia.json and immutable history tracked)
 deployments/*
 !deployments/base-sepolia.json
+!deployments/history/
+!deployments/history/base-sepolia/
+!deployments/history/base-sepolia/*.json
 
 # archived artifacts
 archived/
