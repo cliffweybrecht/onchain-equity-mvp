@@ -21,37 +21,54 @@ import { fileURLToPath } from "node:url";
 import Ajv from "ajv";
 import addFormats from "ajv-formats";
 
-// ── Module-relative paths ─────────────────────────────────────────────────────
+// ── Private: module-relative paths ───────────────────────────────────────────
 // Resolve from scripts/lib/ → repository root regardless of process.cwd().
-const LIB_DIR   = path.dirname(fileURLToPath(import.meta.url));
-const REPO_ROOT  = path.resolve(LIB_DIR, "../..");
+const LIB_DIR  = path.dirname(fileURLToPath(import.meta.url));
+const REPO_ROOT = path.resolve(LIB_DIR, "../..");
 
-export const DEFAULT_MANIFEST_PATH = path.join(REPO_ROOT, "deployments", "base-sepolia.json");
-export const DEFAULT_SCHEMA_PATH   = path.join(REPO_ROOT, "schemas", "deployment-manifest-v1.schema.json");
+const MANIFEST_PATH = path.join(REPO_ROOT, "deployments", "base-sepolia.json");
+const SCHEMA_PATH   = path.join(REPO_ROOT, "schemas", "deployment-manifest-v1.schema.json");
 
-// ── Semantic invariants ───────────────────────────────────────────────────────
-export const SUPPORTED_SCHEMA_VERSION = 1;
-export const EXPECTED_CHAIN_ID        = 84532;
-export const EXPECTED_NETWORK_NAME    = "base-sepolia";
+// ── Private: semantic invariants ─────────────────────────────────────────────
+const SUPPORTED_SCHEMA_VERSION = 1;
+const EXPECTED_CHAIN_ID        = 84532;
+const EXPECTED_NETWORK_NAME    = "base-sepolia";
 
-// ── AJV validator (lazy, cached per schema path) ──────────────────────────────
-const _validatorCache = new Map();
+// ── Private: AJV validator (lazy, cached) ────────────────────────────────────
+let _validator = null;
 
-function buildValidator(schemaPath) {
-  if (_validatorCache.has(schemaPath)) return _validatorCache.get(schemaPath);
-
+function getValidator() {
+  if (_validator) return _validator;
   let schema;
   try {
-    schema = JSON.parse(fs.readFileSync(schemaPath, "utf8"));
+    schema = JSON.parse(fs.readFileSync(SCHEMA_PATH, "utf8"));
   } catch (e) {
-    throw new Error(`Cannot load deployment manifest schema at ${schemaPath}: ${e.message}`);
+    throw new Error(`Cannot load deployment manifest schema at ${SCHEMA_PATH}: ${e.message}`);
   }
-
   const ajv = new Ajv({ allErrors: true, strict: false });
   addFormats(ajv);
-  const validator = ajv.compile(schema);
-  _validatorCache.set(schemaPath, validator);
-  return validator;
+  _validator = ajv.compile(schema);
+  return _validator;
+}
+
+// ── Private: file-loading pipeline ───────────────────────────────────────────
+
+function _loadFromPath(filePath) {
+  let raw;
+  try {
+    raw = fs.readFileSync(filePath, "utf8");
+  } catch (e) {
+    throw new Error(`Cannot read deployment manifest at ${filePath}: ${e.message}`);
+  }
+
+  let obj;
+  try {
+    obj = JSON.parse(raw);
+  } catch (e) {
+    throw new Error(`Deployment manifest is not valid JSON (${filePath}): ${e.message}`);
+  }
+
+  return validateManifestData(obj);
 }
 
 // ── Public API ────────────────────────────────────────────────────────────────
@@ -59,40 +76,34 @@ function buildValidator(schemaPath) {
 /**
  * Load, validate, and return the canonical deployment manifest.
  *
- * @param {object}  [options]
- * @param {string}  [options.manifestPath] Override the manifest file path.
- *   Defaults to deployments/base-sepolia.json relative to repository root.
- *   Intended for testing only — production callers should use the default.
- * @param {string}  [options.schemaPath]   Override the schema file path.
- *   Defaults to schemas/deployment-manifest-v1.schema.json relative to
- *   repository root. Intended for testing only.
- * @returns {object} The validated deployment manifest object.
+ * Always loads deployments/base-sepolia.json relative to the repository root.
+ * Path resolution is module-relative — behaves correctly from any cwd.
+ *
+ * @returns {object} The validated deployment manifest.
  * @throws {Error}  On missing file, malformed JSON, schema validation failure,
  *   unsupported schemaVersion, wrong network name, or wrong chain ID.
  */
-export function loadCanonicalDeployment({ manifestPath, schemaPath } = {}) {
-  const mPath = manifestPath ?? DEFAULT_MANIFEST_PATH;
-  const sPath = schemaPath   ?? DEFAULT_SCHEMA_PATH;
+export function loadCanonicalDeployment() {
+  return _loadFromPath(MANIFEST_PATH);
+}
 
-  // 1. Read file
-  let raw;
-  try {
-    raw = fs.readFileSync(mPath, "utf8");
-  } catch (e) {
-    throw new Error(`Cannot read deployment manifest at ${mPath}: ${e.message}`);
-  }
-
-  // 2. Parse JSON
-  let manifest;
-  try {
-    manifest = JSON.parse(raw);
-  } catch (e) {
-    throw new Error(`Deployment manifest is not valid JSON (${mPath}): ${e.message}`);
-  }
-
-  // 3. JSON Schema validation
-  const validate = buildValidator(sPath);
-  if (!validate(manifest)) {
+/**
+ * Validate a parsed deployment manifest object.
+ *
+ * Performs JSON Schema validation and semantic invariant checks on a
+ * caller-supplied object. Intended for testing fixture data without
+ * mutating or loading from the canonical manifest path.
+ *
+ * Production callers should use loadCanonicalDeployment() instead.
+ *
+ * @param {unknown} obj  Candidate manifest object to validate.
+ * @returns {object}     The validated manifest (same reference as input).
+ * @throws {Error}       On schema failure, unsupported schemaVersion,
+ *   wrong network name, or wrong chain ID.
+ */
+export function validateManifestData(obj) {
+  const validate = getValidator();
+  if (!validate(obj)) {
     const lines = validate.errors.map(err => {
       const loc   = err.instancePath || "(root)";
       const extra = err.params?.additionalProperty
@@ -103,25 +114,25 @@ export function loadCanonicalDeployment({ manifestPath, schemaPath } = {}) {
     throw new Error(`Deployment manifest failed schema validation:\n${lines.join("\n")}`);
   }
 
-  // 4. Semantic invariants (defence-in-depth beyond what the schema const enforces)
-  if (manifest.schemaVersion !== SUPPORTED_SCHEMA_VERSION) {
+  // Semantic invariants — defence-in-depth beyond the schema const
+  if (obj.schemaVersion !== SUPPORTED_SCHEMA_VERSION) {
     throw new Error(
-      `Unsupported schemaVersion: ${JSON.stringify(manifest.schemaVersion)}` +
+      `Unsupported schemaVersion: ${JSON.stringify(obj.schemaVersion)}` +
       ` (supported: ${SUPPORTED_SCHEMA_VERSION})`
     );
   }
-  if (manifest.network.chainId !== EXPECTED_CHAIN_ID) {
+  if (obj.network.chainId !== EXPECTED_CHAIN_ID) {
     throw new Error(
-      `Unexpected chainId: ${manifest.network.chainId}` +
+      `Unexpected chainId: ${obj.network.chainId}` +
       ` (expected ${EXPECTED_CHAIN_ID} for ${EXPECTED_NETWORK_NAME})`
     );
   }
-  if (manifest.network.name !== EXPECTED_NETWORK_NAME) {
+  if (obj.network.name !== EXPECTED_NETWORK_NAME) {
     throw new Error(
-      `Unexpected network name: "${manifest.network.name}"` +
+      `Unexpected network name: "${obj.network.name}"` +
       ` (expected "${EXPECTED_NETWORK_NAME}")`
     );
   }
 
-  return manifest;
+  return obj;
 }

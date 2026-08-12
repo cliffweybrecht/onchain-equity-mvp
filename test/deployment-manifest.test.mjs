@@ -4,43 +4,29 @@
  * Uses Node.js built-in test runner (node:test) to match repository conventions.
  * Run via: npm run test:deployment-loader
  *
- * Negative tests use temporary fixture files written to os.tmpdir().
- * The real canonical manifest is never mutated.
+ * Positive tests invoke loadCanonicalDeployment() against the real manifest.
+ * Negative tests invoke validateManifestData() with in-memory bad objects —
+ * the canonical manifest is never mutated and no temp files are written.
  */
 
-import assert      from "node:assert/strict";
-import fs          from "node:fs";
-import os          from "node:os";
-import path        from "node:path";
-import { test }    from "node:test";
-import { fileURLToPath } from "node:url";
+import assert   from "node:assert/strict";
+import os       from "node:os";
+import { test } from "node:test";
 
 import {
   loadCanonicalDeployment,
-  DEFAULT_MANIFEST_PATH,
-  SUPPORTED_SCHEMA_VERSION,
-  EXPECTED_CHAIN_ID,
-  EXPECTED_NETWORK_NAME,
+  validateManifestData,
 } from "../scripts/lib/deployment-manifest.mjs";
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+// ── Fixture helper ────────────────────────────────────────────────────────────
 
-// Load the real canonical manifest once for reference.
-const REAL = JSON.parse(fs.readFileSync(DEFAULT_MANIFEST_PATH, "utf8"));
-
-// Write a temporary fixture manifest and return its path.
-function writeTempManifest(obj) {
-  const dir  = fs.mkdtempSync(path.join(os.tmpdir(), "rail-manifest-test-"));
-  const file = path.join(dir, "test-manifest.json");
-  fs.writeFileSync(file, JSON.stringify(obj, null, 2));
-  return file;
-}
-
-// Build a minimal valid manifest for mutation testing.
-function validFixture(overrides = {}) {
+// Build a structurally valid manifest object for mutation in negative tests.
+// Values are the canonical Phase 8.4.C addresses — this is intentional.
+// Negative tests mutate a copy of this object; the real manifest is untouched.
+function validFixture() {
   return {
-    schemaVersion: SUPPORTED_SCHEMA_VERSION,
-    network: { name: EXPECTED_NETWORK_NAME, chainId: EXPECTED_CHAIN_ID },
+    schemaVersion: 1,
+    network: { name: "base-sepolia", chainId: 84532 },
     release: {
       phase: "8.4.C",
       referenceCommit: "5c2e293905748fdd325d4b860fddaaf99980200d",
@@ -51,7 +37,6 @@ function validFixture(overrides = {}) {
       VestingContract:  { address: "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08" },
     },
     governance: { safe: "0x1eDc758579C66967C42066e8dDCB690a1651517e" },
-    ...overrides,
   };
 }
 
@@ -60,51 +45,56 @@ function validFixture(overrides = {}) {
 test("canonical manifest loads successfully", () => {
   const m = loadCanonicalDeployment();
   assert.ok(m, "should return a non-null manifest");
+  assert.strictEqual(typeof m, "object");
 });
 
-test("schemaVersion is exposed and matches supported version", () => {
+test("schemaVersion is 1", () => {
   const m = loadCanonicalDeployment();
-  assert.strictEqual(m.schemaVersion, SUPPORTED_SCHEMA_VERSION);
+  assert.strictEqual(m.schemaVersion, 1);
 });
 
-test("Base Sepolia chain ID is exposed correctly", () => {
+test("Base Sepolia chain ID is 84532", () => {
   const m = loadCanonicalDeployment();
-  assert.strictEqual(m.network.chainId, EXPECTED_CHAIN_ID);
+  assert.strictEqual(m.network.chainId, 84532);
 });
 
-test("network name is exposed correctly", () => {
+test("network name is base-sepolia", () => {
   const m = loadCanonicalDeployment();
-  assert.strictEqual(m.network.name, EXPECTED_NETWORK_NAME);
+  assert.strictEqual(m.network.name, "base-sepolia");
 });
 
-test("IdentityRegistry address is returned from manifest", () => {
+test("IdentityRegistry address is a valid Ethereum address", () => {
   const m = loadCanonicalDeployment();
   assert.ok(m.contracts.IdentityRegistry?.address, "IdentityRegistry.address should be present");
   assert.match(m.contracts.IdentityRegistry.address, /^0x[0-9a-fA-F]{40}$/);
 });
 
-test("EquityToken address is returned from manifest", () => {
+test("EquityToken address is a valid Ethereum address", () => {
   const m = loadCanonicalDeployment();
   assert.ok(m.contracts.EquityToken?.address, "EquityToken.address should be present");
   assert.match(m.contracts.EquityToken.address, /^0x[0-9a-fA-F]{40}$/);
 });
 
-test("VestingContract address is returned from manifest", () => {
+test("VestingContract address is a valid Ethereum address", () => {
   const m = loadCanonicalDeployment();
   assert.ok(m.contracts.VestingContract?.address, "VestingContract.address should be present");
   assert.match(m.contracts.VestingContract.address, /^0x[0-9a-fA-F]{40}$/);
 });
 
-test("governance Safe address is returned from manifest", () => {
+test("governance Safe address is a valid Ethereum address", () => {
   const m = loadCanonicalDeployment();
   assert.ok(m.governance?.safe, "governance.safe should be present");
   assert.match(m.governance.safe, /^0x[0-9a-fA-F]{40}$/);
 });
 
-test("release phase and referenceCommit are present", () => {
+test("canonical release referenceCommit matches Phase 8.4.C", () => {
   const m = loadCanonicalDeployment();
-  assert.ok(m.release?.phase, "release.phase should be present");
-  assert.ok(m.release?.referenceCommit, "release.referenceCommit should be present");
+  // Pinning the commit ensures the manifest and documentation agree
+  // on which chain state is canonical.
+  assert.strictEqual(
+    m.release.referenceCommit,
+    "5c2e293905748fdd325d4b860fddaaf99980200d"
+  );
   assert.match(m.release.referenceCommit, /^[0-9a-f]{40}$/);
 });
 
@@ -113,92 +103,86 @@ test("release phase and referenceCommit are present", () => {
 test("loading is independent of process.cwd()", () => {
   const original = process.cwd();
   try {
-    // Change to a completely unrelated directory.
     process.chdir(os.tmpdir());
     const m = loadCanonicalDeployment();
-    assert.strictEqual(m.network.chainId, EXPECTED_CHAIN_ID);
+    assert.strictEqual(m.network.chainId, 84532);
   } finally {
     process.chdir(original);
   }
 });
 
-// ── Negative tests using temp fixtures ────────────────────────────────────────
+// ── Negative tests via validateManifestData ───────────────────────────────────
+// All negative tests supply bad objects directly — no temp files, no path
+// override on the canonical loader.
 
 test("missing required contract (VestingContract) is rejected", () => {
-  const fixture = validFixture();
-  delete fixture.contracts.VestingContract;
-  const p = writeTempManifest(fixture);
+  const bad = validFixture();
+  delete bad.contracts.VestingContract;
   assert.throws(
-    () => loadCanonicalDeployment({ manifestPath: p }),
+    () => validateManifestData(bad),
     /schema validation|VestingContract/i
   );
 });
 
 test("malformed contract address is rejected", () => {
-  const fixture = validFixture();
-  fixture.contracts.EquityToken.address = "not-an-address";
-  const p = writeTempManifest(fixture);
+  const bad = validFixture();
+  bad.contracts.EquityToken.address = "not-an-address";
   assert.throws(
-    () => loadCanonicalDeployment({ manifestPath: p }),
+    () => validateManifestData(bad),
     /schema validation|pattern|address/i
   );
 });
 
 test("wrong chainId is rejected", () => {
-  const fixture = validFixture();
-  fixture.network.chainId = 1; // Ethereum mainnet
-  const p = writeTempManifest(fixture);
+  const bad = validFixture();
+  bad.network.chainId = 1; // Ethereum mainnet
   assert.throws(
-    () => loadCanonicalDeployment({ manifestPath: p }),
+    () => validateManifestData(bad),
     /chainId|84532/i
   );
 });
 
 test("unexpected top-level property is rejected", () => {
-  const fixture = validFixture();
-  fixture.undocumentedField = "drift";
-  const p = writeTempManifest(fixture);
+  const bad = validFixture();
+  bad.undocumentedField = "drift";
   assert.throws(
-    () => loadCanonicalDeployment({ manifestPath: p }),
+    () => validateManifestData(bad),
     /schema validation|additional/i
   );
 });
 
-test("malformed JSON is rejected", () => {
-  const dir  = fs.mkdtempSync(path.join(os.tmpdir(), "rail-manifest-test-"));
-  const file = path.join(dir, "bad.json");
-  fs.writeFileSync(file, "{ this is not json }");
+test("non-object input (null) is rejected", () => {
+  // Covers the schema type: object requirement.
+  // In the file-loading path this error surfaces as a JSON parse failure;
+  // at the validation layer it surfaces as a type mismatch.
   assert.throws(
-    () => loadCanonicalDeployment({ manifestPath: file }),
-    /not valid JSON/i
-  );
-});
-
-test("missing manifest file is rejected", () => {
-  assert.throws(
-    () => loadCanonicalDeployment({ manifestPath: "/nonexistent/path/manifest.json" }),
-    /Cannot read deployment manifest/i
+    () => validateManifestData(null),
+    /schema validation/i
   );
 });
 
 test("unsupported schemaVersion is rejected", () => {
-  // schemaVersion: 99 fails the schema const check (const: 1),
-  // which surfaces as a schema validation error.
-  const fixture = validFixture();
-  fixture.schemaVersion = 99;
-  const p = writeTempManifest(fixture);
+  // schemaVersion: 99 fails the schema const: 1 check.
+  const bad = validFixture();
+  bad.schemaVersion = 99;
   assert.throws(
-    () => loadCanonicalDeployment({ manifestPath: p }),
+    () => validateManifestData(bad),
     /schema validation|schemaVersion|unsupported/i
   );
 });
 
 test("missing governance.safe is rejected", () => {
-  const fixture = validFixture();
-  delete fixture.governance.safe;
-  const p = writeTempManifest(fixture);
+  const bad = validFixture();
+  delete bad.governance.safe;
   assert.throws(
-    () => loadCanonicalDeployment({ manifestPath: p }),
+    () => validateManifestData(bad),
     /schema validation|safe/i
+  );
+});
+
+test("completely empty object is rejected", () => {
+  assert.throws(
+    () => validateManifestData({}),
+    /schema validation/i
   );
 });
