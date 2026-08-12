@@ -8,6 +8,7 @@
     "test": "hardhat test",
     "clean": "hardhat clean",
     "validate:deployment": "node scripts/validate-deployment.mjs",
+    "test:deployment-loader": "node --test test/deployment-manifest.test.mjs",
     "sign:audit-packet": "node scripts/ops/grants/sign-audit-packet.mjs",
     "verify:audit-packet-signature": "node scripts/audit/verify-audit-packet-signature.mjs",
     "build:transparency-checkpoint-finalization": "node scripts/ops/grants/build-transparency-checkpoint-finalization.mjs",
