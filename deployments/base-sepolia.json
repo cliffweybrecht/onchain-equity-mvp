@@ -1,25 +1,23 @@
 {
-  "network": "baseSepolia",
-  "chainId": 84532,
+  "schemaVersion": 1,
 
-  "deployer": "0x6C775411e11cAb752Af03C5BBb440618788E13Be",
+  "network": {
+    "name": "base-sepolia",
+    "chainId": 84532
+  },
+
+  "release": {
+    "phase": "8.4.C",
+    "referenceCommit": "5c2e293905748fdd325d4b860fddaaf99980200d"
+  },
 
   "contracts": {
-    "IdentityRegistry": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4",
-    "EquityToken": "0x2791D08fC94C787e5772Daba3507A68e74BA4B10",
-
-    "VestingContract": "0xf87776c592d36a54abaab165764355ec0438f46d",
-
-    "VestingContract_legacy": "0xEf444C538769d7626511A4C538d03fFc7e53262B"
+    "IdentityRegistry": { "address": "0x9d6831cCB9D6f971Cb648B538448d175650cfEa4" },
+    "EquityToken":       { "address": "0x73b8e67B2bCF9e482aF3b0dEC0548f0e84017c95" },
+    "VestingContract":   { "address": "0x4739e9B845F4b4861236dfE0d8Da7AD985754f08" }
   },
 
-  "notes": {
-    "phase": "8.4.B.A",
-    "description": "Deployed revocation-capable VestingContract and re-established repo/deployed convergence",
-    "issuance_model": "mint-on-claim",
-    "revocation": "enabled",
-    "legacy_vesting_status": "deprecated but still holds historical grants"
-  },
-
-  "deployedAt": "2026-03-26T02:37:57Z"
+  "governance": {
+    "safe": "0x1eDc758579C66967C42066e8dDCB690a1651517e"
+  }
 }
