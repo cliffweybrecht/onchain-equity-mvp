@@ -10,6 +10,7 @@
  */
 
 import assert   from "node:assert/strict";
+import fs       from "node:fs";
 import os       from "node:os";
 import { test } from "node:test";
 
@@ -184,5 +185,47 @@ test("completely empty object is rejected", () => {
   assert.throws(
     () => validateManifestData({}),
     /schema validation/i
+  );
+});
+
+// ── Canonical loader file-I/O failure paths ───────────────────────────────────
+// These tests exercise loadCanonicalDeployment()'s own error handling for
+// unreadable and malformed manifest files.  The AJV validator cache is warm
+// from earlier tests so fs.readFileSync is only called for the manifest itself;
+// the schema read is not triggered again.
+
+test("canonical manifest read failure is detected", (t) => {
+  // Intercept only the manifest read — pass everything else through unchanged.
+  const original = fs.readFileSync;
+  t.mock.method(fs, "readFileSync", function (filePath, encoding) {
+    if (typeof filePath === "string" && filePath.includes("deployments/base-sepolia.json")) {
+      const err = new Error(
+        `ENOENT: no such file or directory, open '${filePath}'`
+      );
+      err.code = "ENOENT";
+      throw err;
+    }
+    return original.call(this, filePath, encoding);
+  });
+
+  assert.throws(
+    () => loadCanonicalDeployment(),
+    /Cannot read deployment manifest/i
+  );
+});
+
+test("malformed canonical JSON is detected", (t) => {
+  // Return syntactically invalid JSON for the manifest read only.
+  const original = fs.readFileSync;
+  t.mock.method(fs, "readFileSync", function (filePath, encoding) {
+    if (typeof filePath === "string" && filePath.includes("deployments/base-sepolia.json")) {
+      return "{ this is not valid json [";
+    }
+    return original.call(this, filePath, encoding);
+  });
+
+  assert.throws(
+    () => loadCanonicalDeployment(),
+    /not valid JSON/i
   );
 });
